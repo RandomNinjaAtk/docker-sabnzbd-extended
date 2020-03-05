@@ -37,30 +37,22 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 	if [ -f "/config/sabnzbd.ini" ]; then
 	
 		# Add scripts path
-		if cat "/config/sabnzbd.ini" | grep "/config/scripts" | read; then
-			sleep 0.1
-		else
+		if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
 			sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
 		fi
 
 		# Correct incomplete path
-		if cat "/config/sabnzbd.ini" | grep "/downloads/sabnzbd/incomplete" | read; then
-			sleep 0.1
-		else
+		if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
 			sed -i "s/Downloads\/incomplete/\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Correct complete path
-		if cat "/config/sabnzbd.ini" | grep "/downloads/sabnzbd/complete" | read; then
-			sleep 0.1
-		else
+		if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
 			sed -i "s/Downloads\/complete/\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Enable script failure
 		if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
-			sleep 0.1
-		else
 			sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
 		fi	
 
