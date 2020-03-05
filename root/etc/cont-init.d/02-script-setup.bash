@@ -13,7 +13,7 @@ fi
 
 # Copy AudioPostProcessing into scripts directory
 if [ ! -f "/config/scripts/AudioPostProcessing.bash" ]; then
-	cp "/scripts/AudioPostProcessing.bash" "/config/scripts/AudioPostProcessing.bash"
+	cp "/root/scripts/AudioPostProcessing.bash" "/config/scripts/AudioPostProcessing.bash"
 	chmod 0777 "/config/scripts/AudioPostProcessing.bash"
 fi
 
