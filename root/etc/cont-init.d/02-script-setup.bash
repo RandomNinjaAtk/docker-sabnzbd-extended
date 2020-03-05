@@ -29,7 +29,7 @@ if [ ! -d "/downloads/complete" ]; then
 	chmod 0777 "/downloads/incomplete"
 fi
 
-sed -i "s/script_dir = \"\"/script_dir = \"/config\/scripts\"/g" "/config/sabnzbd.ini" && \
+sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini" && \
 sed -i "s/Downloads\/incomplete/\/downloads\/incomplete/g" "/config/sabnzbd.ini" && \
 sed -i "s/Downloads\/complete/\/downloads\/complete/g" "/config/sabnzbd.ini"
 
