@@ -10,9 +10,6 @@ RUN \
 		mkvtoolnix \
 		mp3val \
 		flac \
-		wget \
-		nano \
-		unzip \
 		ffmpeg \
 		opus-tools \
 		jq && \
