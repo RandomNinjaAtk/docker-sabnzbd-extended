@@ -114,7 +114,9 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 		fi
 	fi
 	
-	# start cron
-	service cron stop
+	if [ -f "/config/scripts/sab-config-updated" ]; then
+		# stop cron
+		service cron stop
+	fi
 fi
 exit 0
