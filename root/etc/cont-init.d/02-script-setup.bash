@@ -19,15 +19,15 @@ if [ ! -f "/config/scripts/AudioPostProcessing.bash" ]; then
 fi
 
 # Create downloads incomplete directory
-if [ ! -d "/downloads/incomplete" ]; then
-	mkdir -p "/downloads/incomplete"
-	chmod 0777 "/downloads/incomplete"
+if [ ! -d "/downloads/sabnzbd/incomplete" ]; then
+	mkdir -p "/downloads/sabnzbd/incomplete"
+	chmod 0777 "/downloads/sabnzbd/incomplete"
 fi
 
 # Create downloads complete directory
-if [ ! -d "/downloads/complete" ]; then
-	mkdir -p "/downloads/complete"
-	chmod 0777 "/downloads/incomplete"
+if [ ! -d "/downloads/sabnzbd/complete" ]; then
+	mkdir -p "/downloads/sabnzbd/complete"
+	chmod 0777 "/downloads/sabnzbd/complete"
 fi
 
 if [ ! -f "/config/scripts/sab-config-updated" ]; then
@@ -44,17 +44,17 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 		fi
 
 		# Correct incomplete path
-		if cat "/config/sabnzbd.ini" | grep "/downloads/incomplete" | read; then
+		if cat "/config/sabnzbd.ini" | grep "/downloads/sabnzbd/incomplete" | read; then
 			sleep 0.1
 		else
-			sed -i "s/Downloads\/incomplete/\/downloads\/incomplete/g" "/config/sabnzbd.ini"
+			sed -i "s/Downloads\/incomplete/\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Correct complete path
-		if cat "/config/sabnzbd.ini" | grep "/downloads/complete" | read; then
+		if cat "/config/sabnzbd.ini" | grep "/downloads/sabnzbd/complete" | read; then
 			sleep 0.1
 		else
-			sed -i "s/Downloads\/complete/\/downloads\/complete/g" "/config/sabnzbd.ini"
+			sed -i "s/Downloads\/complete/\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Enable script failure
