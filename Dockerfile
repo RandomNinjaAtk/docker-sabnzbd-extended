@@ -18,8 +18,8 @@ RUN \
 
 RUN \
 	# Download Scripts
-	mkdir root/scripts && \
-	curl -o "root/scripts/AudioPostProcessing.bash" "https://raw.githubusercontent.com/RandomNinjaAtk/Scripts/master/sabnzbd/AudioPostProcessing.bash"
+	mkdir -p "/root/scripts" && \
+	curl -o "/root/scripts/AudioPostProcessing.bash" "https://raw.githubusercontent.com/RandomNinjaAtk/Scripts/master/sabnzbd/AudioPostProcessing.bash"
 
 WORKDIR /
 
