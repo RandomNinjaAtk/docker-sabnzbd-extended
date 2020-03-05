@@ -29,36 +29,61 @@ if [ ! -d "/downloads/complete" ]; then
 	chmod 0777 "/downloads/incomplete"
 fi
 
-sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
-sed -i "s/Downloads\/incomplete/\/downloads\/incomplete/g" "/config/sabnzbd.ini"
-sed -i "s/Downloads\/complete/\/downloads\/complete/g" "/config/sabnzbd.ini"
-head -3 "/config/sabnzbd.ini"
+if cat "/config/sabnzbd.ini" | grep "/config/scripts" | read; then
+	sleep 0.1
+else
+	sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
+fi
 
-echo "[[radarr]]" >> "/config/sabnzbd.ini"
-echo "priority = -100" >> "/config/sabnzbd.ini"
-echo "pp = \"\"" >> "/config/sabnzbd.ini"
-echo "name = radarr" >> "/config/sabnzbd.ini"
-echo "script = Default" >> "/config/sabnzbd.ini"
-echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-echo "order = 0" >> "/config/sabnzbd.ini"
-echo "dir = radarr" >> "/config/sabnzbd.ini"
+if cat "/config/sabnzbd.ini" | grep "/downloads/incomplete" | read; then
+	sleep 0.1
+else
+	sed -i "s/Downloads\/incomplete/\/downloads\/incomplete/g" "/config/sabnzbd.ini"
+fi
 
-echo "[[sonarr]]" >> "/config/sabnzbd.ini"
-echo "priority = -100" >> "/config/sabnzbd.ini"
-echo "pp = \"\"" >> "/config/sabnzbd.ini"
-echo "name = sonarr" >> "/config/sabnzbd.ini"
-echo "script = Default" >> "/config/sabnzbd.ini"
-echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-echo "order = 0" >> "/config/sabnzbd.ini"
-echo "dir = sonarr" >> "/config/sabnzbd.ini"
+if cat "/config/sabnzbd.ini" | grep "/downloads/complete" | read; then
+	sleep 0.1
+else
+	sed -i "s/Downloads\/complete/\/downloads\/complete/g" "/config/sabnzbd.ini"
+fi
 
-echo "[[lidarr]]" >> "/config/sabnzbd.ini"
-echo "priority = -100" >> "/config/sabnzbd.ini"
-echo "pp = \"\"" >> "/config/sabnzbd.ini"
-echo "name = lidarr" >> "/config/sabnzbd.ini"
-echo "script = AudioPostProcessing.bash" >> "/config/sabnzbd.ini"
-echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-echo "order = 0" >> "/config/sabnzbd.ini"
-echo "dir = lidarr" >> "/config/sabnzbd.ini"
+if cat "/config/sabnzbd.ini" | grep "[[radarr]]" | read; then
+	sleep 0.1
+else
+	echo "[[radarr]]" >> "/config/sabnzbd.ini"
+	echo "priority = -100" >> "/config/sabnzbd.ini"
+	echo "pp = \"\"" >> "/config/sabnzbd.ini"
+	echo "name = radarr" >> "/config/sabnzbd.ini"
+	echo "script = Default" >> "/config/sabnzbd.ini"
+	echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
+	echo "order = 0" >> "/config/sabnzbd.ini"
+	echo "dir = radarr" >> "/config/sabnzbd.ini"
+fi
+
+if cat "/config/sabnzbd.ini" | grep "[[sonarr]]" | read; then
+	sleep 0.1
+else
+	echo "[[sonarr]]" >> "/config/sabnzbd.ini"
+	echo "priority = -100" >> "/config/sabnzbd.ini"
+	echo "pp = \"\"" >> "/config/sabnzbd.ini"
+	echo "name = sonarr" >> "/config/sabnzbd.ini"
+	echo "script = Default" >> "/config/sabnzbd.ini"
+	echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
+	echo "order = 0" >> "/config/sabnzbd.ini"
+	echo "dir = sonarr" >> "/config/sabnzbd.ini"
+fi
+
+if cat "/config/sabnzbd.ini" | grep "[[lidarr]]" | read; then
+	sleep 0.1
+else
+	echo "[[lidarr]]" >> "/config/sabnzbd.ini"
+	echo "priority = -100" >> "/config/sabnzbd.ini"
+	echo "pp = \"\"" >> "/config/sabnzbd.ini"
+	echo "name = lidarr" >> "/config/sabnzbd.ini"
+	echo "script = AudioPostProcessing.bash" >> "/config/sabnzbd.ini"
+	echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
+	echo "order = 0" >> "/config/sabnzbd.ini"
+	echo "dir = lidarr" >> "/config/sabnzbd.ini"
+fi
 
 exit 0
