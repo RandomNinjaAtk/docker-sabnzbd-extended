@@ -47,7 +47,7 @@ else
 	sed -i "s/Downloads\/complete/\/downloads\/complete/g" "/config/sabnzbd.ini"
 fi
 
-if cat "/config/sabnzbd.ini" | grep "[[radarr]]" | read; then
+if cat "/config/sabnzbd.ini" | grep "\[\[radarr\]\]" | read; then
 	sleep 0.1
 else
 	echo "[[radarr]]" >> "/config/sabnzbd.ini"
@@ -60,7 +60,7 @@ else
 	echo "dir = radarr" >> "/config/sabnzbd.ini"
 fi
 
-if cat "/config/sabnzbd.ini" | grep "[[sonarr]]" | read; then
+if cat "/config/sabnzbd.ini" | grep "\[\[sonarr\]\]" | read; then
 	sleep 0.1
 else
 	echo "[[sonarr]]" >> "/config/sabnzbd.ini"
@@ -73,7 +73,7 @@ else
 	echo "dir = sonarr" >> "/config/sabnzbd.ini"
 fi
 
-if cat "/config/sabnzbd.ini" | grep "[[lidarr]]" | read; then
+if cat "/config/sabnzbd.ini" | grep "\[\[lidarr\]\]" | read; then
 	sleep 0.1
 else
 	echo "[[lidarr]]" >> "/config/sabnzbd.ini"
