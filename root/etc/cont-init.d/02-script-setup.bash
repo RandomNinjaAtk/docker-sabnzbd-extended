@@ -111,6 +111,7 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 
 		if [ ! -f "/config/scripts/sab-config-updated" ]; then
 			touch "/config/scripts/sab-config-updated"
+			chmod 0666 "/config/scripts/sab-config-updated"
 		fi
 	fi
 	
