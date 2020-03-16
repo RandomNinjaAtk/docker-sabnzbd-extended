@@ -42,6 +42,8 @@ fi
 
 # permissions
 chown -R abc:abc ${SMA_PATH}
-chmod -R 775 ${SMA_PATH}/*.sh
+
+sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/sma/autoProcess.ini"
+sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/sma/autoProcess.ini"
 
 exit 0
