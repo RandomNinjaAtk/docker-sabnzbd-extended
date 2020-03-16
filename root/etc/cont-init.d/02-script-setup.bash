@@ -6,16 +6,10 @@ if [ ! -d "/config/scripts" ]; then
 	chmod 0777 "/config/scripts"
 fi
 
-# Remove existing AudioPostProcessing script
-if [ -f "/config/scripts/AudioPostProcessing.bash" ]; then
-	rm "/config/scripts/AudioPostProcessing.bash"
-	sleep 0.1
-fi
-
-# Copy AudioPostProcessing into scripts directory
-if [ ! -f "/config/scripts/AudioPostProcessing.bash" ]; then
-	cp "/root/scripts/AudioPostProcessing.bash" "/config/scripts/AudioPostProcessing.bash"
-	chmod 0777 "/config/scripts/AudioPostProcessing.bash"
+# link config file for use
+if [ ! -f "/config/scripts/Audio-PP.bash" ]; then
+	ln -s "/usr/local/sabnzbd-scripts/Audio-PP.bash" "/config/scripts/Audio-PP.bash"
+	chmod 0777 "/config/scripts/Audio-PP.bash"
 fi
 
 # Create downloads incomplete directory
@@ -95,7 +89,7 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 			echo "priority = -100" >> "/config/sabnzbd.ini"
 			echo "pp = \"\"" >> "/config/sabnzbd.ini"
 			echo "name = lidarr" >> "/config/sabnzbd.ini"
-			echo "script = AudioPostProcessing.bash" >> "/config/sabnzbd.ini"
+			echo "script = Audio-PP.bash" >> "/config/sabnzbd.ini"
 			echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
 			echo "order = 3" >> "/config/sabnzbd.ini"
 			echo "dir = lidarr" >> "/config/sabnzbd.ini"
