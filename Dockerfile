@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:snapshot-ubuntu as ffmpeg
+FROM jrottenberg/ffmpeg:snapshot-vaapi as ffmpeg
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
