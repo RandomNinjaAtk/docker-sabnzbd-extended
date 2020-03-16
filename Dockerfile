@@ -4,7 +4,7 @@ LABEL maintainer="RandomNinjaAtk"
 
 ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
-ENV SMA_UPDATE false
+ENV UPDATE false
 
 # Add files from binstage
 COPY --from=binstage / /
