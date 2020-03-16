@@ -38,9 +38,6 @@ RUN \
 	chmod g+x /usr/local/bin/ffmpeg && \
 	chmod g+x /usr/local/bin/ffprobe
 
-ENV SMA_PATH /usr/local/sma
-ENV SMA_UPDATE false
-
 # get python3 and git, and install python libraries
 RUN \
   apt-get update && \
