@@ -1,12 +1,39 @@
-FROM jrottenberg/ffmpeg:snapshot-vaapi as ffmpeg
+FROM randomninjaatk/ffmpeg:bin as binstage
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV SMA_PATH /usr/local/sma
 ENV SMA_UPDATE false
 
-# Add files from ffmpeg
-COPY --from=ffmpeg /usr/local/ /usr/local/
+# Add files from binstage
+COPY --from=binstage / /
+
+# hardware env
+ENV \
+ LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri" \
+ NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
+ NVIDIA_VISIBLE_DEVICES="all"
+
+RUN \
+ echo "**** install runtime ****" && \
+ apt-get update && \
+ apt-get install -y \
+	i965-va-driver \
+	libexpat1 \
+	libgl1-mesa-dri \
+	libglib2.0-0 \
+	libgomp1 \
+	libharfbuzz0b \
+	libv4l-0 \
+	libx11-6 \
+	libxcb1 \
+	libxext6 \
+	libxml2 && \
+ echo "**** clean up ****" && \
+ rm -rf \
+	/var/lib/apt/lists/* \
+	/var/tmp/*
+
 
 ENV VERSION="1.0.0"
 
