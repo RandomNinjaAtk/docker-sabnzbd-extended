@@ -99,11 +99,8 @@ RUN \
 RUN \
 	# setup cron
 	service cron start && \
-	echo "* * * * *   root   bash /etc/cont-init.d/02-script-setup.bash" >> "/etc/crontab" && \
-	# Download Scripts
-	mkdir -p "/root/scripts" && \
-	curl -o "/root/scripts/AudioPostProcessing.bash" "https://raw.githubusercontent.com/RandomNinjaAtk/Scripts/master/sabnzbd/AudioPostProcessing.bash"
-
+	echo "* * * * *   root   bash /etc/cont-init.d/02-script-setup.bash" >> "/etc/crontab"
+	
 WORKDIR /
 
 # copy local files
