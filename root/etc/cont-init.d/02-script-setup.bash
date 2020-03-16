@@ -7,9 +7,15 @@ if [ ! -d "/config/scripts" ]; then
 fi
 
 # link config file for use
-if [ ! -f "/config/scripts/Audio-PP.bash" ]; then
-	ln -s "/usr/local/sabnzbd-scripts/Audio-PP.bash" "/config/scripts/Audio-PP.bash"
+if [ ! -f "/config/scripts/audio-pp.bash" ]; then
+	ln -s "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash"
 	chmod 0777 "/config/scripts/Audio-PP.bash"
+fi
+
+# link config file for use
+if [ ! -f "/config/scripts/video-pp.bash" ]; then
+	ln -s "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash"
+	chmod 0777 "/config/scripts/video-pp.bash"
 fi
 
 # Create downloads incomplete directory
