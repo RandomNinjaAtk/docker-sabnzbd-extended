@@ -33,7 +33,7 @@ touch "/config/scripts/sma/sma.log" && \
 ln -s "/config/scripts/sma/sma.log" "/var/log/sma.log" && \
 
 # set permissions
-chmod 0666 "/config/sma"/*
+chmod 0666 "/config/scripts/sma"/*
 
 # update from git
 if [[ "${SMA_UPDATE}" == "true" ]]; then
