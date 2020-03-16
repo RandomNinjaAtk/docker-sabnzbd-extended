@@ -94,7 +94,7 @@ RUN \
 	# make directory
 	mkdir -p ${SABSCRIPTS_PATH} && \
 	# download repo
-	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH} && \
+	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH}
 
 RUN \
 	# setup cron
