@@ -36,7 +36,7 @@ ln -s "/config/scripts/sma/sma.log" "/var/log/sma.log" && \
 chmod 0666 "/config/scripts/sma"/*
 
 # update from git
-if [[ "${SMA_UPDATE}" == "true" ]]; then
+if [[ "${UPDATE}" == "true" ]]; then
     git -C ${SMA_PATH} pull origin master
 fi
 
