@@ -35,4 +35,13 @@ ln -s "/config/scripts/sma/sma.log" "/var/log/sma.log" && \
 # set permissions
 chmod 0666 "/config/sma"/*
 
+# update from git
+if [[ "${SMA_UPDATE}" == "true" ]]; then
+    git -C ${SMA_PATH} pull origin master
+fi
+
+# permissions
+chown -R abc:abc ${SMA_PATH}
+chmod -R 775 ${SMA_PATH}/*.sh
+
 exit 0
