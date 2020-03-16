@@ -59,7 +59,7 @@ RUN \
   python3 -m pip install --user virtualenv && \
   python3 -m virtualenv ${SMA_PATH}/venv && \
   cd ${SMA_PATH} && \
-  ${SMA_PATH}/venv/bin/pip install -r ${SMA_PATH}/setup/requirements.txt && \
+  ${SMA_PATH}/venv/bin/pip install -r ${SMA_PATH}/setup/requirements.txt
 
 
 RUN \
