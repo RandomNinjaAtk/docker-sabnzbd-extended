@@ -47,9 +47,10 @@ RUN \
     python3 \
     python3-pip && \
 # make directory
-  mkdir ${SMA_PATH} && \
+  mkdir -p ${SMA_PATH} && \
 # download repo
   git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git ${SMA_PATH} && \
+  mkdir -p ${SMA_PATH}/config && \
 # create logging file
   touch /var/log/sma.log && \
   chgrp users /var/log/sma.log && \
