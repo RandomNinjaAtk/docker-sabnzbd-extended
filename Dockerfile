@@ -2,6 +2,7 @@ FROM randomninjaatk/ffmpeg:bin as binstage
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
+ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
 ENV SMA_UPDATE false
 
@@ -89,6 +90,11 @@ RUN \
   cd ${SMA_PATH} && \
   pip3 install -r ${SMA_PATH}/setup/requirements.txt
 
+RUN \
+	# make directory
+	mkdir -p ${SABSCRIPTS_PATH} && \
+	# download repo
+	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH} && \
 
 RUN \
 	# setup cron
