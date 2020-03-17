@@ -34,11 +34,6 @@ RUN \
 	rm -rf \
 		/var/lib/apt/lists/* \
 		/var/tmp/*
-	chmod 777 /usr/local/bin/ffmpeg && \
-	chmod 777 /usr/local/bin/ffprobe
-
-
-ENV VERSION="1.0.0"
 
 RUN \
 	# install dependancies
@@ -51,7 +46,12 @@ RUN \
 		jq \
 		cron && \
 	apt-get purge --auto-remove -y && \
-	apt-get clean
+	apt-get clean && \
+	chgrp users /usr/local/bin/ffmpeg && \
+	chgrp users /usr/local/bin/ffprobe && \
+	chmod g+x /usr/local/bin/ffmpeg && \
+	chmod g+x /usr/local/bin/ffprobe
+
 
 # get python3 and git, and install python libraries
 RUN \
