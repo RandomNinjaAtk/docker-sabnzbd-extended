@@ -26,19 +26,26 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 
 		# Correct incomplete path
 		if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
-			sed -i "s/Downloads\/incomplete/\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
+			sed -i "s/Downloads\/incomplete/\/storage\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Correct complete path
 		if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
-			sed -i "s/Downloads\/complete/\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
+			sed -i "s/Downloads\/complete/\/storage\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
 		fi
 
 		# Enable script failure
 		if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
 			sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
-		fi	
-
+		fi
+		
+		# remove software category
+		if cat "/config/sabnzbd.ini" | grep "\[\[software\]\]" | read; then
+			sleep 0.1
+		else
+			sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini"
+		fi
+		
 		# Add radarr category
 		if cat "/config/sabnzbd.ini" | grep "\[\[radarr\]\]" | read; then
 			sleep 0.1
