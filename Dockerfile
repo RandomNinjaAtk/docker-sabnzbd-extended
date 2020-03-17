@@ -1,4 +1,5 @@
-FROM randomninjaatk/ffmpeg:bin as binstage
+ARG ffmpeg_tag=snapshot-vaapi
+FROM jrottenberg/ffmpeg:${ffmpeg_tag} as ffmpeg
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
@@ -6,8 +7,8 @@ ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE false
 
-# Add files from binstage
-COPY --from=binstage / /
+# Add files from ffmpeg
+COPY --from=ffmpeg /usr/local/ /usr/local/
 
 # hardware env
 ENV LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri"
