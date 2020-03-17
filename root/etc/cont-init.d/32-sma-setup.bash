@@ -16,26 +16,25 @@ fi
 
 # Remove sonarr log
 if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
-	rm "/config/scripts/configs/sonarr-pp.log" && \
+	rm "/config/scripts/logs/sonarr-pp.log" && \
 	sleep 0.1
 fi
 
 # Remove radarr log
 if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
-	rm "/config/scripts/configs/radarr-pp.log" && \
+	rm "/config/scripts/logs/radarr-pp.log" && \
 	sleep 0.1
 fi
 
 # create sonarr log
 if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
-	touch "/config/scripts/configs/sonarr-pp.log"
+	touch "/config/scripts/logs/sonarr-pp.log"
 fi
 
 # create radarr log
-if [ ! -f "/config/scripts/configs/radarr-pp.log" ]; then
-	touch "/config/scripts/configs/radarr-pp.log"
+if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
+	touch "/config/scripts/logs/radarr-pp.log"
 fi
-
 
 # remove sickbeard_mp4_automator log if exists
 if [ -f "/var/log/sma.log" ]; then
