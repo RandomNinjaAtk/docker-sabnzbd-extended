@@ -19,15 +19,15 @@ if [ ! -f "/config/scripts/video-pp.bash" ]; then
 fi
 
 # Create downloads incomplete directory
-if [ ! -d "/downloads/sabnzbd/incomplete" ]; then
-	mkdir -p "/downloads/sabnzbd/incomplete"
-	chmod 0777 "/downloads/sabnzbd/incomplete"
+if [ ! -d "/stroage/downloads/sabnzbd/incomplete" ]; then
+	mkdir -p "/stroage/downloads/sabnzbd/incomplete"
+	chmod 0777 "/stroage/downloads/sabnzbd/incomplete"
 fi
 
 # Create downloads complete directory
-if [ ! -d "/downloads/sabnzbd/complete" ]; then
-	mkdir -p "/downloads/sabnzbd/complete"
-	chmod 0777 "/downloads/sabnzbd/complete"
+if [ ! -d "/stroage//downloads/sabnzbd/complete" ]; then
+	mkdir -p "/stroage//downloads/sabnzbd/complete"
+	chmod 0777 "/stroage//downloads/sabnzbd/complete"
 fi
 
 if [ ! -f "/config/scripts/sab-config-updated" ]; then
