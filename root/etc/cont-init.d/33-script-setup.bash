@@ -18,34 +18,35 @@ if [ ! -f "/config/sabnzbd.ini" ]; then
 	exit 0
 fi
 
-# Add scripts path
-if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
-	sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
-fi
-
-# Correct incomplete path
-if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
-	sed -i "s/Downloads\/incomplete/\/storage\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
-fi
-
-# Correct complete path
-if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
-	sed -i "s/Downloads\/complete/\/storage\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
-fi
-
-# Enable script failure
-if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
-	sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
-fi
-
-# Enable permissions failure
-if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
-	sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
-fi
-
 if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	sleep 0.1
 else
+
+	# Add scripts path
+	if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
+		sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
+	fi
+
+	# Correct incomplete path
+	if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
+		sed -i "s/Downloads\/incomplete/\/storage\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
+	fi
+
+	# Correct complete path
+	if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
+		sed -i "s/Downloads\/complete/\/storage\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
+	fi
+
+	# Enable script failure
+	if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
+		sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
+	fi
+
+	# Enable permissions failure
+	if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
+		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
+	fi
+
 	# Add categories
 	echo "[categories]" >> "/config/sabnzbd.ini" && \
 	
@@ -78,14 +79,19 @@ else
 	echo "script = audio-pp.bash" >> "/config/sabnzbd.ini" && \
 	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "order = 3" >> "/config/sabnzbd.ini" && \
-	echo "dir = lidarr" >> "/config/sabnzbd.ini"
-fi
-
-if cat "/config/sabnzbd.ini" | grep "\[\[software\]\]" | read; then
+	echo "dir = lidarr" >> "/config/sabnzbd.ini" && \
+	
+	# cleanup default categories
 	sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
-	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini"
+fi
+
+if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
+	restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
+	kill ${restartsab} && \
+	echo "config updated" && \
 	# stop cron
 	service cron stop
 else
