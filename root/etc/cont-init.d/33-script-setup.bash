@@ -47,8 +47,11 @@ else
 		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
 	fi
 
-	# Add categories
-	echo "[categories]" >> "/config/sabnzbd.ini" && \
+	# cleanup default categories
+	sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
 	
 	# Add radarr category
 	echo "[[radarr]]" >> "/config/sabnzbd.ini" && \
@@ -79,13 +82,7 @@ else
 	echo "script = audio-pp.bash" >> "/config/sabnzbd.ini" && \
 	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "order = 3" >> "/config/sabnzbd.ini" && \
-	echo "dir = lidarr" >> "/config/sabnzbd.ini" && \
-	
-	# cleanup default categories
-	sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
-	sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
-	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
-	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini"
+	echo "dir = lidarr" >> "/config/sabnzbd.ini"
 fi
 
 if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
