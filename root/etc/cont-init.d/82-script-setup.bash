@@ -2,13 +2,13 @@
 
 # link config file for use
 if [ ! -f "/config/scripts/audio-pp.bash" ]; then
-	ln -s "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash"
+	ln -s "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash" && \
 	chmod 0777 "/config/scripts/audio-pp.bash"
 fi
 
 # link config file for use
 if [ ! -f "/config/scripts/video-pp.bash" ]; then
-	ln -s "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash"
+	ln -s "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash" && \
 	chmod 0777 "/config/scripts/video-pp.bash"
 fi
 
@@ -49,14 +49,14 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 		if cat "/config/sabnzbd.ini" | grep "\[\[radarr\]\]" | read; then
 			sleep 0.1
 		else
-			sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini"
-			echo "[[radarr]]" >> "/config/sabnzbd.ini"
-			echo "priority = -100" >> "/config/sabnzbd.ini"
-			echo "pp = \"\"" >> "/config/sabnzbd.ini"
-			echo "name = radarr" >> "/config/sabnzbd.ini"
-			echo "script = video-pp.bash" >> "/config/sabnzbd.ini"
-			echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-			echo "order = 1" >> "/config/sabnzbd.ini"
+			sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
+			echo "[[radarr]]" >> "/config/sabnzbd.ini" && \
+			echo "priority = -100" >> "/config/sabnzbd.ini" && \
+			echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "name = radarr" >> "/config/sabnzbd.ini" && \
+			echo "script = video-pp.bash" >> "/config/sabnzbd.ini" && \
+			echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "order = 1" >> "/config/sabnzbd.ini" && \
 			echo "dir = radarr" >> "/config/sabnzbd.ini"
 		fi
 
@@ -64,14 +64,14 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 		if cat "/config/sabnzbd.ini" | grep "\[\[sonarr\]\]" | read; then
 			sleep 0.1
 		else
-			sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini"
-			echo "[[sonarr]]" >> "/config/sabnzbd.ini"
-			echo "priority = -100" >> "/config/sabnzbd.ini"
-			echo "pp = \"\"" >> "/config/sabnzbd.ini"
-			echo "name = sonarr" >> "/config/sabnzbd.ini"
-			echo "script = video-pp.bash" >> "/config/sabnzbd.ini"
-			echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-			echo "order = 2" >> "/config/sabnzbd.ini"
+			sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
+			echo "[[sonarr]]" >> "/config/sabnzbd.ini" && \
+			echo "priority = -100" >> "/config/sabnzbd.ini" && \
+			echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "name = sonarr" >> "/config/sabnzbd.ini" && \
+			echo "script = video-pp.bash" >> "/config/sabnzbd.ini" && \
+			echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "order = 2" >> "/config/sabnzbd.ini" && \
 			echo "dir = sonarr" >> "/config/sabnzbd.ini"
 		fi
 
@@ -79,19 +79,19 @@ if [ ! -f "/config/scripts/sab-config-updated" ]; then
 		if cat "/config/sabnzbd.ini" | grep "\[\[lidarr\]\]" | read; then
 			sleep 0.1
 		else
-			sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini"
-			echo "[[lidarr]]" >> "/config/sabnzbd.ini"
-			echo "priority = -100" >> "/config/sabnzbd.ini"
-			echo "pp = \"\"" >> "/config/sabnzbd.ini"
-			echo "name = lidarr" >> "/config/sabnzbd.ini"
-			echo "script = audio-pp.bash" >> "/config/sabnzbd.ini"
-			echo "newzbin = \"\"" >> "/config/sabnzbd.ini"
-			echo "order = 3" >> "/config/sabnzbd.ini"
+			sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
+			echo "[[lidarr]]" >> "/config/sabnzbd.ini" && \
+			echo "priority = -100" >> "/config/sabnzbd.ini" && \
+			echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "name = lidarr" >> "/config/sabnzbd.ini" && \
+			echo "script = audio-pp.bash" >> "/config/sabnzbd.ini" && \
+			echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
+			echo "order = 3" >> "/config/sabnzbd.ini" && \
 			echo "dir = lidarr" >> "/config/sabnzbd.ini"
 		fi
 
 		if [ ! -f "/config/scripts/sab-config-updated" ]; then
-			touch "/config/scripts/sab-config-updated"
+			touch "/config/scripts/sab-config-updated" && \
 			chmod 0666 "/config/scripts/sab-config-updated"
 		fi
 	fi
