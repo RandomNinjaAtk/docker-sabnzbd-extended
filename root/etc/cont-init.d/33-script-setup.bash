@@ -58,8 +58,14 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
 		sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
 	fi
+	
+	# Enable pause on post processing
+	if cat "/config/sabnzbd.ini" | grep "pause_on_post_processing = 0" | read; then
+		sed -i "s/pause_on_post_processing = 0/pause_on_post_processing = 1/g" "/config/sabnzbd.ini"
+	fi
 
-	# Enable permissions failure
+
+	# Set permissions
 	if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
 		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
 	fi
