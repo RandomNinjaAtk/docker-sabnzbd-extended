@@ -10,11 +10,6 @@ ENV UPDATE false
 # Add files from ffmpeg
 COPY --from=ffmpeg /usr/local/ /usr/local/
 
-# hardware env
-ENV LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri"
-ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
-ENV NVIDIA_VISIBLE_DEVICES="all"
-
 RUN \
 	# ffmpeg
 	echo "**** install runtime ****" && \
