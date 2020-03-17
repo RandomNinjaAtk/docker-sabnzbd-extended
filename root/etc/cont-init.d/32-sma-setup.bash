@@ -14,6 +14,29 @@ if [ ! -f "/config/scripts/configs/radarr-pp.ini" ]; then
 	chmod 0666 "/config/scripts/configs/radarr-pp.ini"
 fi
 
+# Remove sonarr log
+if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
+	rm "/config/scripts/configs/sonarr-pp.log" && \
+	sleep 0.1
+fi
+
+# Remove radarr log
+if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
+	rm "/config/scripts/configs/radarr-pp.log" && \
+	sleep 0.1
+fi
+
+# create sonarr log
+if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
+	touch "/config/scripts/configs/sonarr-pp.log"
+fi
+
+# create radarr log
+if [ ! -f "/config/scripts/configs/radarr-pp.log" ]; then
+	touch "/config/scripts/configs/radarr-pp.log"
+fi
+
+
 # remove sickbeard_mp4_automator log if exists
 if [ -f "/var/log/sma.log" ]; then
 	rm "/var/log/sma.log"
@@ -22,8 +45,12 @@ touch "/var/log/sma.log"
 
 
 # Set ffmpeg/ffprobe location
-sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/autoProcess.ini"
-sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/autoProcess.ini"
+sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/configs/sonarr-pp.ini"
+sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/configs/sonarr-pp.ini"
+
+# Set ffmpeg/ffprobe location
+sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/configs/radarr-pp.ini"
+sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/configs/radarr-pp.ini"
 
 chmod 0777 -R "/usr/local/sma"
 
