@@ -45,12 +45,27 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
 	fi
 
-	# cleanup default categories
+	# purge default categories
+	sed -i '/\[categories\]/,+d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[*\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
 	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
 	
+	# Add categories
+	echo "[categories]" >> "/config/sabnzbd.ini" && \
+	
+	# Add * category
+	echo "[[*]]" >> "/config/sabnzbd.ini" && \
+	echo "priority = 0" >> "/config/sabnzbd.ini" && \
+	echo "pp = 3" >> "/config/sabnzbd.ini" && \
+	echo "name = *" >> "/config/sabnzbd.ini" && \
+	echo "script = None" >> "/config/sabnzbd.ini" && \
+	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
+	echo "order = 0" >> "/config/sabnzbd.ini" && \
+	echo "dir = \"\"" >> "/config/sabnzbd.ini" && \
+		
 	# Add radarr category
 	echo "[[radarr]]" >> "/config/sabnzbd.ini" && \
 	echo "priority = -100" >> "/config/sabnzbd.ini" && \
