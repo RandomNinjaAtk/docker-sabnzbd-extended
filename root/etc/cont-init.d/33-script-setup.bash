@@ -81,9 +81,7 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "order = 3" >> "/config/sabnzbd.ini" && \
 	echo "dir = lidarr" >> "/config/sabnzbd.ini"
-fi
-
-if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
+	
 	restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
 	kill ${restartsab} && \
 	echo "config updated" && \
