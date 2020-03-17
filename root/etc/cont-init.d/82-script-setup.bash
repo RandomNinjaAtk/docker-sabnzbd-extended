@@ -1,10 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-# Create scripts directory
-if [ ! -d "/config/scripts" ]; then
-	mkdir -p "/config/scripts"
-	chmod 0777 "/config/scripts"
-fi
 
 # link config file for use
 if [ ! -f "/config/scripts/audio-pp.bash" ]; then
@@ -16,18 +11,6 @@ fi
 if [ ! -f "/config/scripts/video-pp.bash" ]; then
 	ln -s "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash"
 	chmod 0777 "/config/scripts/video-pp.bash"
-fi
-
-# Create downloads incomplete directory
-if [ ! -d "/stroage/downloads/sabnzbd/incomplete" ]; then
-	mkdir -p "/stroage/downloads/sabnzbd/incomplete"
-	chmod 0777 "/stroage/downloads/sabnzbd/incomplete"
-fi
-
-# Create downloads complete directory
-if [ ! -d "/stroage//downloads/sabnzbd/complete" ]; then
-	mkdir -p "/stroage//downloads/sabnzbd/complete"
-	chmod 0777 "/stroage//downloads/sabnzbd/complete"
 fi
 
 if [ ! -f "/config/scripts/sab-config-updated" ]; then
