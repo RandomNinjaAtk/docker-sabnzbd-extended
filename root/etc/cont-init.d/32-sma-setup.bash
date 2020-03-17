@@ -42,6 +42,7 @@ if [ -f "/var/log/sma.log" ]; then
 	rm "/var/log/sma.log"
 fi
 touch "/var/log/sma.log"
+chmod 0777 "/var/log/sma.log"
 
 
 # Set ffmpeg/ffprobe location
