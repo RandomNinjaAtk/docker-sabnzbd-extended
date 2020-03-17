@@ -10,10 +10,9 @@ ENV UPDATE false
 COPY --from=binstage / /
 
 # hardware env
-ENV \
- LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri" \
- NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
- NVIDIA_VISIBLE_DEVICES="all"
+ENV LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri"
+ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
+ENV NVIDIA_VISIBLE_DEVICES="all"
 
 RUN \
 	# ffmpeg
@@ -35,10 +34,8 @@ RUN \
 	rm -rf \
 		/var/lib/apt/lists/* \
 		/var/tmp/*
-	chgrp users /usr/local/bin/ffmpeg && \
-	chgrp users /usr/local/bin/ffprobe && \
-	chmod g+x /usr/local/bin/ffmpeg && \
-	chmod g+x /usr/local/bin/ffprobe
+	chmod 777 /usr/local/bin/ffmpeg && \
+	chmod 777 /usr/local/bin/ffprobe
 
 
 ENV VERSION="1.0.0"
