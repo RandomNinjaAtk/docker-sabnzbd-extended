@@ -8,7 +8,7 @@ if [ ! -f "/config/scripts/autoProcess.ini" ]; then
 fi
 
 # link config file for use
-if [ ! -f "/usr/local/sma/scripts/config/autoProcess.ini" ]; then
+if [ ! -f "/usr/local/sma/config/autoProcess.ini" ]; then
 	ln -s "/config/scripts/autoProcess.ini" "/usr/local/sma/config/autoProcess.ini"
 fi
 
