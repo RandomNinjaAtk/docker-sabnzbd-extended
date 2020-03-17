@@ -35,4 +35,6 @@ ln -s "/config/scripts/sma.log" "/var/log/sma.log" && \
 sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/autoProcess.ini"
 sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/autoProcess.ini"
 
+chmod 0777 -R "/usr/local/sma"
+
 exit 0
