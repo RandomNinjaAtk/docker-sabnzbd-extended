@@ -1,6 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-
 # link config file for use
 if [ ! -f "/config/scripts/audio-pp.bash" ]; then
 	ln -s "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash"
