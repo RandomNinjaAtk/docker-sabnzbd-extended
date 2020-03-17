@@ -33,8 +33,8 @@ RUN \
 		libxml2 && \
 	echo "**** clean up ****" && \
 	rm -rf \
-	/var/lib/apt/lists/* \
-	/var/tmp/*
+		/var/lib/apt/lists/* \
+		/var/tmp/*
 	chgrp users /usr/local/bin/ffmpeg && \
 	chgrp users /usr/local/bin/ffprobe && \
 	chmod g+x /usr/local/bin/ffmpeg && \
