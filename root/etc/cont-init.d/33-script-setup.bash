@@ -64,7 +64,6 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 		sed -i "s/pause_on_post_processing = 0/pause_on_post_processing = 1/g" "/config/sabnzbd.ini"
 	fi
 
-
 	# Set permissions
 	if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
 		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
