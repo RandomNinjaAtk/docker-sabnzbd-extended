@@ -9,10 +9,26 @@ if [ ! -f "/config/scripts/audio-pp.bash" ]; then
 	chmod 0777 "/config/scripts/audio-pp.bash"
 fi
 
+if [ -f "/config/scripts/radarr-pp.bash" ]; then
+	rm "/config/scripts/radarr-pp.bash"
+	sleep 0.1
+fi
+
 # link config file for use
-if [ ! -f "/config/scripts/video-pp.bash" ]; then
-	ln -s "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash" && \
-	chmod 0777 "/config/scripts/video-pp.bash"
+if [ ! -f "/config/scripts/radarr-pp.bash" ]; then
+	cp "/usr/local/sabnzbd-scripts/sabnzbd/radarr-pp.bash" "/config/scripts/" && \
+	chmod 0777 "/config/scripts/radarr-pp.bash"
+fi
+
+if [ -f "/config/scripts/sonarr-pp.bash" ]; then
+	rm "/config/scripts/sonarr-pp.bash"
+	sleep 0.1
+fi
+
+# link config file for use
+if [ ! -f "/config/scripts/sonarr-pp.bash" ]; then
+	cp "/usr/local/sabnzbd-scripts/sabnzbd/sonarr-pp.bash" "/config/scripts/" && \
+	chmod 0777 "/config/scripts/sonarr-pp.bash"
 fi
 
 if [ ! -f "/config/sabnzbd.ini" ]; then
