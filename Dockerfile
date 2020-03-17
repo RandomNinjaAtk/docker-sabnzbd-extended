@@ -11,27 +11,6 @@ ENV UPDATE false
 COPY --from=ffmpeg /usr/local/ /usr/local/
 
 RUN \
-	# ffmpeg
-	echo "**** install runtime ****" && \
-	apt-get update && \
-	apt-get install -y \
-		i965-va-driver \
-		libexpat1 \
-		libgl1-mesa-dri \
-		libglib2.0-0 \
-		libgomp1 \
-		libharfbuzz0b \
-		libv4l-0 \
-		libx11-6 \
-		libxcb1 \
-		libxext6 \
-		libxml2 && \
-	echo "**** clean up ****" && \
-	rm -rf \
-		/var/lib/apt/lists/* \
-		/var/tmp/*
-
-RUN \
 	# install dependancies
 	apt-get update -qq && \
 	apt-get install -qq -y \
@@ -42,12 +21,7 @@ RUN \
 		jq \
 		cron && \
 	apt-get purge --auto-remove -y && \
-	apt-get clean && \
-	chgrp users /usr/local/bin/ffmpeg && \
-	chgrp users /usr/local/bin/ffprobe && \
-	chmod g+x /usr/local/bin/ffmpeg && \
-	chmod g+x /usr/local/bin/ffprobe
-
+	apt-get clean
 
 # get python3 and git, and install python libraries
 RUN \
@@ -72,6 +46,33 @@ RUN \
   python3 -m virtualenv ${SMA_PATH}/venv && \
   cd ${SMA_PATH} && \
   pip3 install -r ${SMA_PATH}/setup/requirements.txt
+
+RUN \
+	# ffmpeg
+	chgrp users /usr/local/bin/ffmpeg && \
+	chgrp users /usr/local/bin/ffprobe && \
+	chmod g+x /usr/local/bin/ffmpeg && \
+	chmod g+x /usr/local/bin/ffprobe && \
+	echo "**** install runtime ****" && \
+	apt-get update && \
+	apt-get install -y \
+		i965-va-driver \
+		libexpat1 \
+		libgl1-mesa-dri \
+		libglib2.0-0 \
+		libgomp1 \
+		libharfbuzz0b \
+		libv4l-0 \
+		libx11-6 \
+		libxcb1 \
+		libxext6 \
+		libxml2 \
+		libva-drm2 \
+		libva2 && \
+ 	echo "**** clean up ****" && \
+	rm -rf \
+		/var/lib/apt/lists/* \
+		/var/tmp/*
 
 RUN \
 	# make directory
