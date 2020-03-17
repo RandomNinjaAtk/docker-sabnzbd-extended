@@ -19,8 +19,6 @@ if [ ! -f "/config/sabnzbd.ini" ]; then
 fi
 
 if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
-	sleep 0.1
-else
 
 	# Add scripts path
 	if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
@@ -91,9 +89,6 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	echo "config updated" && \
 	# stop cron
 	service cron stop
-else
-	# start cron
-	service cron start
 fi
 
 exit 0
