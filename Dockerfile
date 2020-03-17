@@ -99,7 +99,7 @@ RUN \
 RUN \
 	# setup cron
 	service cron start && \
-	echo "* * * * *   root   bash /etc/cont-init.d/02-script-setup.bash" >> "/etc/crontab"
+	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab"
 	
 WORKDIR /
 
