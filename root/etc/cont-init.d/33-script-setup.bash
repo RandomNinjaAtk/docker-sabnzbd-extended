@@ -90,18 +90,17 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	echo "priority = -100" >> "/config/sabnzbd.ini" && \
 	echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "name = radarr" >> "/config/sabnzbd.ini" && \
-	echo "script = video-pp.bash" >> "/config/sabnzbd.ini" && \
+	echo "script = radarr-pp.bash" >> "/config/sabnzbd.ini" && \
 	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "order = 1" >> "/config/sabnzbd.ini" && \
 	echo "dir = radarr" >> "/config/sabnzbd.ini" && \
 
 	# Add sonarr category
-	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
 	echo "[[sonarr]]" >> "/config/sabnzbd.ini" && \
 	echo "priority = -100" >> "/config/sabnzbd.ini" && \
 	echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "name = sonarr" >> "/config/sabnzbd.ini" && \
-	echo "script = video-pp.bash" >> "/config/sabnzbd.ini" && \
+	echo "script = sonarr-pp.bash" >> "/config/sabnzbd.ini" && \
 	echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
 	echo "order = 2" >> "/config/sabnzbd.ini" && \
 	echo "dir = sonarr" >> "/config/sabnzbd.ini" && \
