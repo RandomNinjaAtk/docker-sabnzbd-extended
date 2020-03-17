@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bash
 
 # import new config, if does not exist
-if [ ! -f "/config/scripts/sma/autoProcess.ini" ]; then
+if [ ! -f "/config/scripts/autoProcess.ini" ]; then
 	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/autoProcess.ini"
 	# set permissions
 	chmod 0666 "/config/scripts/autoProcess.ini"
@@ -23,16 +23,16 @@ if [ -f "/config/sma/sma.log" ]; then
 fi
 
 # create sma log file
-touch "/config/scripts/sma/sma.log" && \
+touch "/config/scripts/sma.log" && \
 
 # set permissions
-chmod 0666 "/config/scripts/sma/sma.log" && \
+chmod 0666 "/config/scripts/sma.log" && \
 
 # link sma log file
-ln -s "/config/scripts/sma/sma.log" "/var/log/sma.log" && \
+ln -s "/config/scripts/sma.log" "/var/log/sma.log" && \
 
 # Set ffmpeg/ffprobe location
-sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/sma/autoProcess.ini"
-sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/sma/autoProcess.ini"
+sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/autoProcess.ini"
+sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/autoProcess.ini"
 
 exit 0
