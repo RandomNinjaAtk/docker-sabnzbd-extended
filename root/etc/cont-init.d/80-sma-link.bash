@@ -1,19 +1,15 @@
 #!/usr/bin/with-contenv bash
 
-# create config directory
-if [ ! -d "/config/scripts/sma" ]; then
-	mkdir -p "/config/scripts/sma" && \
-	chmod 0777 -R "/config/scripts/sma"
-fi
-
 # import new config, if does not exist
 if [ ! -f "/config/scripts/sma/autoProcess.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/sma/autoProcess.ini"
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/autoProcess.ini"
+	# set permissions
+	chmod 0666 "/config/scripts/autoProcess.ini"
 fi
 
 # link config file for use
 if [ ! -f "/usr/local/sma/scripts/config/autoProcess.ini" ]; then
-	ln -s "/config/scripts/sma/autoProcess.ini" "/usr/local/sma/config/autoProcess.ini"
+	ln -s "/config/scripts/autoProcess.ini" "/usr/local/sma/config/autoProcess.ini"
 fi
 
 # remove sickbeard_mp4_automator log if exists
@@ -29,20 +25,13 @@ fi
 # create sma log file
 touch "/config/scripts/sma/sma.log" && \
 
+# set permissions
+chmod 0666 "/config/scripts/sma/sma.log" && \
+
 # link sma log file
 ln -s "/config/scripts/sma/sma.log" "/var/log/sma.log" && \
 
-# set permissions
-chmod 0666 "/config/scripts/sma"/*
-
-# update from git
-if [[ "${UPDATE}" == "true" ]]; then
-    git -C ${SMA_PATH} pull origin master
-fi
-
-# permissions
-chown -R abc:abc ${SMA_PATH}
-
+# Set ffmpeg/ffprobe location
 sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/sma/autoProcess.ini"
 sed -i "s/ffprobe.exe/ffprobe/g" "/config/scripts/sma/autoProcess.ini"
 
