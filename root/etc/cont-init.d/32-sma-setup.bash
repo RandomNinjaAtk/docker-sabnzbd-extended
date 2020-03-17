@@ -17,13 +17,9 @@ fi
 # remove sickbeard_mp4_automator log if exists
 if [ -f "/var/log/sma.log" ]; then
 	rm "/var/log/sma.log"
-	touch "/var/log/sma.log"
 fi
+touch "/var/log/sma.log"
 
-# remove sickbeard_mp4_automator log from sma config folder if exists
-if [ -f "/config/sma/sma.log" ]; then
-	rm "/config/sma/sma.log"
-fi
 
 # Set ffmpeg/ffprobe location
 sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/autoProcess.ini"
