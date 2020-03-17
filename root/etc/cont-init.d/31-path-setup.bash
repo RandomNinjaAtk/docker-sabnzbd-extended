@@ -6,6 +6,18 @@ if [ ! -d "/config/scripts" ]; then
 	chmod 0777 "/config/scripts"
 fi
 
+# Create configs directory
+if [ ! -d "/config/scripts/configs" ]; then
+	mkdir -p "/config/scripts/configs"
+	chmod 0777 "/config/scripts/configs"
+fi
+
+# Create logs directory
+if [ ! -d "/config/scripts/logs" ]; then
+	mkdir -p "/config/scripts/logs"
+	chmod 0777 "/config/scripts/logs"
+fi
+
 # Create downloads incomplete directory
 if [ ! -d "/stroage/downloads/sabnzbd/incomplete" ]; then
 	mkdir -p "/stroage/downloads/sabnzbd/incomplete"
