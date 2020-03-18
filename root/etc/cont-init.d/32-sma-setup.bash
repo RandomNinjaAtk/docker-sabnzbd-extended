@@ -15,13 +15,13 @@ if [ ! -f "/config/scripts/configs/radarr-pp.ini" ]; then
 fi
 
 # Remove sonarr log
-if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
+if [ -f "/config/scripts/logs/sonarr-pp.log" ]; then
 	rm "/config/scripts/logs/sonarr-pp.log" && \
 	sleep 0.1
 fi
 
 # Remove radarr log
-if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
+if [ -f "/config/scripts/logs/radarr-pp.log" ]; then
 	rm "/config/scripts/logs/radarr-pp.log" && \
 	sleep 0.1
 fi
@@ -35,14 +35,6 @@ fi
 if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
 	touch "/config/scripts/logs/radarr-pp.log"
 fi
-
-# remove sickbeard_mp4_automator log if exists
-if [ -f "/var/log/sma.log" ]; then
-	rm "/var/log/sma.log"
-fi
-touch "/var/log/sma.log"
-chmod 0777 "/var/log/sma.log"
-
 
 # Set ffmpeg/ffprobe location
 sed -i "s/ffmpeg.exe/ffmpeg/g" "/config/scripts/configs/sonarr-pp.ini"
