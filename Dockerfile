@@ -6,6 +6,7 @@ LABEL maintainer="RandomNinjaAtk"
 ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE false
+ENV VIDEO_LANG eng
 
 # Add files from ffmpeg
 COPY --from=ffmpeg /usr/local/ /usr/local/
