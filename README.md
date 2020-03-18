@@ -31,7 +31,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-p 8080` | The port for the Sonarr webinterface |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
-| `-v /config` | Database and sonarr configs |
+| `-v /config` | Sabnzbd application files |
 | `-v /storage` | Location of Downloads location |
 
 ## Application Setup
