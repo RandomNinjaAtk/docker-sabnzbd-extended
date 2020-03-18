@@ -26,19 +26,25 @@ RUN \
 
 # get python3 and git, and install python libraries
 RUN \
-  apt-get update && \
-  apt-get install -y \
-    git \
-    wget \
-    python3 \
-    python3-pip && \
-# make directory
-  mkdir -p ${SMA_PATH} && \
-# download repo
-  git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git ${SMA_PATH} && \
-# install pip, venv, and set up a virtual self contained python environment
-  python3 -m pip install --user --upgrade pip && \
-  pip3 install -r ${SMA_PATH}/setup/requirements.txt
+	apt-get update && \
+	apt-get install -y \
+		git \
+		wget \
+		python3 \
+		python3-pip && \
+	# make directory
+	mkdir -p ${SMA_PATH} && \
+	# download repo
+	git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git ${SMA_PATH} && \
+	mkdir -p ${SMA_PATH}/config && \
+	# create logging file
+	mkdir -p ${SMA_PATH}/config && \
+	touch ${SMA_PATH}/config/sma.log && \
+	chgrp users ${SMA_PATH}/config/sma.log && \
+	chmod g+w ${SMA_PATH}/config/sma.log && \
+	# install pip, venv, and set up a virtual self contained python environment
+	python3 -m pip install --user --upgrade pip && \
+	pip3 install -r ${SMA_PATH}/setup/requirements.txt
 
 RUN \
 	# ffmpeg
