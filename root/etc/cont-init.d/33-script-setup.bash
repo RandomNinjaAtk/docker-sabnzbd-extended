@@ -3,9 +3,14 @@
 # set permissions
 chmod 0777 -R /usr/local/sabnzbd-scripts
 
-# link config file for use
+if [ -f "/config/scripts/audio-pp.bash" ]; then
+	rm "/config/scripts/audio-pp.bash"
+	sleep 0.1
+fi
+
+# cp config file for use
 if [ ! -f "/config/scripts/audio-pp.bash" ]; then
-	ln -s "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash" && \
+	cp "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash" && \
 	chmod 0777 "/config/scripts/audio-pp.bash"
 fi
 
