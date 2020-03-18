@@ -7,6 +7,12 @@ ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE false
 ENV VIDEO_LANG eng
+ENV AUDIO_VERIFY TRUE
+ENV AUDIO_FORMAT FDK-AAC
+ENV AUDIO_BITRATE 320
+ENV AUDIO_REPLAYGAIN FALSE
+ENV AUDIO_DSFA TRUE
+ENV AUDIO_DSFAS 150M
 
 # Add files from ffmpeg
 COPY --from=ffmpeg /usr/local/ /usr/local/
