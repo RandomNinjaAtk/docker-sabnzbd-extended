@@ -2,14 +2,14 @@
 
 # import new config, if does not exist
 if [ ! -f "/config/scripts/configs/sonarr-pp.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/sonarr-pp.ini"
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/sonarr-pp.ini" && \
 	# set permissions
 	chmod 0666 "/config/scripts/configs/sonarr-pp.ini"
 fi
 
 # import new config, if does not exist
 if [ ! -f "/config/scripts/configs/radarr-pp.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/radarr-pp.ini"
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/radarr-pp.ini" && \
 	# set permissions
 	chmod 0666 "/config/scripts/configs/radarr-pp.ini"
 fi
@@ -28,12 +28,16 @@ fi
 
 # create sonarr log
 if [ ! -f "/config/scripts/logs/sonarr-pp.log" ]; then
-	touch "/config/scripts/logs/sonarr-pp.log"
+	touch "/config/scripts/logs/sonarr-pp.log" && \
+	# set permissions
+	chmod 0666 "/config/scripts/logs/sonarr-pp.log"
 fi
 
 # create radarr log
 if [ ! -f "/config/scripts/logs/radarr-pp.log" ]; then
-	touch "/config/scripts/logs/radarr-pp.log"
+	touch "/config/scripts/logs/radarr-pp.log" && \
+	# set permissions
+	chmod 0666 "/config/scripts/logs/radarr-pp.log"
 fi
 
 # Set ffmpeg/ffprobe location
