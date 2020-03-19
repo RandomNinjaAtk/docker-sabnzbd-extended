@@ -77,56 +77,14 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 		fi
 
 		# purge default categories
-		sed -i '/\[categories\]/,+d' "/config/sabnzbd.ini" && \
-		sed -i '/\[\[*\]\]/,+7d' "/config/sabnzbd.ini" && \
 		sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
 		sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
 		sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
 		sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
 
 		# Add categories
-		echo "[categories]" >> "/config/sabnzbd.ini" && \
-		
-		# Add * category
-		echo "[[*]]" >> "/config/sabnzbd.ini" && \
-		echo "priority = 0" >> "/config/sabnzbd.ini" && \
-		echo "pp = 3" >> "/config/sabnzbd.ini" && \
-		echo "name = *" >> "/config/sabnzbd.ini" && \
-		echo "script = None" >> "/config/sabnzbd.ini" && \
-		echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "order = 0" >> "/config/sabnzbd.ini" && \
-		echo "dir = \"\"" >> "/config/sabnzbd.ini" && \
-
-		# Add radarr category
-		echo "[[radarr]]" >> "/config/sabnzbd.ini" && \
-		echo "priority = -100" >> "/config/sabnzbd.ini" && \
-		echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "name = radarr" >> "/config/sabnzbd.ini" && \
-		echo "script = radarr-pp.bash" >> "/config/sabnzbd.ini" && \
-		echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "order = 1" >> "/config/sabnzbd.ini" && \
-		echo "dir = radarr" >> "/config/sabnzbd.ini" && \
-
-		# Add sonarr category
-		echo "[[sonarr]]" >> "/config/sabnzbd.ini" && \
-		echo "priority = -100" >> "/config/sabnzbd.ini" && \
-		echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "name = sonarr" >> "/config/sabnzbd.ini" && \
-		echo "script = sonarr-pp.bash" >> "/config/sabnzbd.ini" && \
-		echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "order = 2" >> "/config/sabnzbd.ini" && \
-		echo "dir = sonarr" >> "/config/sabnzbd.ini" && \
-
-		# Add lidarr category
-		echo "[[lidarr]]" >> "/config/sabnzbd.ini" && \
-		echo "priority = -100" >> "/config/sabnzbd.ini" && \
-		echo "pp = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "name = lidarr" >> "/config/sabnzbd.ini" && \
-		echo "script = audio-pp.bash" >> "/config/sabnzbd.ini" && \
-		echo "newzbin = \"\"" >> "/config/sabnzbd.ini" && \
-		echo "order = 3" >> "/config/sabnzbd.ini" && \
-		echo "dir = lidarr" >> "/config/sabnzbd.ini"
-		
+		sed -i '/\[categories\]/a\\[\[radarr\]\]\npriority = -100\npp = ""\nname = radarr\nscript = radarr-pp.bash\nnewzbin = ""\norder = 1\n\dir = radarr\n\[\[sonarr\]\]\npriority = -100\npp = ""\nname = sonarr\nscript = sonarr-pp.bash\nnewzbin = ""\norder = 2\n\dir = sonarr\n\[\[lidarr\]\]\npriority = -100\npp = ""\nname = lidarr\nscript = audio-pp.bash\nnewzbin = ""\norder = 3\n\dir = lidarr' "/config/sabnzbd.ini"
+				
 		sleep 5
 		restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
 		kill ${restartsab} && \
