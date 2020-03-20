@@ -42,56 +42,62 @@ if [ ! -f "/config/sabnzbd.ini" ]; then
 	exit 0
 fi
 
+# Check if config is already updated, if not start cron...
+if cat "/config/sabnzbd.ini" | grep "/config/scripts" | read; then
+	echo "config already updated..."
+	exit 0
+else
+	# start cron
+	service cron start
+fi
+
+# Check for finished initial config file, if sab is done, proceed with automated modifications...
 if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
-	if cat "/config/sabnzbd.ini" | grep "/config/scripts" | read; then
-		sleep 0.1
-	else
-		# Add scripts path
-		if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
-			sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
-		fi
-
-		# Correct incomplete path
-		if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
-			sed -i "s/Downloads\/incomplete/\/storage\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
-		fi
-
-		# Correct complete path
-		if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
-			sed -i "s/Downloads\/complete/\/storage\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
-		fi
-
-		# Enable script failure
-		if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
-			sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
-		fi
-
-		# Enable pause on post processing
-		if cat "/config/sabnzbd.ini" | grep "pause_on_post_processing = 0" | read; then
-			sed -i "s/pause_on_post_processing = 0/pause_on_post_processing = 1/g" "/config/sabnzbd.ini"
-		fi
-
-		# Set permissions
-		if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
-			sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
-		fi
-
-		# purge default categories
-		sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
-		sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
-		sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
-		sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
-
-		# Add categories
-		sed -i '/\[categories\]/a\\[\[radarr\]\]\npriority = -100\npp = ""\nname = radarr\nscript = radarr-pp.bash\nnewzbin = ""\norder = 1\n\dir = radarr\n\[\[sonarr\]\]\npriority = -100\npp = ""\nname = sonarr\nscript = sonarr-pp.bash\nnewzbin = ""\norder = 2\n\dir = sonarr\n\[\[lidarr\]\]\npriority = -100\npp = ""\nname = lidarr\nscript = audio-pp.bash\nnewzbin = ""\norder = 3\n\dir = lidarr' "/config/sabnzbd.ini"
-				
-		sleep 5
-		restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
-		kill ${restartsab} && \
-		echo "config updated" && \
-		# stop cron
-		service cron stop
+	# Add scripts path
+	if cat "/config/sabnzbd.ini" | grep "script_dir = \"\"" | read; then
+		sed -i "s/script_dir = \"\"/script_dir = \"\/config\/scripts\"/g" "/config/sabnzbd.ini"
 	fi
+
+	# Correct incomplete path
+	if cat "/config/sabnzbd.ini" | grep "Downloads/incomplete" | read; then
+		sed -i "s/Downloads\/incomplete/\/storage\/downloads\/sabnzbd\/incomplete/g" "/config/sabnzbd.ini"
+	fi
+
+	# Correct complete path
+	if cat "/config/sabnzbd.ini" | grep "Downloads/complete" | read; then
+		sed -i "s/Downloads\/complete/\/storage\/downloads\/sabnzbd\/complete/g" "/config/sabnzbd.ini"
+	fi
+
+	# Enable script failure
+	if cat "/config/sabnzbd.ini" | grep "script_can_fail = 0" | read; then
+		sed -i "s/script_can_fail = 0/script_can_fail = 1/g" "/config/sabnzbd.ini"
+	fi
+
+	# Enable pause on post processing
+	if cat "/config/sabnzbd.ini" | grep "pause_on_post_processing = 0" | read; then
+		sed -i "s/pause_on_post_processing = 0/pause_on_post_processing = 1/g" "/config/sabnzbd.ini"
+	fi
+
+	# Set permissions
+	if cat "/config/sabnzbd.ini" | grep "permissions = \"\"" | read; then
+		sed -i "s/permissions = \"\"/permissions = \"766\"/g" "/config/sabnzbd.ini"
+	fi
+
+	# purge default categories
+	sed -i '/\[\[software\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[audio\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[tv\]\]/,+7d' "/config/sabnzbd.ini" && \
+	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
+
+	# Add categories
+	sed -i '/\[categories\]/a\\[\[radarr\]\]\npriority = -100\npp = ""\nname = radarr\nscript = radarr-pp.bash\nnewzbin = ""\norder = 1\n\dir = radarr\n\[\[sonarr\]\]\npriority = -100\npp = ""\nname = sonarr\nscript = sonarr-pp.bash\nnewzbin = ""\norder = 2\n\dir = sonarr\n\[\[lidarr\]\]\npriority = -100\npp = ""\nname = lidarr\nscript = audio-pp.bash\nnewzbin = ""\norder = 3\n\dir = lidarr' "/config/sabnzbd.ini"
+				
+	sleep 2
+	restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
+	kill ${restartsab} && \
+	echo "config updated" && \
+	# stop cron
+	service cron stop
 fi
 
 exit 0
