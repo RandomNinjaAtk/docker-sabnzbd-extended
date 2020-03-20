@@ -19,15 +19,15 @@ if [ ! -d "/config/scripts/logs" ]; then
 fi
 
 # Create downloads incomplete directory
-if [ ! -d "/stroage/downloads/sabnzbd/incomplete" ]; then
-	mkdir -p "/stroage/downloads/sabnzbd/incomplete"
-	chmod 0777 "/stroage/downloads/sabnzbd/incomplete"
+if [ ! -d "/storage/downloads/sabnzbd/incomplete" ]; then
+	mkdir -p "/storage/downloads/sabnzbd/incomplete"
+	chmod 0777 "/storage/downloads/sabnzbd/incomplete"
 fi
 
 # Create downloads complete directory
-if [ ! -d "/stroage//downloads/sabnzbd/complete" ]; then
-	mkdir -p "/stroage//downloads/sabnzbd/complete"
-	chmod 0777 "/stroage//downloads/sabnzbd/complete"
+if [ ! -d "/storage/downloads/sabnzbd/complete" ]; then
+	mkdir -p "/storage/downloads/sabnzbd/complete"
+	chmod 0777 "/storage/downloads/sabnzbd/complete"
 fi
 
 exit 0
