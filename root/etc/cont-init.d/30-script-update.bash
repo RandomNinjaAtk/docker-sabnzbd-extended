@@ -7,7 +7,7 @@ if [[ "${UPDATE_EXT}" == "TRUE" ]]; then
 fi
 
 # update from git
-if [[ "${UDPATE_SMA}" == "TRUE" ]]; then
+if [[ "${UPDATE_SMA}" == "TRUE" ]]; then
     git -C ${SMA_PATH} reset --hard HEAD && \
     git -C ${SMA_PATH} pull origin master
 fi
