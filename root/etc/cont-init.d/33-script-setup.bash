@@ -14,6 +14,17 @@ if [ ! -f "/config/scripts/audio-pp.bash" ]; then
 	chmod 0777 "/config/scripts/audio-pp.bash"
 fi
 
+if [ -f "/config/scripts/video-pp.bash" ]; then
+	rm "/config/scripts/video-pp.bash"
+	sleep 0.1
+fi
+
+# cp config file for use
+if [ ! -f "/config/scripts/video-pp.bash" ]; then
+	cp "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash" && \
+	chmod 0777 "/config/scripts/video-pp.bash"
+fi
+
 if [ -f "/config/scripts/radarr-pp.bash" ]; then
 	rm "/config/scripts/radarr-pp.bash"
 	sleep 0.1
