@@ -21,7 +21,7 @@ fi
 
 # cp config file for use
 if [ ! -f "/config/scripts/video-pp.bash" ]; then
-	cp "/usr/local/sabnzbd-scripts/video-pp.bash" "/config/scripts/video-pp.bash" && \
+	cp "/usr/local/sabnzbd-scripts/sabnzbd/video-pp.bash" "/config/scripts/video-pp.bash" && \
 	chmod 0777 "/config/scripts/video-pp.bash"
 fi
 
