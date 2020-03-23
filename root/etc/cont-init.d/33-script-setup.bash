@@ -90,7 +90,7 @@ if cat "/config/sabnzbd.ini" | grep "\[categories\]" | read; then
 	sed -i '/\[\[movies\]\]/,+7d' "/config/sabnzbd.ini" && \
 
 	# Add categories
-	sed -i '/\[categories\]/a\\[\[radarr\]\]\npriority = -100\npp = ""\nname = radarr\nscript = radarr-pp.bash\nnewzbin = ""\norder = 1\n\dir = radarr\n\[\[sonarr\]\]\npriority = -100\npp = ""\nname = sonarr\nscript = sonarr-pp.bash\nnewzbin = ""\norder = 2\n\dir = sonarr\n\[\[lidarr\]\]\npriority = -100\npp = ""\nname = lidarr\nscript = audio-pp.bash\nnewzbin = ""\norder = 3\n\dir = lidarr' "/config/sabnzbd.ini"
+	sed -i '/\[categories\]/a\\[\[radarr\]\]\npriority = -100\npp = ""\nname = radarr\nscript = video-pp.bash\nnewzbin = ""\norder = 1\n\dir = radarr\n\[\[sonarr\]\]\npriority = -100\npp = ""\nname = sonarr\nscript = video-pp.bash\nnewzbin = ""\norder = 2\n\dir = sonarr\n\[\[lidarr\]\]\npriority = -100\npp = ""\nname = lidarr\nscript = audio-pp.bash\nnewzbin = ""\norder = 3\n\dir = lidarr' "/config/sabnzbd.ini"
 				
 	sleep 2
 	restartsab=$(pgrep s6-supervise | sort -r | head -n1) && \
