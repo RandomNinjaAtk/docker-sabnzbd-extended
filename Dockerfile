@@ -15,6 +15,7 @@ ENV AUDIO_BITRATE 320
 ENV AUDIO_REPLAYGAIN FALSE
 ENV AUDIO_DSFA TRUE
 ENV AUDIO_DSFAS 150M
+ENV AUDIO_BEETSTAGGING TRUE
 # converter settings
 ENV CONVERTER_THREADS="0"
 ENV CONVERTER_OUTPUT_FORMAT="mp4"
@@ -103,6 +104,10 @@ RUN \
 		wget \
 		python3 \
 		python3-pip && \
+	# Install beets
+	pip3 install --no-cache-dir -U \
+		beets \
+		pyacoustid && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
 	# download repo
