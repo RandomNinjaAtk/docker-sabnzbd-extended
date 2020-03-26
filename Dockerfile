@@ -116,6 +116,10 @@ RUN \
 	# install pip, venv, and set up a virtual self contained python environment
 	python3 -m pip install --user --upgrade pip && \
 	pip3 install -r ${SMA_PATH}/setup/requirements.txt
+	# Install beets
+	pip3 install --no-cache-dir -U \
+		beets \
+		pyacoustid
 
 RUN \
 	# ffmpeg
