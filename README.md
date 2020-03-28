@@ -111,27 +111,22 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 <strong>/storage/downloads/sabnzbd/complete</strong> :: Automatically created on setup<br/>
 <strong>/config</strong> :: Location of SABnzbd aplication files<br/>
 <strong>/config/scripts</strong> :: Location of SABnzbd post process script files (automatically mapped in SABnzbd)<br/>
-<strong>/config/scripts/configs</strong> :: Location of SMA configuration files<br/>
 <strong>/config/scripts/logs</strong> :: Location of SMA log files<br/>
 ### Important SABNzbd Categories:
 <strong>lidarr</strong> :: Automatically configured to post process using <strong>audio-pp.bash</strong><br/>
-<strong>radarr</strong> :: Automatically configured to post process using <strong>radarr-pp.bash</strong><br/>
-<strong>sonarr</strong> :: Automatically configured to post process using <strong>sonarr-pp.bash</strong><br/>
+<strong>radarr</strong> :: Automatically configured to post process using <strong>video-pp.bash</strong><br/>
+<strong>sonarr</strong> :: Automatically configured to post process using <strong>video-pp.bash</strong><br/>
 ### Scripts/Files included:
 <strong>audio-pp.bash</strong> :: Automatically clean up downloaded audio files and convert to standardized format if desired<br/>
-<strong>radarr-pp.bash</strong> :: Verify incoming video files for required audio/subtitle languages and process with SMA if enabled<br/>
-<strong>sonarr-pp.bash</strong> :: Verify incoming video files for required audio/subtitle languages and process with SMA if enabled<br/>
+<strong>video-pp.bash</strong> :: Verify incoming video files for required audio/subtitle languages and process with SMA if enabled<br/>
 <strong>beets-config.yaml</strong> :: Beet config file for matching<br/><br/>
 Scripts are hosted here: https://github.com/RandomNinjaAtk/sabnzbd-scripts
 ### Sickbeard MP4 Automater (SMA):
-<strong>Configuration Files Location:</strong> /config/scritps/configs<br/>
-<strong>radarr-pp.ini</strong>:: SMA configuration for radarr-pp.bash<br/>
-<strong>sonarr-pp.ini</strong> :: SMA configuration for sonarr-pp.bash<br/><br/>
+Configuration handled by ENV variables, see parameters<br/>
 <strong>Log Files Location:</strong> /config/scritps/logs<br/>
-<strong>radarr-pp.log</strong> :: Log file for radarr-pp.bash<br/>
-<strong>sonarr-pp.log</strong> :: Log file for sonarr-pp.bash<br/><br/>
+<strong>sma.log</strong> :: Log file for SMA<br/>
 For more detailed configuration info, visit: https://github.com/mdhiggins/sickbeard_mp4_automator<br/><br/>
-<strong>Hardware Acceleration:</strong><br/>
+### Hardware Acceleration:
 1. After container start, locate <strong>radarr-pp.ini</strong> or <strong>sonarr-pp.ini</strong>
 1. Edit the `[Video]` options as specified below:
 	* vaapi
