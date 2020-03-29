@@ -126,6 +126,8 @@ def main():
         safeConfigParser.set("Subtitle", "encoding", os.environ.get("SUBTITLE_ENCODING"))
     if os.environ.get("SUBTITLE_BURN_SUBTITLES"):
         safeConfigParser.set("Subtitle", "burn-subtitles", os.environ.get("SUBTITLE_BURN_SUBTITLES"))
+    if os.environ.get("SUBTITLE_BURN_DISPOSITIONS"):
+        safeConfigParser.set("Subtitle", "burn-dispositions", os.environ.get("SUBTITLE_BURN_DISPOSITIONS"))
     if os.environ.get("SUBTITLE_DOWNLOAD_SUBS"):
         safeConfigParser.set("Subtitle", "download-subs", os.environ.get("SUBTITLE_DOWNLOAD_SUBS"))
     if os.environ.get("SUBTITLE_DOWNLOAD_HEARING_IMPAIRED_SUBS"):
