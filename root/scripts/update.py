@@ -22,6 +22,8 @@ def main():
         safeConfigParser.set("Converter", "output-format", os.environ.get("CONVERTER_OUTPUT_FORMAT"))
     if os.environ.get("CONVERTER_OUTPUT_EXTENSION"):    
         safeConfigParser.set("Converter", "output-extension", os.environ.get("CONVERTER_OUTPUT_EXTENSION"))
+    if os.environ.get("CONVERTER_MINIMUM_SIZE"):    
+        safeConfigParser.set("Converter", "minimum-size", os.environ.get("CONVERTER_MINIMUM_SIZE"))
     if os.environ.get("CONVERTER_SORT_STREAMS"):    
         safeConfigParser.set("Converter", "sort-streams", os.environ.get("CONVERTER_SORT_STREAMS"))
     if os.environ.get("CONVERTER_PROCESS_SAME_EXTENSIONS"):    
@@ -52,8 +54,8 @@ def main():
     # Set Video Settings
     if os.environ.get("VIDEO_CODEC"):
         safeConfigParser.set("Video", "codec", os.environ.get("VIDEO_CODEC"))
-    if os.environ.get("VIDEO_BITRATE"):
-        safeConfigParser.set("Video", "bitrate", os.environ.get("VIDEO_BITRATE"))
+    if os.environ.get("VIDEO_MAX_BITRATE"):
+        safeConfigParser.set("Video", "max-bitrate", os.environ.get("VIDEO_MAX_BITRATE"))
     if os.environ.get("VIDEO_CRF"):
         safeConfigParser.set("Video", "crf", os.environ.get("VIDEO_CRF"))
     if os.environ.get("VIDEO_CRF_PROFILES"):
@@ -136,6 +138,8 @@ def main():
         safeConfigParser.set("Subtitle", "embed-image-subs", os.environ.get("SUBTITLE_EMBED_IMAGE_SUBS"))
     if os.environ.get("SUBTITLE_EMBED_ONLY_INTERNAL_SUBS"):
         safeConfigParser.set("Subtitle", "embed-only-internal-subs", os.environ.get("SUBTITLE_EMBED_ONLY_INTERNAL_SUBS"))
+    if os.environ.get("SUBTITLE_FILENAME_DISPOSITIONS"):
+        safeConfigParser.set("Subtitle", "filename-dispositions", os.environ.get("SUBTITLE_FILENAME_DISPOSITIONS"))
     if os.environ.get("SUBTITLE_IGNORE_EMBEDDED_SUBS"):
         safeConfigParser.set("Subtitle", "ignore-embedded-subs", os.environ.get("SUBTITLE_IGNORE_EMBEDDED_SUBS"))
     if os.environ.get("SUBTITLE_ATTACHMENT_CODEC"):
