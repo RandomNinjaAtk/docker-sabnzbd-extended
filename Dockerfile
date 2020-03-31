@@ -105,11 +105,16 @@ RUN \
 	apt-get install -y \
 		git \
 		wget \
+		imagemagick \
 		python3 \
+		python3-acoustid \
+		python3-pythonmagick
 		python3-pip && \
 	# Install beets
 	pip3 install --no-cache-dir -U \
 		beets \
+		requests \
+		Pillow \
 		pyacoustid && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
