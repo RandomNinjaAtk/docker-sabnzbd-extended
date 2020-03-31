@@ -106,6 +106,8 @@ RUN \
 	apt-get install -y \
 		git \
 		wget \
+		chromaprint \
+		libchromaprint-tools \
 		imagemagick \
 		python3 \
 		python3-acoustid \
