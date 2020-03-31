@@ -16,6 +16,7 @@ ENV AUDIO_REPLAYGAIN FALSE
 ENV AUDIO_DSFA TRUE
 ENV AUDIO_DSFAS 150M
 ENV AUDIO_BEETSTAGGING TRUE
+ENV AUDIO_REQUIREBEETSTAGGING false
 # converter settings
 ENV CONVERTER_THREADS="0"
 ENV CONVERTER_OUTPUT_FORMAT="mp4"
@@ -105,11 +106,18 @@ RUN \
 	apt-get install -y \
 		git \
 		wget \
+		libchromaprint-tools \
+		imagemagick \
 		python3 \
+		python3-acoustid \
+		python3-pythonmagick \
 		python3-pip && \
 	# Install beets
 	pip3 install --no-cache-dir -U \
 		beets \
+		requests \
+		Pillow \
+		pylast \
 		pyacoustid && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
