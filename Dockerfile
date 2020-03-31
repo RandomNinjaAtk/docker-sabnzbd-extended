@@ -118,6 +118,7 @@ RUN \
 		beets \
 		requests \
 		Pillow \
+		pylast \
 		pyacoustid && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
