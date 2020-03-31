@@ -108,7 +108,7 @@ RUN \
 		imagemagick \
 		python3 \
 		python3-acoustid \
-		python3-pythonmagick
+		python3-pythonmagick \
 		python3-pip && \
 	# Install beets
 	pip3 install --no-cache-dir -U \
