@@ -88,7 +88,8 @@ ENV SUBTITLE_ATTACHMENT_CODEC=""
 COPY --from=ffmpeg /usr/local/ /usr/local/
 
 RUN \
-	# install dependancies
+	############## install dependencies ##############
+	echo "**** install dependencies ****" && \
 	apt-get update -qq && \
 	apt-get install -qq -y \
 		mkvtoolnix \
@@ -103,10 +104,9 @@ RUN \
 		python3-pip \
 		cron && \
 	apt-get purge --auto-remove -y && \
-	apt-get clean
-
-# get install SMA
-RUN \
+	apt-get clean && \
+	############## install SMA ##############
+	echo "**** setup SMA ****" && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
 	# download repo
@@ -119,10 +119,19 @@ RUN \
 	chmod g+w ${SMA_PATH}/config/sma.log && \
 	# install pip, venv, and set up a virtual self contained python environment
 	python3 -m pip install --user --upgrade pip && \
-	pip3 install -r ${SMA_PATH}/setup/requirements.txt
-
-RUN \
-	# ffmpeg
+	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
+	############## setup sabnzbd-scripts ##############
+	echo "**** setup sabnzbd-scripts ****" && \
+	# make directory
+	mkdir -p ${SABSCRIPTS_PATH} && \
+	# download repo
+	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH} && \
+	############## setup cron ##############
+	echo "**** setup cron ****" && \
+	service cron start && \
+	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab"
+	############## setup ffmpeg ##############
+	echo "**** setup ffmpeg ****" && \
 	chgrp users /usr/local/bin/ffmpeg && \
 	chgrp users /usr/local/bin/ffprobe && \
 	chmod g+x /usr/local/bin/ffmpeg && \
@@ -147,17 +156,6 @@ RUN \
 	rm -rf \
 		/var/lib/apt/lists/* \
 		/var/tmp/*
-
-RUN \
-	# make directory
-	mkdir -p ${SABSCRIPTS_PATH} && \
-	# download repo
-	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH}
-
-RUN \
-	# setup cron
-	service cron start && \
-	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab"
 	
 WORKDIR /
 
