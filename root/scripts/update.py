@@ -18,6 +18,12 @@ def main():
     safeConfigParser.set("Converter", "ffprobe", "ffprobe")
     if os.environ.get("CONVERTER_THREADS"):
         safeConfigParser.set("Converter", "threads", os.environ.get("CONVERTER_THREADS"))
+    if os.environ.get("CONVERTER_HWACCELS"):
+        safeConfigParser.set("Converter", "hwaccels", os.environ.get("CONVERTER_HWACCELS"))
+    if os.environ.get("CONVERTER_HWACCEL_DECODERS"):
+        safeConfigParser.set("Converter", "hwaccel-decoders", os.environ.get("CONVERTER_HWACCEL_DECODERS"))
+    if os.environ.get("CONVERTER_THREADS"):
+        safeConfigParser.set("Converter", "threads", os.environ.get("CONVERTER_THREADS"))
     if os.environ.get("CONVERTER_OUTPUT_FORMAT"):    
         safeConfigParser.set("Converter", "output-format", os.environ.get("CONVERTER_OUTPUT_FORMAT"))
     if os.environ.get("CONVERTER_OUTPUT_EXTENSION"):    
