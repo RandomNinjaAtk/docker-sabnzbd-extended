@@ -83,9 +83,6 @@ ENV SUBTITLE_FILENAME_DISPOSITIONS="forced"
 ENV SUBTITLE_IGNORE_EMBEDDED_SUBS="False"
 ENV SUBTITLE_ATTACHMENT_CODEC=""
 
-# Add files from ffmpeg
-COPY --from=ffmpeg /usr/local/ /usr/local/
-
 RUN \
 	echo "************ install dependencies ************" && \
 	apt-get update -qq && \
