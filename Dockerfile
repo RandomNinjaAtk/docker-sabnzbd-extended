@@ -1,5 +1,4 @@
 ARG ffmpeg_tag=snapshot-vaapi
-FROM jrottenberg/ffmpeg:${ffmpeg_tag} as ffmpeg
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
@@ -102,6 +101,7 @@ RUN \
 		python3 \
 		python3-pip \
 		libchromaprint-tools \
+		ffmpeg \
 		cron && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
@@ -132,32 +132,7 @@ RUN \
 	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH} && \
 	echo "************ setup cron ************" && \
 	service cron start && \
-	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab" && \
-	echo "************ setup ffmpeg ************" && \
-	chgrp users /usr/local/bin/ffmpeg && \
-	chgrp users /usr/local/bin/ffprobe && \
-	chmod g+x /usr/local/bin/ffmpeg && \
-	chmod g+x /usr/local/bin/ffprobe && \
-	echo "************ install runtime ************" && \
-	apt-get update && \
-	apt-get install -y \
-		i965-va-driver \
-		libexpat1 \
-		libgl1-mesa-dri \
-		libglib2.0-0 \
-		libgomp1 \
-		libharfbuzz0b \
-		libv4l-0 \
-		libx11-6 \
-		libxcb1 \
-		libxext6 \
-		libxml2 \
-		libva-drm2 \
-		libva2 && \
- 	echo "************ clean up ************" && \
-	rm -rf \
-		/var/lib/apt/lists/* \
-		/var/tmp/*
+	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab"
 	
 WORKDIR /
 
