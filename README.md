@@ -35,8 +35,8 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-v /storage` | Location of Downloads location |
 | `-e UPDATE_EXT=TRUE` | TRUE = enabled :: Update scripts from git on container start |
 | `-e UPDATE_SMA=FALSE` | TRUE = enabled :: Update scripts from git on container start |
-| `-e AUDIO_FORMAT=FLAC` | FLAC or OPUS or MP3 or FDK-AAC or AAC or ALAC - converts lossless FLAC files to set format |
-| `-e AUDIO_BITRATE=320` | Set to desired bitrate when converting to OPUS/MP3/FDK-AAC/AAC format types |
+| `-e AUDIO_FORMAT=FLAC` | FLAC or OPUS or MP3 or AAC or ALAC - converts lossless FLAC files to set format |
+| `-e AUDIO_BITRATE=320` | Set to desired bitrate when converting to OPUS/MP3/AAC format types |
 | `-e AUDIO_VERIFY=TRUE` | TRUE = ENABLED, Verifies FLAC/MP3 files for errors (fixes MP3's, deletes bad FLAC files) |
 | `-e AUDIO_DSFA=TRUE` | TRUE = ENABLED :: Detects single file albums and mark download as failed if detected |
 | `-e AUDIO_REPLAYGAIN=FALSE` | TRUE = ENABLED, adds replaygain tags for compatible players (FLAC ONLY) |
@@ -127,7 +127,4 @@ Configuration handled by ENV variables, see parameters<br/>
 <strong>sma.log</strong> :: Log file for SMA<br/>
 For more detailed configuration info, visit: https://github.com/mdhiggins/sickbeard_mp4_automator<br/><br/>
 ### Hardware Acceleration:
-1. After container start, locate <strong>radarr-pp.ini</strong> or <strong>sonarr-pp.ini</strong>
-1. Edit the `[Video]` options as specified below:
-	* vaapi
-		* Set video codec to: `h264vaapi` or `h265vaapi`
+1. Set the `-e VIDEO_CODEC` to: `h264vaapi` (h254) or `h265vaapi` (h265)
