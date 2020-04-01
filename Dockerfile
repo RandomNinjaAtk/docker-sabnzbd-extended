@@ -114,7 +114,7 @@ RUN \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
-	echo ""************ download repo ************" && \
+	echo "************ download repo ************" && \
 	git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git ${SMA_PATH} && \
 	mkdir -p ${SMA_PATH}/config && \
 	echo "************ create logging file ************" && \
