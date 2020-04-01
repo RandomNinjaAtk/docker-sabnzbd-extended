@@ -41,6 +41,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e AUDIO_DSFA=TRUE` | TRUE = ENABLED :: Detects single file albums and mark download as failed if detected |
 | `-e AUDIO_REPLAYGAIN=FALSE` | TRUE = ENABLED, adds replaygain tags for compatible players (FLAC ONLY) |
 | `-e AUDIO_BEETSTAGGING=TRUE` | TRUE = ENABLED, use beets to tag files |
+| `-e AUDIO_REQUIREBEETSTAGGING=false` | true = enabled :: skips importing files that could not be matched using beets (marks as failed) |
 | `-e VIDEO_LANG=eng` | Default: eng :: Set to required language (ISO 639-2 language code), if not found, will mark as failed |
 | `-e VIDEO_SMA=FALSE` | TRUE = Enabled :: Uses SMA to process incoming video files, update your configuraiton at: /config/scripts/configs/(radarr/sonarr)-pp.ini |
 | `-e CONVERTER_THREADS="0"` | FFMpeg threads, corresponds to threads parameter |
