@@ -96,29 +96,17 @@ RUN \
 		flac \
 		opus-tools \
 		jq \
+		git \
+		wget \
+		beets \
+		python3 \
+		python3-pip \
 		cron && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean
 
-# get python3 and git, and install python libraries
+# get install SMA
 RUN \
-	apt-get update && \
-	apt-get install -y \
-		git \
-		wget \
-		libchromaprint-tools \
-		imagemagick \
-		python3 \
-		python3-acoustid \
-		python3-pythonmagick \
-		python3-pip && \
-	# Install beets
-	pip3 install --no-cache-dir -U \
-		beets \
-		requests \
-		Pillow \
-		pylast \
-		pyacoustid && \
 	# make directory
 	mkdir -p ${SMA_PATH} && \
 	# download repo
