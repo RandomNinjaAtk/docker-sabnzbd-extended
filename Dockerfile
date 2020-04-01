@@ -101,9 +101,16 @@ RUN \
 		beets \
 		python3 \
 		python3-pip \
+		libchromaprint-tools \
 		cron && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
+	echo "************ install Beets dependencies ************" && \
+	pip3 install --no-cache-dir -U \
+		requests \
+		Pillow \
+		pylast \
+		pyacoustid && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
@@ -117,6 +124,7 @@ RUN \
 	chmod g+w ${SMA_PATH}/config/sma.log && \
 	echo "************ install pip dependencies ************" && \
 	python3 -m pip install --user --upgrade pip && \
+	
 	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
 	echo "************ setup sabnzbd-scripts ************" && \
 	echo "************ setup directory ************" && \
