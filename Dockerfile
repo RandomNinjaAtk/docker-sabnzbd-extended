@@ -1,4 +1,3 @@
-ARG ffmpeg_tag=snapshot-vaapi
 FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
