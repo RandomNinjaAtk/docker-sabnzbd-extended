@@ -45,6 +45,8 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e VIDEO_LANG=eng` | Default: eng :: Set to required language (ISO 639-2 language code), if not found, will mark as failed |
 | `-e VIDEO_SMA=FALSE` | TRUE = Enabled :: Uses SMA to process incoming video files, update your configuraiton at: /config/scripts/configs/(radarr/sonarr)-pp.ini |
 | `-e CONVERTER_THREADS="0"` | FFMpeg threads, corresponds to threads parameter |
+| `-e CONVERTER_HWACCELS=""` | Approved FFmpeg hardware accelerator encoders: hwaccels |
+| `-e CONVERTER_HWACCEL_DECODERS=""` | Approved FFmpeg hardware decoders |
 | `-e CONVERTER_OUTPUT_FORMAT="mkv"` | Wrapped format corresponding to -f in FFmpeg |
 | `-e CONVERTER_OUTPUT_EXTENSION="mkv"` | File extension for created media |
 | `-e CONVERTER_SORT_STREAMS="True"` | Sort streams by language preferences and channels |
