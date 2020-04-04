@@ -60,9 +60,9 @@ def main():
         safeConfigParser.set("Metadata", "tag-language", os.environ.get("METADATA_TAG_LANGUAGE"))
     if os.environ.get("METADATA_DOWNLOAD_ARTWORK"):
         safeConfigParser.set("Metadata", "download-artwork", os.environ.get("METADATA_DOWNLOAD_ARTWORK"))
-    if os.environ.get("METADATA_PRESERVE_SOURCE_DISPOSITION"):
-        safeConfigParser.set("Metadata", "preserve-source-disposition", os.environ.get("METADATA_PRESERVE_SOURCE_DISPOSITION"))
-    
+    if os.environ.get("METADATA_SANITIZE_DISPOSITION"):
+        safeConfigParser.set("Metadata", "sanitize-disposition", os.environ.get("METADATA_SANITIZE_DISPOSITION"))
+
     # Set Video Settings
     if os.environ.get("VIDEO_CODEC"):
         safeConfigParser.set("Video", "codec", os.environ.get("VIDEO_CODEC"))
