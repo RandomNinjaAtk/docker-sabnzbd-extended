@@ -18,15 +18,16 @@ if [ ! -d "/config/scripts/logs" ]; then
 fi
 
 # import new config, if does not exist
-if [ ! -f "/config/sma/autoProcess.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/usr/local/sma/config/autoProcess.ini"
+if [ ! -f "/config/scripts/configs/autoProcess.ini" ]; then
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/autoProcess.ini"
 fi
 
 # create sma log file
 touch "/config/scripts/logs/sma.log" && \
 
-# link sma log file
+# link sma files
 ln -s "/config/scripts/logs/sma.log" "/usr/local/sma/config/sma.log" && \
+ln -s "/config/scripts/configs/autoProcess.ini" "/usr/local/sma/config/autoProcess.ini" && \
 
 # set permissions
 chmod 0666 "/config/scripts/logs"/*
