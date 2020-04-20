@@ -25,7 +25,8 @@ fi
 
 # import new config, if does not exist
 if [ ! -f "/config/scripts/configs/autoProcess.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/autoProcess.ini"
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/autoProcess.ini" && \
+	python3 /scripts/update.py
 fi
 
 # create sma log file
