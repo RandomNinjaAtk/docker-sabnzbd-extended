@@ -6,7 +6,7 @@ import logging
 import configparser
 import xml.etree.ElementTree as ET
 
-autoProcess = os.path.join(os.environ.get("SMA_PATH", "/usr/local/sma"), "config/autoProcess.ini")
+autoProcess = "/config/scripts/configs/autoProcess.ini"
 
 def main():
    
