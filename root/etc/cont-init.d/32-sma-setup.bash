@@ -11,10 +11,16 @@ if [ -d "/usr/local/sma/config" ]; then
 	sleep 0.1
 fi
 
-# create config directory
+# create logs directory
 if [ ! -d "/config/scripts/logs" ]; then
 	mkdir -p "/config/scripts/logs" && \
 	chmod 0777 -R "/config/scripts/logs"
+fi
+
+# create config directory
+if [ ! -d "/config/scripts/configs" ]; then
+	mkdir -p "/config/scripts/configs" && \
+	chmod 0777 -R "/config/scripts/configs"
 fi
 
 # import new config, if does not exist
