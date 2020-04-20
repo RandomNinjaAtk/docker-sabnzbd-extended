@@ -57,6 +57,7 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 <strong>/config</strong> :: Location of SABnzbd aplication files<br/>
 <strong>/config/scripts</strong> :: Location of SABnzbd post process script files (automatically mapped in SABnzbd)<br/>
 <strong>/config/scripts/logs</strong> :: Location of SMA log files<br/>
+<strong>/config/scritps/configs</strong> :: Location of SMA config file<br/>
 ### Important SABNzbd Categories:
 <strong>lidarr</strong> :: Automatically configured to post process using <strong>audio-pp.bash</strong><br/>
 <strong>radarr</strong> :: Automatically configured to post process using <strong>video-pp.bash</strong><br/>
