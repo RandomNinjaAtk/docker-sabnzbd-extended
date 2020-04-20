@@ -9,9 +9,9 @@ if [ -f "/config/scripts/audio-pp.bash" ]; then
 fi
 
 # cp config file for use
-if [ ! -f "/config/scripts/beets-config.yaml" ]; then
-	cp "/usr/local/sabnzbd-scripts/beets-config.yaml" "/config/scripts/beets-config.yaml" && \
-	chmod 0666 "/config/scripts/beets-config.yaml"
+if [ ! -f "/config/scripts/configs/beets-config.yaml" ]; then
+	cp "/usr/local/sabnzbd-scripts/beets-config.yaml" "/config/scripts/configs/beets-config.yaml" && \
+	chmod 0666 "/config/scripts/configs/beets-config.yaml"
 fi
 
 # cp config file for use
