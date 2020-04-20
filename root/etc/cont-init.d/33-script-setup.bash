@@ -3,54 +3,36 @@
 # set permissions
 chmod 0777 -R /usr/local/sabnzbd-scripts
 
+
+# remove existing audio-pp script file
 if [ -f "/config/scripts/audio-pp.bash" ]; then
 	rm "/config/scripts/audio-pp.bash"
 	sleep 0.1
 fi
 
-# cp config file for use
-if [ ! -f "/config/scripts/configs/beets-config.yaml" ]; then
-	cp "/usr/local/sabnzbd-scripts/beets-config.yaml" "/config/scripts/configs/beets-config.yaml" && \
-	chmod 0666 "/config/scripts/configs/beets-config.yaml"
-fi
-
-# cp config file for use
+# cp audio-pp script file for use
 if [ ! -f "/config/scripts/audio-pp.bash" ]; then
 	cp "/usr/local/sabnzbd-scripts/audio-pp.bash" "/config/scripts/audio-pp.bash" && \
 	chmod 0777 "/config/scripts/audio-pp.bash"
 fi
 
+# cp beets config file for use
+if [ ! -f "/config/scripts/configs/beets-config.yaml" ]; then
+	cp "/usr/local/sabnzbd-scripts/beets-config.yaml" "/config/scripts/configs/beets-config.yaml" && \
+	chmod 0666 "/config/scripts/configs/beets-config.yaml"
+fi
+
+
+# remove existing video-pp script file
 if [ -f "/config/scripts/video-pp.bash" ]; then
 	rm "/config/scripts/video-pp.bash"
 	sleep 0.1
 fi
 
-# cp config file for use
+# cp video-pp script file for use
 if [ ! -f "/config/scripts/video-pp.bash" ]; then
 	cp "/usr/local/sabnzbd-scripts/sabnzbd/video-pp.bash" "/config/scripts/video-pp.bash" && \
 	chmod 0777 "/config/scripts/video-pp.bash"
-fi
-
-if [ -f "/config/scripts/radarr-pp.bash" ]; then
-	rm "/config/scripts/radarr-pp.bash"
-	sleep 0.1
-fi
-
-# link config file for use
-if [ ! -f "/config/scripts/radarr-pp.bash" ]; then
-	cp "/usr/local/sabnzbd-scripts/sabnzbd/radarr-pp.bash" "/config/scripts/" && \
-	chmod 0777 "/config/scripts/radarr-pp.bash"
-fi
-
-if [ -f "/config/scripts/sonarr-pp.bash" ]; then
-	rm "/config/scripts/sonarr-pp.bash"
-	sleep 0.1
-fi
-
-# link config file for use
-if [ ! -f "/config/scripts/sonarr-pp.bash" ]; then
-	cp "/usr/local/sabnzbd-scripts/sabnzbd/sonarr-pp.bash" "/config/scripts/" && \
-	chmod 0777 "/config/scripts/sonarr-pp.bash"
 fi
 
 if [ ! -f "/config/sabnzbd.ini" ]; then
