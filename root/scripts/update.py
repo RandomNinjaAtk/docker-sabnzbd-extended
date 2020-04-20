@@ -16,6 +16,8 @@ def main():
     # Set Converter Settings
     safeConfigParser.set("Converter", "ffmpeg", "ffmpeg")
     safeConfigParser.set("Converter", "ffprobe", "ffprobe")
+    safeConfigParser.set("Converter", "hwaccels", " ")
+    safeConfigParser.set("Converter", "hwaccel-decoders", " ")
                             
     fp = open(autoProcess, "w")
     safeConfigParser.write(fp)
