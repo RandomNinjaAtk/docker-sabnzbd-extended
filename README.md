@@ -57,7 +57,7 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 <strong>/config</strong> :: Location of SABnzbd aplication files<br/>
 <strong>/config/scripts</strong> :: Location of SABnzbd post process script files (automatically mapped in SABnzbd)<br/>
 <strong>/config/scripts/logs</strong> :: Location of SMA log files<br/>
-<strong>/config/scritps/configs</strong> :: Location of SMA config file<br/>
+<strong>/config/scritps/configs</strong> :: Location of config files<br/>
 ### Important SABNzbd Categories:
 <strong>lidarr</strong> :: Automatically configured to post process using <strong>audio-pp.bash</strong><br/>
 <strong>radarr</strong> :: Automatically configured to post process using <strong>video-pp.bash</strong><br/>
@@ -69,10 +69,11 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 Scripts are hosted here: https://github.com/RandomNinjaAtk/sabnzbd-scripts
 ### Sickbeard MP4 Automater (SMA):
 <strong>Config Files Location:</strong> /config/scritps/configs<br/>
-* <strong>autoProcess.ini</strong> :: config file for SMA
+* <strong>video-pp-sma.ini</strong> :: config file for SMA
 
 <strong>Log Files Location:</strong> /config/scritps/logs<br/>
 * <strong>sma.log</strong> :: Log file for SMA
+
 For more detailed configuration info, visit: https://github.com/mdhiggins/sickbeard_mp4_automator<br/><br/>
 ### Hardware Acceleration:
 1. Set the video codec in SMA config file to: `h264vaapi` (h254) or `h265vaapi` (h265)
