@@ -23,9 +23,14 @@ if [ ! -d "/config/scripts/configs" ]; then
 	chmod 0777 -R "/config/scripts/configs"
 fi
 
+# Update name of legacy file naming
+if [ -f "/config/scripts/configs/autoProcess.ini" ]; then
+	mv "/config/scripts/configs/autoProcess.ini" "/config/scripts/configs/video-pp-sma.ini"
+fi
+
 # import new config, if does not exist
-if [ ! -f "/config/scripts/configs/autoProcess.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/autoProcess.ini" && \
+if [ ! -f "/config/scripts/configs/video-pp-sma.ini" ]; then
+	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/video-pp-sma.ini" && \
 	python3 /scripts/update.py
 fi
 
@@ -34,11 +39,10 @@ touch "/config/scripts/logs/sma.log" && \
 
 # link sma files
 ln -s "/config/scripts/logs/sma.log" "/usr/local/sma/config/sma.log" && \
-ln -s "/config/scripts/configs/autoProcess.ini" "/usr/local/sma/config/autoProcess.ini" && \
 
 # set permissions
-chmod 0666 "/config/scripts/logs"/*
 chmod 0777 -R "/usr/local/sma"
 chmod 0777 -R "/scripts"
+chmod 0777 -R "/config/scripts"
 
 exit 0
