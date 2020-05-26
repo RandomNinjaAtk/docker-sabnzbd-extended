@@ -13,6 +13,6 @@ if [[ "${UPDATE_SMA}" == "TRUE" ]]; then
 fi
 
 # update pip3 requirements
-pip3 install -r /usr/local/sma/setup/requirements.txt --upgrade
+pip3 install -r /usr/local/sma/setup/requirements.txt --upgrade --user
 
 exit 0
