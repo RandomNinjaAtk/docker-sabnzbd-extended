@@ -6,7 +6,7 @@ import logging
 import configparser
 import xml.etree.ElementTree as ET
 
-autoProcess = "/config/scripts/configs/autoProcess.ini"
+autoProcess = "/config/scripts/configs/video-pp-sma.ini"
 
 def main():
    
