@@ -43,7 +43,8 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e AUDIO_BEETSTAGGING=TRUE` | TRUE = ENABLED, use beets to tag files |
 | `-e AUDIO_REQUIREBEETSTAGGING=false` | true = enabled :: skips importing files that could not be matched using beets (marks as failed) |
 | `-e VIDEO_LANG=eng` | Default: eng :: Set to required language (ISO 639-2 language code), if not found, will mark as failed |
-| `-e VIDEO_SMA=FALSE` | TRUE = Enabled :: Uses SMA to process incoming video files, update your configuration at: /config/scripts/configs/autoProcess.ini |
+| `-e VIDEO_SMA=FALSE` | TRUE = Enabled :: Uses SMA to process incoming video files, update your configuration at: /config/scripts/configs/*-sma.ini |
+| `-e VIDEO_SMA_TAGGING=TRUE` | TRUE = Enabled :: Uses SMA to Tag MP4 files (Enabled SMA process: manual.py -a; Disabled SMA Process: manual.py -nt) |
 
 ## Application Setup
 
@@ -69,7 +70,8 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 Scripts are hosted here: https://github.com/RandomNinjaAtk/sabnzbd-scripts
 ### Sickbeard MP4 Automater (SMA):
 <strong>Config Files Location:</strong> /config/scritps/configs<br/>
-* <strong>video-pp-sma.ini</strong> :: config file for SMA
+* <strong>radarr-sma.ini</strong> :: config file for SMA
+* <strong>sonarr-sma.ini</strong> :: config file for SMA
 
 <strong>Log Files Location:</strong> /config/scritps/logs<br/>
 * <strong>sma.log</strong> :: Log file for SMA
