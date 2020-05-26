@@ -23,16 +23,20 @@ if [ ! -d "/config/scripts/configs" ]; then
 	chmod 0777 -R "/config/scripts/configs"
 fi
 
-# Update name of legacy file naming
-if [ -f "/config/scripts/configs/autoProcess.ini" ]; then
-	mv "/config/scripts/configs/autoProcess.ini" "/config/scripts/configs/video-pp-sma.ini"
+# import new config, if does not exist
+if [ ! -f "/config/scripts/configs/radarr-sma.ini" ] || [ ! -f "/config/scripts/configs/sonarr-sma.ini" ]; then
+	if [ ! -f "/config/scripts/configs/video-pp-sma.ini" ]; then
+		cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/video-pp-sma.ini" && \
+		python3 /scripts/update.py
+	fi
 fi
 
-# import new config, if does not exist
-if [ ! -f "/config/scripts/configs/video-pp-sma.ini" ]; then
-	cp "/usr/local/sma/setup/autoProcess.ini.sample" "/config/scripts/configs/video-pp-sma.ini" && \
-	python3 /scripts/update.py
+if [ -f "/config/scripts/configs/video-pp-sma.ini" ]; then
+    cp "/config/scripts/configs/video-pp-sma.ini" "/config/scripts/configs/radarr-sma.ini" && \
+    cp "/config/scripts/configs/video-pp-sma.ini" "/config/scripts/configs/sonarr-sma.ini" && \
+    rm "/config/scripts/configs/video-pp-sma.ini"
 fi
+
 
 # create sma log file
 touch "/config/scripts/logs/sma.log" && \
