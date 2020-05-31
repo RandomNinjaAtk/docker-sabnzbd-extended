@@ -21,6 +21,8 @@ ENV AUDIO_REQUIREBEETSTAGGING false
 RUN \
 	echo "************ install dependencies ************" && \
 	echo "************ add repos for updated ffmpeg ************" && \
+	apt-get update -qq && \
+	apt-get install software-properties-common -y && \
 	add-apt-repository ppa:savoury1/graphics -y && \
 	add-apt-repository ppa:savoury1/multimedia -y && \
 	add-apt-repository ppa:savoury1/ffmpeg4 -y && \
