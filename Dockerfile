@@ -20,13 +20,6 @@ ENV AUDIO_REQUIREBEETSTAGGING false
 
 RUN \
 	echo "************ install dependencies ************" && \
-	echo "************ add repos for updated ffmpeg ************" && \
-	apt-get update -qq && \
-	apt-get install -y software-properties-common && \
-	apt-get update -qq && \
-	add-apt-repository ppa:savoury1/graphics -y && \
-	add-apt-repository ppa:savoury1/multimedia -y && \
-	add-apt-repository ppa:savoury1/ffmpeg4 -y && \
 	echo "************ install packages ************" && \
 	apt-get update && \
 	apt-get install -y \
@@ -47,6 +40,14 @@ RUN \
 		cron && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
+	echo "************ add repos for updated ffmpeg ************" && \
+	apt-get install -y software-properties-common && \
+	add-apt-repository ppa:savoury1/graphics -y && \
+	add-apt-repository ppa:savoury1/multimedia -y && \
+	add-apt-repository ppa:savoury1/ffmpeg4 -y && \
+	echo "************ install updated ffmpeg ************" && \
+	apt-get update && \
+	apt-get install -y ffmpeg && \
 	echo "************ install Beets dependencies ************" && \
 	pip3 install --no-cache-dir -U \
 		requests \
