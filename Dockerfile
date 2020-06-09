@@ -21,7 +21,7 @@ ENV AUDIO_REQUIREBEETSTAGGING false
 RUN \
 	echo "************ install dependencies ************" && \
 	apt-get install -y software-properties-common && \
-	add-apt-repository ppa:jonathonf/ffmpeg-4 && \
+	add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
 	echo "************ install packages ************" && \
 	apt-get update && \
 	apt-get install -y \
