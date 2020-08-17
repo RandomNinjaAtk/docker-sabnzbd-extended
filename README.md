@@ -1,4 +1,8 @@
 # [RandomNinjaAtk/sabnzbd-extended](https://github.com/RandomNinjaAtk/docker-sabnzbd-extended)
+![Docker Build](https://img.shields.io/docker/cloud/automated/randomninjaatk/sabnzbd-extended?style=flat-square)
+![Docker Pulls](https://img.shields.io/docker/pulls/randomninjaatk/sabnzbd-extended?style=flat-square)
+![Docker Stars](https://img.shields.io/docker/stars/randomninjaatk/sabnzbd-extended?style=flat-square)
+[![Docker Hub](https://img.shields.io/badge/Open%20On-DockerHub-blue)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
 
 This continer includes [SABnzbd](https://sabnzbd.org/) along with a set of post-processing scripts to enhance your SABnzbd usage
 
