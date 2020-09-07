@@ -1,7 +1,7 @@
-FROM linuxserver/sabnzbd
+FROM linuxserver/sabnzbd:unstable
 LABEL maintainer="RandomNinjaAtk"
 
-ENV VERSION="1.0.1"
+ENV VERSION="1.0.2"
 ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE_EXT FALSE
