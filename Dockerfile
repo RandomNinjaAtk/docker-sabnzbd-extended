@@ -1,11 +1,10 @@
 FROM linuxserver/sabnzbd:unstable
 LABEL maintainer="RandomNinjaAtk"
 
-ENV VERSION="1.0.2"
-ENV SABSCRIPTS_PATH /usr/local/sabnzbd-scripts
+ENV TITLE="SABnzbd Extended"
+ENV VERSION="1.0.3"
 ENV SMA_PATH /usr/local/sma
 ENV UPDATE_EXT FALSE
-ENV UPDATE_SMA FALSE
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
 ENV VIDEO_SMA_TAGGING FALSE
@@ -15,16 +14,15 @@ ENV AUDIO_BITRATE 320
 ENV AUDIO_REPLAYGAIN FALSE
 ENV AUDIO_DSFA TRUE
 ENV AUDIO_DSFAS 150M
-ENV AUDIO_BEETSTAGGING TRUE
-ENV AUDIO_REQUIREBEETSTAGGING false
 
 RUN \
 	echo "************ install dependencies ************" && \
 	apt-get update && \
 	apt-get install -y software-properties-common && \
 	add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
-	echo "************ install packages ************" && \
+	echo "************ install and update packages ************" && \
 	apt-get update && \
+	apt-get upgrade -y && \
 	apt-get install -y \
 		mkvtoolnix \
 		mp3val \
@@ -32,24 +30,12 @@ RUN \
 		opus-tools \
 		jq \
 		git \
-		wget \
-		beets \
+		ffmpeg \
 		python3 \
-		ffmpeg \
 		python3-pip \
-		libchromaprint-tools \
-		ffmpeg \
-		imagemagick \
-		python3-pythonmagick \
-		cron && \
+		ffmpeg && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
-	echo "************ install Beets dependencies ************" && \
-	pip3 install --no-cache-dir -U \
-		requests \
-		Pillow \
-		pylast \
-		pyacoustid && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
@@ -66,18 +52,15 @@ RUN \
 	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
 	echo "************ setup sabnzbd-scripts ************" && \
 	echo "************ setup directory ************" && \
-	mkdir -p ${SABSCRIPTS_PATH} && \
-	echo "************ download repo ************" && \
-	git clone https://github.com/RandomNinjaAtk/sabnzbd-scripts.git ${SABSCRIPTS_PATH} && \
-	echo "************ setup cron ************" && \
-	service cron start && \
-	echo "* * * * *   root   bash /etc/cont-init.d/33-script-setup.bash" >> "/etc/crontab"
+	mkdir -p ${SABSCRIPTS_PATH}
 	
-WORKDIR /
 
 # copy local files
 COPY root/ /
 
+# set work directory
+WORKDIR /config
+
 # ports and volumes
 EXPOSE 8080 9090
-VOLUME /config /storage
+VOLUME /config
