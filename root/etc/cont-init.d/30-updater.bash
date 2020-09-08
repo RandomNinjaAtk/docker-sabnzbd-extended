@@ -11,4 +11,4 @@ git -C ${SMA_PATH} pull origin master
 # update pip3 requirements
 pip3 install -r /usr/local/sma/setup/requirements.txt --upgrade --user
 
-exit 0
+exit $?
