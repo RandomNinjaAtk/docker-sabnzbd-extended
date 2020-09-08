@@ -310,13 +310,20 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 			fi
 		fi
 	fi
+	
+	if [ "${extension}" == "mkv" ];  then
+		log "========================START MKVPROPEDIT========================"
+		mkvpropedit "${basefilename}.${extension}" --add-track-statistics-tags
+		log "========================STOP MKVPROPEDIT========================="
+	fi
+	
 	if [ ${VIDEO_SMA} = TRUE ]; then
-		if [ -f "${basefilename}.${extension}" ]; then
+		if [ -f "${basefilename}.${extension}" ]; then			
 			echo ""
 			echo "Begin processing with Sickbeard MP4 Automator..."
 			echo ""
 			# Manual run of Sickbeard MP4 Automator
-			if python3 /usr/local/sma/manual.py --config "$5" -i "${basefilename}.${extension}" $tagging; then
+			if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
 				echo "Processing complete for: ${filename}!"
 			else
 				echo "ERROR: Sickbeard MP4 Automator Processing Error"
