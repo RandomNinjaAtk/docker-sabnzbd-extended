@@ -18,16 +18,4 @@ if [ ! -d "/config/scripts/logs" ]; then
 	chmod 0777 "/config/scripts/logs"
 fi
 
-# Create downloads incomplete directory
-if [ ! -d "/storage/downloads/sabnzbd/incomplete" ]; then
-	mkdir -p "/storage/downloads/sabnzbd/incomplete"
-	chmod 0777 "/storage/downloads/sabnzbd/incomplete"
-fi
-
-# Create downloads complete directory
-if [ ! -d "/storage/downloads/sabnzbd/complete" ]; then
-	mkdir -p "/storage/downloads/sabnzbd/complete"
-	chmod 0777 "/storage/downloads/sabnzbd/complete"
-fi
-
-exit 0
+exit $?
