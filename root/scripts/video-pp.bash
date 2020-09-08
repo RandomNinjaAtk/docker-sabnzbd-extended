@@ -6,6 +6,8 @@ TITLESHORT="VPP"
 set -e
 
 Configuration () {
+	log "############################################ SABnzbd Job: $1"
+	log "############################################ SABnzbd Category: $2"
 	log "############################################ DOCKER: $TITLE"
 	log "############################################ SCRIPT: Video Post Processor ($TITLESHORT)"
 	log "############################################ SCRIPT VERSION: 1.0.0"
@@ -38,10 +40,10 @@ Configuration () {
 
 log () {
     m_time=`date "+%F %T"`
-    echo $m_time" "$1
+    echo $m_time" "$1 | tee -a /config/scripts/logs/video-pp.log
 }
 
-Configuration
+Configuration "$3" "$5"
 
 if [ ${VIDEO_SMA} = TRUE ]; then
 	touch "$1/sma-conversion-check"
