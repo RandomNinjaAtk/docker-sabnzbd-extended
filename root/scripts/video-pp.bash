@@ -41,6 +41,8 @@ Configuration () {
 log () {
     m_time=`date "+%F %T"`
     echo $m_time" "$1 | tee -a /config/scripts/logs/video-pp.log
+    chmod 666 /config/scripts/logs/video-pp.log
+    chown abc:abc /config/scripts/logs/video-pp.log
 }
 
 Configuration "$3" "$5"
