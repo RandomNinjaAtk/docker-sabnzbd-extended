@@ -6,29 +6,29 @@ TITLESHORT="VPP"
 set -e
 
 Configuration () {
-	log "############################################ DOCKER $TITLE"
-	log "############################################ SCRIPT Video Post Processor ($TITLESHORT)"
-	log "############################################ SCRIPT VERSION 1.0.0"
-	log "############################################ DOCKER VERSION $VERSION"
+	log "############################################ DOCKER: $TITLE"
+	log "############################################ SCRIPT: Video Post Processor ($TITLESHORT)"
+	log "############################################ SCRIPT VERSION: 1.0.0"
+	log "############################################ DOCKER VERSION: $VERSION"
 	log "############################################ CONFIGURATION VERIFICATION"
 	
-	log "TITLESHORT: Required Audio/Subtitle Language: ${VIDEO_LANG}"
+	log "$TITLESHORT: Required Audio/Subtitle Language: ${VIDEO_LANG}"
 	if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
 		log "$TITLESHORT: MKV Cleaner: ENABLED"
 	else
 		log "$TITLESHORT: MKV Cleaner: DISABLED"
 	fi
 	if [ ${VIDEO_SMA} = TRUE ]; then
-		log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
+		log "$TITLESHORT: Sickbeard MP4 Automator (SMA): ENABLED"
 		if [ ${VIDEO_SMA_TAGGING} = TRUE ]; then
 			tagging="-a"
-			log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
+			log "$TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
 		else
 			tagging="-nt"
-			log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: DISABLED"
+			log "$TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: DISABLED"
 		fi
 	else
-		log "TITLESHORT:: Sickbeard MP4 Automator (SMA): DISABLED"
+		log "$TITLESHORT: Sickbeard MP4 Automator (SMA): DISABLED"
 	fi
 	
 	if [ -z "VIDEO_SMA_TAGGING" ]; then
@@ -36,12 +36,12 @@ Configuration () {
 	fi
 }
 
-Configuration
-
 log () {
     m_time=`date "+%F %T"`
     echo $m_time" "$1
 }
+
+Configuration
 
 if [ ${VIDEO_SMA} = TRUE ]; then
 	touch "$1/sma-conversion-check"
@@ -53,23 +53,23 @@ fi
 if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
 	sleep 0.1
 else
-	echo "ERROR: No video files found for processing"
+	log "ERROR: No video files found for processing"
 	exit 1
 fi
 
 
 filecount=$(find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | wc -l)
-echo "Processing ${filecount} video files..."
+log "Processing ${filecount} video files..."
 count=0
 find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' video; do
 	count=$(($count+1))
-	echo ""
-	echo "===================================================="
+	log ""
+	log "===================================================="
 	basefilename="${video%.*}"
 	filename="$(basename "$video")"
 	extension="${filename##*.}"
-	echo "Begin processing $count of $filecount: $filename"
-	echo "Checking for audio/subtitle tracks"
+	log "Begin processing $count of $filecount: $filename"
+	log "Checking for audio/subtitle tracks"
 	tracks=$(mkvmerge -J "$video")
 	if [ ! -z "${tracks}" ]; then
 		# video tracks
@@ -100,31 +100,31 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 		SubtitleTracksLanguageFound=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"subtitles\") | .properties.language")
 
 	else
-		echo "ERROR: ffprobe failed to read tracks and set values"
-		rm "$video" && echo "INFO: deleted: $video"
+		log "ERROR: ffprobe failed to read tracks and set values"
+		rm "$video" && log "INFO: deleted: $video"
 	fi
 	
 	# Check for video track
 	if [ -z "${VideoTrack}" ]; then
-		echo "ERROR: no video track found"
-		rm "$video" && echo "INFO: deleted: $filename"
+		log "ERROR: no video track found"
+		rm "$video" && log "INFO: deleted: $filename"
 		continue
 	else
-		echo "$VideoTrackCount video track found!"
+		log "$VideoTrackCount video track found!"
 	fi
 	
 	# Check for audio track
 	if [ -z "${AudioTracks}" ]; then
-		echo "ERROR: no audio tracks found"
-		rm "$video" && echo "INFO: deleted: $filename"
+		log "ERROR: no audio tracks found"
+		rm "$video" && log "INFO: deleted: $filename"
 		continue
 	else
-		echo "$AudioTracksCount audio tracks found!"
+		log "$AudioTracksCount audio tracks found!"
 	fi
 	
 	# Check for audio track
 	if [ ! -z "${SubtitleTracks}" ]; then
-		echo "$SubtitleTracksCount subtitle tracks found!"
+		log "$SubtitleTracksCount subtitle tracks found!"
 	fi
 	
 	if [ ! -z "$AudioTracksLanguage" ] || [ ! -z "$SubtitleTracksLanguage" ]; then
@@ -132,48 +132,48 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 			if [ ! -z "$AudioTracksLanguage" ] || [ ! -z "$SubtitleTracksLanguage" ] || [ ! -z "$AudioTracksLanguageUND" ] || [ ! -z "$AudioTracksLanguageNull" ]; then
 				sleep 0.1
 			else
-				echo "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
-				echo "ERROR: No \"${VIDEO_LANG}\" or \"Unknown\" audio tracks found..."
-				echo "ERROR: No \"${VIDEO_LANG}\" subtitle tracks found..."
+				log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
+				log "ERROR: No \"${VIDEO_LANG}\" or \"Unknown\" audio tracks found..."
+				log "ERROR: No \"${VIDEO_LANG}\" subtitle tracks found..."
 				# rm "$video" && echo "INFO: deleted: $filename"
 				exit 1
 				continue
 			fi
 		else
-			echo "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
+			log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
 			if [ ! -z "${AudioTracks}" ]; then
-				echo "INFO: ${AudioTracksLanguageFound} audio track found!"
+				log "INFO: ${AudioTracksLanguageFound} audio track found!"
 			fi
 			if [ ! -z "${SubtitleTracks}" ]; then
-				echo "INFO: ${SubtitleTracksLanguageFound} subtitle track found!"
+				log "INFO: ${SubtitleTracksLanguageFound} subtitle track found!"
 			fi
-			echo "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
+			log "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
 			# rm "$video" && echo "INFO: deleted: $filename"
 			exit 1
 			continue
 		fi
 	else
 		if [ ! ${VIDEO_MKVCLEANER} = TRUE ] || [ ! ${VIDEO_SMA} = TRUE ]; then
-			echo "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
+			log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
 			if [ ! -z "$AudioTracksLanguage" ]; then
-				echo "$AudioTracksLanguageCount \"${VIDEO_LANG}\" audio track found..."
+				log "$AudioTracksLanguageCount \"${VIDEO_LANG}\" audio track found..."
 			fi
 			if [ ! -z "$SubtitleTracksLanguage" ]; then
-				echo "$SubtitleTracksLanguageCount \"${VIDEO_LANG}\" subtitle track found..."
+				log "$SubtitleTracksLanguageCount \"${VIDEO_LANG}\" subtitle track found..."
 			fi
 		fi
 	fi	
 		
 	if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
-		echo "Begin processing with MKV Cleaner..."
-		echo "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
+		log "Begin processing with MKV Cleaner..."
+		log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
 		# Check for unwanted audio tracks and remove/re-label as needed...
 		if [ ! -z "$AudioTracksLanguage" ] || [ ! -z "$AudioTracksLanguageUND" ] || [ ! -z "$AudioTracksLanguageNull" ]; then
 			if [ $AudioTracksCount -ne $AudioTracksLanguageCount ]; then
 				RemoveAudioTracks="true"
 				if [ ! -z "$AudioTracksLanguage" ]; then
 					MKVaudio=" -a ${VIDEO_LANG}"
-					echo "$AudioTracksLanguageCount audio tracks found!"
+					log "$AudioTracksLanguageCount audio tracks found!"
 					unwantedaudiocount=$(($AudioTracksCount-$AudioTracksLanguageCount))
 					if [ $AudioTracksLanguageCount -ne $AudioTracksCount ]; then
 						unwantedaudio="true"
@@ -184,7 +184,7 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 						OUT=$OUT" -a $I --language $I:${VIDEO_LANG}"
 					done
 					MKVaudio="$OUT"
-					echo "$AudioTracksLanguageUNDCount \"unknown\" audio tracks found, re-tagging as \"${VIDEO_LANG}\""
+					log "$AudioTracksLanguageUNDCount \"unknown\" audio tracks found, re-tagging as \"${VIDEO_LANG}\""
 					unwantedaudiocount=$(($AudioTracksCount-$AudioTracksLanguageUNDCount))
 					if [ $AudioTracksLanguageUNDCount -ne $AudioTracksCount ]; then
 						unwantedaudio="true"
@@ -195,25 +195,25 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 						OUT=$OUT" -a $I --language $I:${VIDEO_LANG}"
 					done
 					MKVaudio="$OUT"
-					echo "$AudioTracksLanguageNullCount \"unknown\" audio tracks found, re-tagging as \"${VIDEO_LANG}\""
+					log "$AudioTracksLanguageNullCount \"unknown\" audio tracks found, re-tagging as \"${VIDEO_LANG}\""
 					unwantedaudiocount=$(($AudioTracksCount-$AudioTracksLanguageNullCount))
 					if [ $AudioTracksLanguageNullCount -ne $AudioTracksCount ]; then
 						unwantedaudio="true"
 					fi
 				fi
 			else
-				echo "$AudioTracksLanguageCount audio tracks found!"
+				log "$AudioTracksLanguageCount audio tracks found!"
 				RemoveAudioTracks="false"
 				MKVaudio=""
 			fi
 		elif [ -z "$SubtitleTracksLanguage" ]; then
 			if [ ! -z "${AudioTracks}" ]; then
-				echo "INFO: ${AudioTracksLanguageFound} audio track found!"
+				log "INFO: ${AudioTracksLanguageFound} audio track found!"
 			fi
 			if [ ! -z "${SubtitleTracks}" ]; then
-				echo "INFO: ${SubtitleTracksLanguageFound} subtitle track found!"
+				log "INFO: ${SubtitleTracksLanguageFound} subtitle track found!"
 			fi
-			echo "ERROR: no \"${VIDEO_LANG}\" audio/subtitle tracks found!"
+			log "ERROR: no \"${VIDEO_LANG}\" audio/subtitle tracks found!"
 			# rm "$video" && echo "INFO: deleted: $filename"
 			exit 1
 			continue
@@ -229,14 +229,14 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 				RemoveSubtitleTracks="true"
 				MKVSubtitle=" -s ${VIDEO_LANG}"
 				if [ ! -z "$SubtitleTracksLanguage" ]; then
-					echo "$SubtitleTracksLanguageCount subtitle tracks found!"
+					log "$SubtitleTracksLanguageCount subtitle tracks found!"
 				fi
 				unwantedsubtitlecount=$(($SubtitleTracksCount-$SubtitleTracksLanguageCount))
 				if [ $SubtitleTracksLanguageCount -ne $SubtitleTracksCount ]; then
 					unwantedsubtitle="true"
 				fi
 			else
-				echo "$SubtitleTracksLanguageCount subtitle tracks found!"
+				log "$SubtitleTracksLanguageCount subtitle tracks found!"
 				RemoveSubtitleTracks="false"
 				MKVSubtitle=""
 			fi
@@ -250,7 +250,7 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 			if [ ! -z "$AudioTracksLanguage" ] || [ ! -z "$AudioTracksLanguageUND" ] || [ ! -z "$AudioTracksLanguageNull" ]; then
 				SetVideoLanguage="true"
 				if [ "${RemoveAudioTracks}" = true ] || [ "${RemoveSubtitleTracks}" = true ]; then
-					echo "$VideoTrackCount \"unknown\" video language track found, re-tagging as \"${VIDEO_LANG}\""
+					log "$VideoTrackCount \"unknown\" video language track found, re-tagging as \"${VIDEO_LANG}\""
 				fi
 				MKVvideo=" -d ${VideoTrack} --language ${VideoTrack}:${VIDEO_LANG}"
 			else
@@ -259,46 +259,46 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 				MKVvideo=""
 			fi
 		else
-			echo "$VideoTrackCount video track found!"
+			log "$VideoTrackCount video track found!"
 			SetVideoLanguage="false"
 			MKVvideo=""
 		fi
 		
 		# Display foreign audio track counts
 		if [ "$foreignaudio" = true ] || [ "$foreignvideo" = true ]; then
-			echo "Checking for \"foreign\" audio/video tracks"
+			log "Checking for \"foreign\" audio/video tracks"
 			if [ "$foreignvideo" = true ]; then
-				echo "$VideoTrackCount video track found!"
+				log "$VideoTrackCount video track found!"
 				foreignvideo="false"
 			fi
 			if [ "$foreignaudio" = true ]; then
-				echo "$AudioTracksLanguageForeignCount audio tracks found!"
+				log "$AudioTracksLanguageForeignCount audio tracks found!"
 				foreignaudio="false"
 			fi
 		fi
 		
 		# Display unwanted audio/subtitle track counts
 		if [ "$unwantedaudio" = true ] || [ "$unwantedsubtitle" = true ]; then
-			echo "Checking for unwanted \"not: ${VIDEO_LANG}\" audio/subtitle tracks"
+			log "Checking for unwanted \"not: ${VIDEO_LANG}\" audio/subtitle tracks"
 			if [ "$unwantedaudio" = true ]; then
-				echo "$unwantedaudiocount audio tracks to remove..."
+				log "$unwantedaudiocount audio tracks to remove..."
 				unwantedaudio="false"
 			fi	
 			if [ "$unwantedsubtitle" = true ]; then
-				echo "$unwantedsubtitlecount subtitle tracks to remove..."
+				log "$unwantedsubtitlecount subtitle tracks to remove..."
 				unwantedsubtitle="false"
 			fi
 		fi	
 		skip="false"
 		if [ "${RemoveAudioTracks}" = false ] && [ "${RemoveSubtitleTracks}" = false ]; then
 			if find "$video" -type f -iname "*.mkv" | read; then
-				echo "INFO: Video passed all checks, no processing needed"
+				log "INFO: Video passed all checks, no processing needed"
 				touch "$video"
 				if [ ${VIDEO_SMA} = TRUE ]; then
 				    skip="true"
 				fi
 			else
-				echo "INFO: Video passed all checks, but is in the incorrect container, repackaging as mkv..."
+				log "INFO: Video passed all checks, but is in the incorrect container, repackaging as mkv..."
 				MKVvideo=" -d ${VideoTrack} --language ${VideoTrack}:${VIDEO_LANG}"
 				MKVaudio=" -a ${VIDEO_LANG}"
 				MKVSubtitle=" -s ${VIDEO_LANG}"
@@ -306,17 +306,17 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 		fi
 		if [ $skip = false ]; then
 			if mkvmerge --no-global-tags --title "" -o "${basefilename}.merged.mkv"${MKVvideo}${MKVaudio}${MKVSubtitle} "$video"; then
-				echo "SUCCESS: mkvmerge complete"
-				echo "INFO: Options used:${MKVvideo}${MKVaudio}${MKVSubtitle}"
+				log "SUCCESS: mkvmerge complete"
+				log "INFO: Options used:${MKVvideo}${MKVaudio}${MKVSubtitle}"
 				# cleanup temp files and rename
-				mv "$video" "$video.original" && echo "INFO: Renamed source file"
-				mv "${basefilename}.merged.mkv" "${basefilename}.mkv" && echo "INFO: Renamed temp file"
-				rm "$video.original" && echo "INFO: Deleted source file"
+				mv "$video" "$video.original" && log "INFO: Renamed source file"
+				mv "${basefilename}.merged.mkv" "${basefilename}.mkv" && log "INFO: Renamed temp file"
+				rm "$video.original" && log "INFO: Deleted source file"
 				extension="mkv"
 			else
-				echo "ERROR: mkvmerge failed"
-				rm "$video" && echo "INFO: deleted: $video"
-				rm "${basefilename}.merged.mkv" && echo "INFO: deleted: ${basefilename}.merged.mkv"
+				log "ERROR: mkvmerge failed"
+				rm "$video" && log "INFO: deleted: $video"
+				rm "${basefilename}.merged.mkv" && log "INFO: deleted: ${basefilename}.merged.mkv"
 				continue
 			fi
 		fi
@@ -330,28 +330,28 @@ find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" -print0 | while IFS= read -
 	
 	if [ ${VIDEO_SMA} = TRUE ]; then
 		if [ -f "${basefilename}.${extension}" ]; then			
-			echo ""
-			echo "Begin processing with Sickbeard MP4 Automator..."
-			echo ""
+			log ""
+			log "Begin processing with Sickbeard MP4 Automator..."
+			log ""
 			# Manual run of Sickbeard MP4 Automator
 			if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
-				echo "Processing complete for: ${filename}!"
+				log "Processing complete for: ${filename}!"
 			else
-				echo "ERROR: Sickbeard MP4 Automator Processing Error"
-				rm "$video" && echo "INFO: deleted: $filename"
+				log "ERROR: Sickbeard MP4 Automator Processing Error"
+				rm "$video" && log "INFO: deleted: $filename"
 			fi
 		fi
 	fi
-	echo "===================================================="
+	log "===================================================="
 done
 
 if [ ${VIDEO_SMA} = TRUE ] || [ ${VIDEO_MKVCLEANER} = TRUE ]; then
 	find "$1" -type f ! -newer "$1/sma-conversion-check" ! -name "sma-conversion-check" -delete
 	# check for video files
 	if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\)" | read; then
-		echo "Post Processing Complete!"
+		log "Post Processing Complete!"
 	else
-		echo "ERROR: Post Processing failed, no video files found..."
+		log "ERROR: Post Processing failed, no video files found..."
 		exit 1
 	fi
 	if [ -f "$1/sma-conversion-check" ]; then 
