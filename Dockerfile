@@ -1,8 +1,8 @@
-FROM linuxserver/sabnzbd:unstable
+FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.3"
+ENV VERSION="1.0.4"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
