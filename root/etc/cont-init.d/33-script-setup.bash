@@ -22,4 +22,12 @@ if [ ! -f /config/scripts/audio-pp.bash ]; then
 	chown abc:abc /config/scripts/audio-pp.bash
 fi
 
+if [ -f /config/scripts/logs/audio-pp.log ]; then
+	rm /config/scripts/logs/audio-pp.log 
+fi
+
+if [ -f /config/scripts/logs/video-pp.log ]; then
+	rm /config/scripts/logs/video-pp.log 
+fi
+
 exit $?
