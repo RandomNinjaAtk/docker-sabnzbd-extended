@@ -56,10 +56,16 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 <strong>/config/scripts</strong> :: Location of SABnzbd post process script files (automatically mapped in SABnzbd)<br/>
 <strong>/config/scripts/logs</strong> :: Location of SMA log files<br/>
 <strong>/config/scritps/configs</strong> :: Location of config files<br/>
-### Important SABNzbd Categories:
-<strong>lidarr</strong> :: Add category and post processing script: <strong>audio-pp.bash</strong><br/>
-<strong>radarr</strong> :: Add category and post processing script: <strong>video-pp.bash</strong><br/>
-<strong>sonarr</strong> :: Add category and post processing script: <strong>video-pp.bash</strong><br/>
+
+### Important SABNzbd Configuration:
+<strong>Folders Configuration:</strong><br/>
+* <strong>Scripts Folder</strong> :: Set to: <strong>/config/scripts</strong>
+
+<strong>Categories Configuration:</strong><br/>
+* <strong>lidarr</strong> :: Add category and post processing script: <strong>audio-pp.bash</strong><br/>
+* <strong>radarr</strong> :: Add category and post processing script: <strong>video-pp.bash</strong><br/>
+* <strong>sonarr</strong> :: Add category and post processing script: <strong>video-pp.bash</strong><br/>
+
 ### Scripts/Files included:
 <strong>audio-pp.bash</strong> :: Automatically clean up downloaded audio files and convert to standardized format if desired<br/>
 <strong>video-pp.bash</strong> :: Verify incoming video files for required audio/subtitle languages and process with SMA if enabled<br/>
