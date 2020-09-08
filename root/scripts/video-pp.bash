@@ -6,6 +6,11 @@ set -e
 
 echo ""
 
+log () {
+    m_time=`date "+%F %T"`
+    echo $m_time" "$1
+}
+
 # check for video files
 if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
 	sleep 0.1
