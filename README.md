@@ -59,7 +59,10 @@ Access the webui at `<your-ip>:8080`, for more information check out [SABnzbd](h
 
 ### Important SABNzbd Configuration:
 <strong>Folders Configuration:</strong><br/>
-* <strong>Scripts Folder</strong> :: Set to: <strong>/config/scripts</strong>
+* <strong>Scripts Folder</strong> :: Set to: <strong>/config/scripts</strong><br/>
+
+<strong>Switches: Post processing </strong><br/>
+* <strong>Pause Downloading During Post-Processing</strong> :: Highly recommended that you enable this setting to not overtask your system<br/>
 
 <strong>Categories Configuration:</strong><br/>
 * <strong>lidarr</strong> :: Add category and post processing script: <strong>audio-pp.bash</strong><br/>
