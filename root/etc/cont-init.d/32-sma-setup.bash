@@ -49,4 +49,4 @@ chmod 0777 -R "/usr/local/sma"
 chmod 0777 -R "/scripts"
 chmod 0777 -R "/config/scripts"
 
-exit 0
+exit $?
