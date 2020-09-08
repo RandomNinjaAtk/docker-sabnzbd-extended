@@ -1,15 +1,51 @@
 #!/usr/bin/with-contenv bash
+TITLESHORT="VPP"
 
 set -e
 
-# start
+Configuration () {
+	log "############################################ DOCKER $TITLE"
+	log "############################################ SCRIPT Video Post Processor ($TITLESHORT)"
+	log "############################################ SCRIPT VERSION 1.0.0"
+	log "############################################ DOCKER VERSION $VERSION"
+	log "############################################ CONFIGURATION VERIFICATION"
+	
+	log "TITLESHORT: Required Audio/Subtitle Language: ${VIDEO_LANG}"
+	if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
+		log "$TITLESHORT: MKV Cleaner: ENABLED"
+	else
+		log "$TITLESHORT: MKV Cleaner: DISABLED"
+	fi
+	if [ ${VIDEO_SMA} = TRUE ]; then
+		log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
+		if [ ${VIDEO_SMA_TAGGING} = TRUE ]; then
+			tagging="-a"
+			log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
+		else
+			tagging="-nt"
+			log "TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: DISABLED"
+		fi
+	else
+		log "TITLESHORT:: Sickbeard MP4 Automator (SMA): DISABLED"
+	fi
+	
+	if [ -z "VIDEO_SMA_TAGGING" ]; then
+		VIDEO_SMA_TAGGING=FALSE
+	fi
+}
 
-echo ""
+Configuration
 
 log () {
     m_time=`date "+%F %T"`
     echo $m_time" "$1
 }
+
+if [ ${VIDEO_SMA} = TRUE ]; then
+	touch "$1/sma-conversion-check"
+elif [ ${VIDEO_MKVCLEANER} = TRUE ]; then 
+	touch "$1/sma-conversion-check"
+fi
 
 # check for video files
 if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
@@ -19,38 +55,6 @@ else
 	exit 1
 fi
 
-echo "Script Configuration:"
-echo "Required Audio/Subtitle Language: ${VIDEO_LANG}"
-if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
-	echo "Video Post Processing with MKV Cleaner: ENABLED"
-else
-	echo "Video Post Processing with MKV Cleaner: DISABLED"
-fi
-if [ ${VIDEO_SMA} = TRUE ]; then
-	echo "Video Post Processing with SMA: ENABLED"
-	if [ ${VIDEO_SMA_TAGGING} = TRUE ]; then
-		echo "Video Post Processing with SMA Tagging: ENABLED"
-	fi
-else
-	echo "Video Post Processing with SMA: DISABLED"
-fi
-
-echo ""
-if [ ${VIDEO_SMA} = TRUE ]; then
-	touch "$1/sma-conversion-check"
-elif [ ${VIDEO_MKVCLEANER} = TRUE ]; then 
-	touch "$1/sma-conversion-check"
-fi
-
-if [ -z "VIDEO_SMA_TAGGING" ]; then
-	VIDEO_SMA_TAGGING=FALSE
-fi
-
-if [ ${VIDEO_SMA_TAGGING} = TRUE ]; then
-	tagging="-a"
-else
-	tagging="-nt"
-fi
 
 filecount=$(find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | wc -l)
 echo "Processing ${filecount} video files..."
