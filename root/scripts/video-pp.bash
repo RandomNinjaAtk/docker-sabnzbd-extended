@@ -3,12 +3,15 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
 
+set -e
+set -o pipefail
+
 function Configuration {
 	log "##### SABnzbd Job: $jobname"
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.1"
+	log "##### SCRIPT VERSION: 1.0.2"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -44,6 +47,7 @@ function log {
 
 
 function Main {
+	error=0
 	folderpath="$1"
 	jobname="$3"
 	category="$5"
@@ -144,7 +148,6 @@ function Main {
 					log "ERROR: No \"${VIDEO_LANG}\" subtitle tracks found..."
 					# rm "$video" && echo "INFO: deleted: $filename"
 					exit 1
-					continue
 				fi
 			else
 				log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
@@ -157,7 +160,6 @@ function Main {
 				log "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
 				# rm "$video" && echo "INFO: deleted: $filename"
 				exit 1
-				continue
 			fi
 		else
 			if [ ! ${VIDEO_MKVCLEANER} = TRUE ] || [ ! ${VIDEO_SMA} = TRUE ]; then
@@ -223,7 +225,6 @@ function Main {
 				log "ERROR: no \"${VIDEO_LANG}\" audio/subtitle tracks found!"
 				# rm "$video" && echo "INFO: deleted: $filename"
 				exit 1
-				continue
 			else
 				foreignaudio="true"
 				RemoveAudioTracks="false"
