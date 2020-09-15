@@ -3,9 +3,7 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
 
-set -e
-
-Configuration () {
+function Configuration {
 	log "############################################ SABnzbd Job: $jobname"
 	log "############################################ SABnzbd Category: $category"
 	log "############################################ DOCKER: $TITLE"
@@ -38,14 +36,16 @@ Configuration () {
 	fi
 }
 
-log () {
+
+function log {
     m_time=`date "+%F %T"`
     echo $m_time" "$1
 }
 
-Main () {
+
+function Main {
 	folderpath="$1"
-    jobname="$3"
+	jobname="$3"
 	category="$5"
 	
 	Configuration
