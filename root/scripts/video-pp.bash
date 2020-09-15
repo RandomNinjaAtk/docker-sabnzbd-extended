@@ -4,13 +4,13 @@ export LANG=C.UTF-8
 TITLESHORT="VPP"
 
 function Configuration {
-	log "############################################ SABnzbd Job: $jobname"
-	log "############################################ SABnzbd Category: $category"
-	log "############################################ DOCKER: $TITLE"
-	log "############################################ SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "############################################ SCRIPT VERSION: 1.0.0"
-	log "############################################ DOCKER VERSION: $VERSION"
-	log "############################################ CONFIGURATION VERIFICATION"
+	log "##### SABnzbd Job: $jobname"
+	log "##### SABnzbd Category: $category"
+	log "##### DOCKER: $TITLE"
+	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
+	log "##### SCRIPT VERSION: 1.0.1"
+	log "##### DOCKER VERSION: $VERSION"
+	log "##### CONFIGURATION VERIFICATION"
 	
 	log "$TITLESHORT: Required Audio/Subtitle Language: ${VIDEO_LANG}"
 	if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
