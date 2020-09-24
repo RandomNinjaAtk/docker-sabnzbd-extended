@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.2"
+	log "##### SCRIPT VERSION: 1.0.3"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -337,7 +337,11 @@ function Main {
 		fi
 		
 		if [ ${VIDEO_SMA} = TRUE ]; then
-			if [ -f "${basefilename}.${extension}" ]; then			
+			if [ -f "${basefilename}.${extension}" ]; then	
+				if [ -f /config/scripts/logs/sma.log ]; then
+					chmod 666 /config/scripts/logs/sma.log
+					chwon abc:abc /config/scripts/logs/sma.log
+				fi
 				log ""
 				log "Begin processing with Sickbeard MP4 Automator..."
 				log ""
