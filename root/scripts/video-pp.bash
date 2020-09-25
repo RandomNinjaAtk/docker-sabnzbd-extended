@@ -339,7 +339,7 @@ function Main {
 		if [ ${VIDEO_SMA} = TRUE ]; then
 			if [ -f "${basefilename}.${extension}" ]; then	
 				if [ -f /config/scripts/logs/sma.log ]; then
-					chmod 666 /config/scripts/logs/sma.log
+					chmod 777 /config/scripts/logs/sma.log
 					chown abc:abc /config/scripts/logs/sma.log
 				fi
 				log ""
