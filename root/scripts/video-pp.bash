@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.4"
+	log "##### SCRIPT VERSION: 1.0.5"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -151,15 +151,18 @@ function Main {
 				fi
 			else
 				log "Checking for \"${VIDEO_LANG}\" video/audio/subtitle tracks"
-				if [ ! -z "${AudioTracks}" ]; then
-					log "INFO: ${AudioTracksLanguageFound} audio track found!"
+				if [ ! -z "$AudioTracksLanguage" ] || [ ! -z "$SubtitleTracksLanguage" ]; then
+					if [ ! -z "${AudioTracksLanguage}" ]; then
+						log "INFO: \"${VIDEO_LANG}\" audio track found!"
+					fi
+					if [ ! -z "${SubtitleTracksLanguage}" ]; then
+						log "INFO: \"${VIDEO_LANG}\" subtitle track found!"
+					fi
+				else
+					log "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
+					# rm "$video" && echo "INFO: deleted: $filename"
+					exit 1
 				fi
-				if [ ! -z "${SubtitleTracks}" ]; then
-					log "INFO: ${SubtitleTracksLanguageFound} subtitle track found!"
-				fi
-				log "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
-				# rm "$video" && echo "INFO: deleted: $filename"
-				exit 1
 			fi
 		else
 			if [ ! ${VIDEO_MKVCLEANER} = TRUE ] || [ ! ${VIDEO_SMA} = TRUE ]; then
@@ -368,6 +371,13 @@ function Main {
 		fi
 		if [ -f "$1/sma-conversion-check" ]; then 
 			rm "$1/sma-conversion-check"
+		fi
+	else
+		if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
+			log "Post Processing Complete!"
+		else
+			log "ERROR: Post Processing failed, no video files found..."
+			exit 1
 		fi
 	fi
 }
