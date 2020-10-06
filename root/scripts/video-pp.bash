@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.6"
+	log "##### SCRIPT VERSION: 1.0.7"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -342,20 +342,21 @@ function Main {
 				log "========================START SMA========================"
 				# Manual run of Sickbeard MP4 Automator
 				if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
-					log "Processing complete for: ${filename}!"
+					sleep 0.01
 				else
-					log "ERROR: Sickbeard MP4 Automator Processing Error"
+					log "ERROR: SMA Processing Error"
 					rm "$video" && log "INFO: deleted: $filename"
 				fi
 				log "========================STOP SMA========================"
 			fi
 		fi
 		
-		if [ "${extension}" == "mkv" ];  then
+		if [ -f "${basefilename}.mkv" ];  then
 			log "========================START MKVPROPEDIT========================"
-			mkvpropedit "${basefilename}.${extension}" --add-track-statistics-tags
+			mkvpropedit "${basefilename}.mkv" --add-track-statistics-tags
 			log "========================STOP MKVPROPEDIT========================="
 		fi
+		log "Processing complete for: ${filename}!"
 	done
 
 	if [ ${VIDEO_SMA} = TRUE ] || [ ${VIDEO_MKVCLEANER} = TRUE ]; then
