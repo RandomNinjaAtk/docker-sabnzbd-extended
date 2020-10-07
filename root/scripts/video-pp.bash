@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.7"
+	log "##### SCRIPT VERSION: 1.0.8"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -81,13 +81,25 @@ function Main {
 		extension="${filename##*.}"
 		log "Begin processing $count of $filecount: $filename"
 		log "Checking for audio/subtitle tracks"
-		tracks=$(mkvmerge -J "$video")
+		tracks=$(ffprobe -v quiet -print_format json -show_streams "$video")
 		if [ ! -z "${tracks}" ]; then
 			# video tracks
-			VideoTrack=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"video\") | .id")
-			VideoTrackCount=$(echo "${tracks}" |  jq ".tracks[] | select(.type==\"video\") | .id" | wc -l)
+			VideoTrack=$(echo "${tracks}" | jq ".streams[] | select(.codec_type==\"video\") | .index")
+			VideoTrackCount=$(echo "${tracks}" |  jq ".streams[] | select(.codec_type==\"video\") | .index" | wc -l)
 			# video preferred language
-			VideoTrackLanguage=$(echo "${tracks}" | jq ".tracks[] | select((.type==\"video\") and select(.properties.language==\"${VIDEO_LANG}\")) | .id")
+			VideoTrackLanguage=$(echo "${tracks}" |  jq ".streams[] | select(.codec_type==\"video\") |  select(.tags.language=\"${VIDEO_LANG}\") | .index")
+			# audio tracks
+			AudioTracks=$(echo "${tracks}" | jq ".streams[] | select(.codec_type==\"audio\") | .index")
+			AudioTracksCount=$(echo "${tracks}" | jq ".streams[] | select(.codec_type==\"audio\") | .index" | wc -l)
+			# subtitle tracks
+			SubtitleTracks=$(echo "${tracks}" | jq ".streams[] | select(.codec_type==\"subtitle\") | .index")
+			SubtitleTracksCount=$(echo "${tracks}" | jq ".streams[] | select(.codec_type==\"subtitle\") | .index" | wc -l)
+		else
+			log "ERROR: ffprobe failed to read tracks and set values"
+			rm "$video" && log "INFO: deleted: $video"
+		fi
+		tracks=$(mkvmerge -J "$video")
+		if [ ! -z "${tracks}" ]; then
 			# audio tracks
 			AudioTracks=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"audio\") | .id")
 			AudioTracksCount=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"audio\") | .id" | wc -l)
@@ -102,9 +114,6 @@ function Main {
 			AudioTracksLanguageNullCount=$(echo "${tracks}" | jq ".tracks[] | select((.type==\"audio\") and select(.properties.language==null)) | .id" | wc -l)
 			# audio foreign language
 			AudioTracksLanguageForeignCount=$(echo "${tracks}" | jq ".tracks[] | select((.type==\"audio\") and select(.properties.language!=\"${VIDEO_LANG}\")) | .id" | wc -l)		
-			# subtitle tracks
-			SubtitleTracks=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"subtitles\") | .id")
-			SubtitleTracksCount=$(echo "${tracks}" | jq ".tracks[] | select(.type==\"subtitles\") | .id" | wc -l)
 			# subtitle preferred langauge
 			SubtitleTracksLanguage=$(echo "${tracks}" | jq ".tracks[] | select((.type==\"subtitles\") and select(.properties.language==\"${VIDEO_LANG}\")) | .id")
 			SubtitleTracksLanguageCount=$(echo "${tracks}" | jq ".tracks[] | select((.type==\"subtitles\") and select(.properties.language==\"${VIDEO_LANG}\")) | .id" | wc -l)
