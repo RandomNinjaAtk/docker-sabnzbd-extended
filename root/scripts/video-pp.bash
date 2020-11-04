@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.9"
+	log "##### SCRIPT VERSION: 1.0.10"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -167,6 +167,15 @@ function Main {
 				log "INFO: deleted: $filename"
 				continue
 			fi
+		fi
+		
+		if [ -f "${basefilename}.mkv" ];  then
+			statistics="true"
+			log "===START MKVPROPEDIT"
+			mkvpropedit "${basefilename}.mkv" --add-track-statistics-tags
+			log "===STOP MKVPROPEDIT"
+		else
+			statistics="false"
 		fi
 					
 		if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
@@ -332,7 +341,7 @@ function Main {
 					chmod 777 /config/scripts/logs/sma.log
 					chown abc:abc /config/scripts/logs/sma.log
 				fi
-				log "========================START SMA========================"
+				log "===START SMA"
 				# Manual run of Sickbeard MP4 Automator
 				if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
 					sleep 0.01
@@ -340,14 +349,17 @@ function Main {
 					log "ERROR: SMA Processing Error"
 					rm "$video" && log "INFO: deleted: $filename"
 				fi
-				log "========================STOP SMA========================"
+				log "===STOP SMA"
 			fi
 		fi
 		
-		if [ -f "${basefilename}.mkv" ];  then
-			log "========================START MKVPROPEDIT========================"
-			mkvpropedit "${basefilename}.mkv" --add-track-statistics-tags
-			log "========================STOP MKVPROPEDIT========================="
+		if [ "$statistics" == "false" ];  then
+			if [ -f "${basefilename}.mkv" ];  then
+				log "===START MKVPROPEDIT"
+				mkvpropedit "${basefilename}.mkv" --add-track-statistics-tags
+				log "===STOP MKVPROPEDIT"
+			fi
+			statistics="false"
 		fi
 		log "Processing complete for: ${filename}!"
 	done
