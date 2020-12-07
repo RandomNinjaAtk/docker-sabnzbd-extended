@@ -334,7 +334,7 @@ function Main {
 				fi
 				log "===START SMA"
 				# Manual run of Sickbeard MP4 Automator
-				if python /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
+				if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
 					sleep 0.01
 				else
 					log "ERROR: SMA Processing Error"
