@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.4"
+ENV VERSION="1.0.7"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
@@ -21,7 +21,6 @@ RUN \
 	add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
 	echo "************ install and update packages ************" && \
 	apt-get update && \
-	apt-get upgrade -y && \
 	apt-get install -y \
 		mkvtoolnix \
 		mp3val \
@@ -31,8 +30,7 @@ RUN \
 		git \
 		ffmpeg \
 		python3 \
-		python3-pip \
-		ffmpeg && \
+		python3-pip && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
 	echo "************ setup SMA ************" && \
@@ -48,7 +46,7 @@ RUN \
 	chmod g+w ${SMA_PATH}/config/sma.log && \
 	echo "************ install pip dependencies ************" && \
 	python3 -m pip install --user --upgrade pip && \	
-	pip3 install -r ${SMA_PATH}/setup/requirements.txt
+ 	pip3 install -r ${SMA_PATH}/setup/requirements.txt
 	
 
 # copy local files
