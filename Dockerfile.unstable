@@ -21,7 +21,6 @@ RUN \
 	add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
 	echo "************ install and update packages ************" && \
 	apt-get update && \
-	apt-get upgrade -y && \
 	apt-get install -y \
 		mkvtoolnix \
 		mp3val \
