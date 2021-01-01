@@ -38,12 +38,6 @@ if [ -f "/config/scripts/configs/video-pp-sma.ini" ]; then
 fi
 
 
-# create sma log file
-touch "/config/scripts/logs/sma.log" && \
-
-# link sma files
-ln -s "/config/scripts/logs/sma.log" "/usr/local/sma/config/sma.log" && \
-
 # set permissions
 chmod 0777 -R "/usr/local/sma"
 chmod 0777 -R "/scripts"
