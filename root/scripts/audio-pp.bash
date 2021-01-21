@@ -60,33 +60,10 @@ Main () {
 		fi
 	}
 
-	duplicatefilecleanup () {
-		duplicate="FALSE"
-		if find "$1" -type f -mindepth 1 -iname "*([0-9]).*" | read; then
-			find "$1" -type f -mindepth 1 -iname "*([0-9]).*" -delete
-			duplicate="TRUE"
-		fi
-
-		if find "$1" -type f -mindepth 1 -iname "*.[0-9].*" | read; then
-			find "$1" -type f -mindepth 1 -iname "*.[0-9].*" -delete
-			duplicate="TRUE"
-		fi
-
-		if find "$1" -type f -mindepth 1 -iname "*.flac" | read; then
-			if find "$1"/* -type f -not -iname "*.flac" | read; then
-				find "$1"/* -type f -not -iname "*.flac" -delete
-				duplicate="TRUE"
-			fi
-		fi
-		if [ "${duplicate}" = TRUE ]; then
-			echo "DUPLICATE FILE CLEANUP"
-			echo "DUPLICATE FILE CLEANUP COMPLETE"
-		fi
-	}
-
 	detectsinglefilealbums () {
 		if find "$1" -type f -iregex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -size +${MaxFileSize} | read; then
-			echo "ERROR: Non split album detected" && exit 1
+			echo "ERROR: Non split album detected"
+			exit 1
 		fi
 	}
 
@@ -231,7 +208,6 @@ Main () {
 
 	settings "$1"
 	clean "$1"
-	duplicatefilecleanup "$1"
 	detectsinglefilealbums "$1"
 
 	if [ "${AudioVerification}" = TRUE ]; then
