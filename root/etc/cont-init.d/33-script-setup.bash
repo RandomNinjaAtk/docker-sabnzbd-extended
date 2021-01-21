@@ -36,4 +36,6 @@ if [ -f /config/scripts/logs/video-pp.log ]; then
 	rm /config/scripts/logs/video-pp.log 
 fi
 
+chmod 0777 -R /scripts
+
 exit $?
