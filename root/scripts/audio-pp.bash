@@ -3,6 +3,9 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
 
+set -e
+set -o pipefail
+
 Main () {
 	# SETTINGS
 	AudioVerification="${AUDIO_VERIFY}" # TRUE = ENABLED, Verifies FLAC/MP3 files for errors (fixes MP3's, deletes bad FLAC files)
@@ -195,24 +198,21 @@ Main () {
 		echo ""
 		trackcount=$(find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | wc -l)
 		echo "Matching $trackcount tracks with Beets"
-		if [ ! -d /beets ]; then
-			mkdir -p /beets
-		fi
-		if [ -f /beets/library.blb ]; then
-			rm /beets/library.blb
+		if [ -f /scripts/library.blb ]; then
+			rm /scripts/library.blb
 			sleep 0.1
 		fi
-		if [ -f /beets/beets.log ]; then 
-			rm /beets/beets.log
+		if [ -f /scripts/beets/beets.log ]; then 
+			rm /scripts/beets.log
 			sleep 0.1
 		fi
 
-		touch "/beets-match"
+		touch "/scripts/beets-match"
 		sleep 0.1
 
 		if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
-			beet -c /config/scripts/config/beets-config.yaml -l /beets/library.blb -d "$1" import -q "$1" > /dev/null
-			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/beets-match" | read; then
+			beet -c /config/scripts/configs/beets-config.yaml -l /scripts/library.blb -d "$1" import -q "$1" > /dev/null
+			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | read; then
 				echo "SUCCESS: Matched with beets!"
 			else
 				rm -rf "$1"/* 
@@ -220,8 +220,8 @@ Main () {
 			fi	
 		fi
 
-		if [ -f "/beets-match" ]; then 
-			rm "/beets-match"
+		if [ -f "/scripts/beets-match" ]; then 
+			rm "/scripts/beets-match"
 			sleep 0.1
 		fi
 	}
