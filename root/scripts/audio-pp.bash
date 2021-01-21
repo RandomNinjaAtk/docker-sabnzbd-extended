@@ -219,7 +219,7 @@ Main () {
 			fi	
 		fi
 
-		if [ -f "$1/beets-match" ]; then 
+		if [ -f "/beets-match" ]; then 
 			rm "/beets-match"
 			sleep 0.1
 		fi
