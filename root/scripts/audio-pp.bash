@@ -212,7 +212,7 @@ Main () {
 
 		if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
 			beet -c /config/scripts/config/beets-config.yaml -l /beets/library.blb -d "$1" import -q "$1" > /dev/null
-			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "beets-match" | read; then
+			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/beets-match" | read; then
 				echo "SUCCESS: Matched with beets!"
 			else
 				rm -rf "$1"/* 
