@@ -188,12 +188,13 @@ Main () {
 		sleep 0.1
 
 		if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
-			beet -c /config/scripts/configs/beets-config.yaml -l /scripts/library.blb -d "$1" import -q "$1" > /dev/null
+			beet -c /config/scripts/configs/beets-config.yaml -l /scripts/library.blb -d "$1" import -q "$1"
 			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | read; then
 				echo "SUCCESS: Matched with beets!"
 			else
 				rm -rf "$1"/* 
-				echo "ERROR: Unable to match using beets to a musicbrainz release, marking download as failed..." && exit 1
+				echo "ERROR: Unable to match using beets to a musicbrainz release, marking download as failed..."
+				exit 1
 			fi	
 		fi
 
