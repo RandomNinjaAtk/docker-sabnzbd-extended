@@ -22,6 +22,12 @@ if [ ! -f /config/scripts/audio-pp.bash ]; then
 	chown abc:abc /config/scripts/audio-pp.bash
 fi
 
+if [ ! -f /config/scripts/configs/beets-config.yaml ]; then
+	cp /scripts/beets-config.yaml /config/scripts/configs/beets-config.yaml
+	chmod 777 /config/scripts/configs/beets-config.yaml
+	chown abc:abc /config/scripts/configs/beets-config.yaml
+fi
+
 if [ -f /config/scripts/logs/audio-pp.log ]; then
 	rm /config/scripts/logs/audio-pp.log 
 fi
