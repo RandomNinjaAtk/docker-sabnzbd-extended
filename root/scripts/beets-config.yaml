@@ -63,7 +63,7 @@ import:
     quiet_fallback: skip
     timid: no
     duplicate_action: skip
-    log: /beets/beets.log
+    log: /scripts/beets.log
     languages: ['en']
     group_albums: no
 
