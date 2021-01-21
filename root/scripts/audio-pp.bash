@@ -190,6 +190,42 @@ Main () {
 		fi
 	}
 	
+	beets () {
+		echo ""
+		trackcount=$(find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | wc -l)
+		echo "Matching $trackcount tracks with Beets"
+		if [ ! -d /beets ]; then
+			mkdir -p /beets
+		fi
+		if [ -f /beets/library.blb ]; then
+			rm /beets/library.blb
+			sleep 0.1
+		fi
+		if [ -f /beets/beets.log ]; then 
+			rm /beets/beets.log
+			sleep 0.1
+		fi
+
+		touch "/beets-match"
+		sleep 0.1
+
+		if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
+			beet -c /config/scripts/config/beets-config.yaml -l /beets/library.blb -d "$1" import -q "$1" > /dev/null
+			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "$1/beets-match" | read; then
+				echo "SUCCESS: Matched with beets!"
+			else
+				rm -rf "$1"/* 
+				echo "ERROR: Unable to match using beets to a musicbrainz release, marking download as failed..." && exit 1
+			fi	
+		fi
+
+		if [ -f "$1/beets-match" ]; then 
+			rm "/beets-match"
+			sleep 0.1
+		fi
+	}
+
+	
 	#============START SCRIPT============
 
 	settings "$1"
@@ -205,6 +241,10 @@ Main () {
 
 	if [ "${ReplaygainTagging}" = TRUE ]; then
 		replaygain "$1"
+	fi
+	
+	if [ "${BeetsTagging}" = TRUE ]; then
+		beets "$1"
 	fi
 
 	echo ""
