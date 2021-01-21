@@ -9,6 +9,7 @@ Main () {
 	ConversionFormat="${AUDIO_FORMAT}" # SET TO: OPUS or AAC or MP3 or ALAC or FLAC - converts lossless FLAC files to set format
 	ConversionBitrate="${AUDIO_BITRATE}" # Set to desired bitrate when converting to OPUS/AAC/MP3 format types
 	ReplaygainTagging="${AUDIO_REPLAYGAIN}" # TRUE = ENABLED, adds replaygain tags for compatible players (FLAC ONLY)
+	BeetsTagging="${AUDIO_BEETS}" # TRUE = ENABLED, enables tagging with beets
 	DetectNonSplitAlubms="${AUDIO_DSFA}" # TRUE = ENABLED :: Uses "MaxFileSize" to detect and mark download as failed if detected
 	MaxFileSize="${AUDIO_DSFAS}" # M = MB, G = GB :: Set size threshold for detecting single file albums
 
