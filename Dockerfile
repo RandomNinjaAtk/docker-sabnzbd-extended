@@ -30,8 +30,7 @@ RUN \
 		git \
 		ffmpeg \
 		python3 \
-		python3-pip \
-		beets && \
+		python3-pips && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
 	echo "************ setup SMA ************" && \
@@ -48,6 +47,8 @@ RUN \
 	echo "************ install pip dependencies ************" && \
 	python3 -m pip install --user --upgrade pip && \	
  	pip3 install -r ${SMA_PATH}/setup/requirements.txt && \
+	echo "************ install beets ************" && \
+	pip3 install https://github.com/beetbox/beets/tarball/master && \
 	pip3 install pyacoustid
 	
 
