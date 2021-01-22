@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.9"
+ENV VERSION="1.0.10"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
@@ -30,7 +30,7 @@ RUN \
 		git \
 		ffmpeg \
 		python3 \
-		python3-pips && \
+		python3-pip && \
 	apt-get purge --auto-remove -y && \
 	apt-get clean && \
 	echo "************ setup SMA ************" && \
