@@ -109,6 +109,9 @@ function Main {
 			SubtitleTracksLanguage=$(echo "${tracks}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | select(.tags.language==\"${VIDEO_LANG}\") | .index")
 			SubtitleTracksLanguageCount=$(echo "${tracks}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | select(.tags.language==\"${VIDEO_LANG}\") | .index" | wc -l)
 			SubtitleTracksLanguageFound=$(echo "${tracks}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .tags.language")
+			# check for forced subs
+			SubtitleTracksLanguageForced=$(echo "${tracks}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | select(.tags.language==\"${VIDEO_LANG}\")  | select(.disposition.forced=="1") | .index")
+			SubtitleTracksLanguageForcedCount=$(echo "${tracks}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | select(.tags.language==\"${VIDEO_LANG}\")  | select(.disposition.forced=="1") | .index" | wc -l)
 		else
 			log "ERROR: ffprobe failed to read tracks and set values"
 			rm "$video" && log "INFO: deleted: $video"
@@ -144,6 +147,9 @@ function Main {
 			fi
 			if [ ! -z "${SubtitleTracksLanguage}" ]; then
 				log "$SubtitleTracksLanguageCount \"${VIDEO_LANG}\" subtitle track found!"
+			fi
+			if [ ! -z "${SubtitleTracksLanguageForced}" ]; then
+				log "$SubtitleTracksLanguageForcedCount \"${VIDEO_LANG}\" forced subtitle track found!"
 			fi
 		else
 			if [ ${VIDEO_MKVCLEANER} = TRUE ] || [ ${VIDEO_SMA} = TRUE ]; then
