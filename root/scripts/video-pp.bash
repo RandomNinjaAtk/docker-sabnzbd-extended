@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.13"
+	log "##### SCRIPT VERSION: 1.0.14"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -337,9 +337,22 @@ function Main {
 				if [ -f /usr/local/sma/config/sma.log ]; then
 					rm /usr/local/sma/config/sma.log
 				fi
+				
+				# use forced config if found
+				if [ -f "/config/scripts/configs/$5-sma-forced.ini" ]; then
+					if [ ! -z "${SubtitleTracksLanguageForced}" ]; then
+						smaconfig="/config/scripts/configs/$5-sma-forced.ini"
+					else
+						smaconfig="/config/scripts/configs/$5-sma.ini"
+					fi
+				else
+					smaconfig="/config/scripts/configs/$5-sma.ini"
+				fi
+				
 				log "===START SMA"
+				
 				# Manual run of Sickbeard MP4 Automator
-				if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "${basefilename}.${extension}" $tagging; then
+				if python3 /usr/local/sma/manual.py --config "$smaconfig" -i "${basefilename}.${extension}" $tagging; then
 					sleep 0.01
 				else
 					log "ERROR: SMA Processing Error"
