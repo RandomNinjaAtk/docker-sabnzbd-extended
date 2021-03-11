@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.10"
+ENV VERSION="1.0.11"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
