@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.12"
+ENV VERSION="1.0.13"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
@@ -17,7 +17,7 @@ ENV AUDIO_DSFAS 150M
 RUN \
 	echo "************ install dependencies ************" && \
 	apt-get update && \
-	apt-get install -y software-properties-common && \
+	# apt-get install -y software-properties-common && \
 	# add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
 	echo "************ install and update packages ************" && \
 	apt-get update && \
