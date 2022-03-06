@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.13"
+ENV VERSION="1.0.14"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
@@ -15,13 +15,8 @@ ENV AUDIO_DSFA TRUE
 ENV AUDIO_DSFAS 150M
 
 RUN \
-	echo "************ install dependencies ************" && \
-	apt-get update && \
-	# apt-get install -y software-properties-common && \
-	# add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
 	echo "************ install and update packages ************" && \
-	apt-get update && \
-	apt-get install -y \
+	apk add  -U --update --no-cache \
 		mkvtoolnix \
 		mp3val \
 		flac \
@@ -30,9 +25,7 @@ RUN \
 		git \
 		ffmpeg \
 		python3 \
-		python3-pip && \
-	apt-get purge --auto-remove -y && \
-	apt-get clean && \
+    		py3-pip && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
