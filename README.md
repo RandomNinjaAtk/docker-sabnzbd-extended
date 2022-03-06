@@ -42,6 +42,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e AUDIO_VERIFY=TRUE` | TRUE = ENABLED, Verifies FLAC/MP3 files for errors (fixes MP3's, deletes bad FLAC files) |
 | `-e AUDIO_DSFA=TRUE` | TRUE = ENABLED :: Detects single file albums and mark download as failed if detected |
 | `-e AUDIO_REPLAYGAIN=FALSE` | TRUE = ENABLED, adds replaygain tags for compatible players (FLAC ONLY) |
+| `-e ReqauireLanguage=false` | true = enabled, disables/enables checking video audio/subtitle language based on VIDEO_LANG setting |
 | `-e VIDEO_LANG=eng` | Default: eng :: Set to required language (ISO 639-2 language code), if not found, will mark as failed |
 | `-e VIDEO_SMA=FALSE` | TRUE = Enabled :: Uses SMA to process incoming video files, update your configuration at: `/config/scripts/configs/*-sma.ini` |
 | `-e VIDEO_SMA_TAGGING=TRUE` | TRUE = Enabled :: Uses SMA to Tag MP4 files (Enabled SMA process: manual.py -a; Disabled SMA Process: manual.py -nt) |
