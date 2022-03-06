@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.14"
+	log "##### SCRIPT VERSION: 1.0.15"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -167,7 +167,7 @@ function Main {
 					log "INFO: deleted: $filename"
 					continue
 				fi
-			else			
+			elif [ "${RequireLanguage}" = "true" ]; then			
 				log "ERROR: No \"${VIDEO_LANG}\" audio or subtitle tracks found..."
 				rm "$video"
 				log "INFO: deleted: $filename"
