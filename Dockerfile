@@ -21,6 +21,7 @@ RUN \
 		opus-tools \
 		jq \
 		git \
+		mkvtoolnix \
 		ffmpeg && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
