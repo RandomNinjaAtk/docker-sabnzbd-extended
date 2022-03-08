@@ -61,7 +61,7 @@ function Main {
 	fi
 
 	# check for video files
-	if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
+	if find "$1" -type f -regex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
 		sleep 0.1
 	else
 		log "ERROR: No video files found for processing"
