@@ -11,7 +11,7 @@ function Configuration {
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.16"
+	log "##### SCRIPT VERSION: 1.0.17"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -69,10 +69,10 @@ function Main {
 	fi
 
 
-	filecount=$(find "$1" -type f -iregex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" | wc -l)
+	filecount=$(find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" | wc -l)
 	log "Processing ${filecount} video files..."
 	count=0
-	find "$1" -type f -iregex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' video; do
+	find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' video; do
 		count=$(($count+1))
 		log ""
 		log "===================================================="
@@ -368,7 +368,7 @@ function Main {
 	if [ ${VIDEO_SMA} = TRUE ] || [ ${VIDEO_MKVCLEANER} = TRUE ]; then
 		find "$1" -type f ! -newer "$1/sma-conversion-check" ! -name "sma-conversion-check" -delete
 		# check for video files
-		if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\)" | read; then
+		if find "$1" -type f -regex ".*/.*\.\(mkv\|mp4\)" | read; then
 			log "Post Processing Complete!"
 		else
 			log "ERROR: Post Processing failed, no video files found..."
@@ -378,7 +378,7 @@ function Main {
 			rm "$1/sma-conversion-check"
 		fi
 	else
-		if find "$1" -type f -iregex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
+		if find "$1" -type f -regex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
 			log "Post Processing Complete!"
 		else
 			log "ERROR: Post Processing failed, no video files found..."
