@@ -2,7 +2,7 @@ FROM linuxserver/sabnzbd
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
-ENV VERSION="1.0.141"
+ENV VERSION="1.0.142"
 ENV SMA_PATH /usr/local/sma
 ENV VIDEO_LANG eng
 ENV VIDEO_SMA FALSE
@@ -12,7 +12,7 @@ ENV AUDIO_FORMAT FLAC
 ENV AUDIO_BITRATE 320
 ENV AUDIO_REPLAYGAIN FALSE
 ENV AUDIO_DSFA TRUE
-ENV AUDIO_DSFAS 150M
+ENV AUDIO_DSFAS 153600k
 
 RUN \
 	echo "************ install and update packages ************" && \
