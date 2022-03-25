@@ -2,6 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
+ScriptVersion="1.0"
 
 set -e
 set -o pipefail
@@ -21,6 +22,7 @@ Main () {
 	settings () {
 
 	echo "Configuration:"
+	echo "Script Version: $ScriptVersion"
 	echo "Remove Non Audio Files: ENABLED"
 	echo "Duplicate File CleanUp: ENABLED"
 	if [ "${AudioVerification}" = TRUE ]; then
