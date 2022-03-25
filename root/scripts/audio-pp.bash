@@ -49,9 +49,9 @@ Main () {
 	}
 
 	clean () {
-		if find "$1" -type f -iregex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
-			if find "$1" -type f -not -iregex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
-				find "$1" -type f -not -iregex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
+		if find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
+			if find "$1" -type f -not -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
+				find "$1" -type f -not -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
 			fi
 			find "$1" -mindepth 2 -type f -exec mv "{}" "$1"/ \;
 			find "$1" -mindepth 1 -type d -delete
@@ -61,7 +61,7 @@ Main () {
 	}
 
 	detectsinglefilealbums () {
-		if find "$1" -type f -iregex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -size +${MaxFileSize} | read; then
+		if find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -size +${MaxFileSize} | read; then
 			echo "ERROR: Non split album detected"
 			exit 1
 		fi
@@ -173,7 +173,7 @@ Main () {
 	
 	beets () {
 		echo ""
-		trackcount=$(find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | wc -l)
+		trackcount=$(find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | wc -l)
 		echo "Matching $trackcount tracks with Beets"
 		if [ -f /scripts/library.blb ]; then
 			rm /scripts/library.blb
@@ -187,9 +187,9 @@ Main () {
 		touch "/scripts/beets-match"
 		sleep 0.1
 
-		if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
+		if find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
 			beet -c /config/scripts/configs/beets-config.yaml -l /scripts/library.blb -d "$1" import -q "$1"
-			if find "$1" -type f -iregex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | read; then
+			if find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | read; then
 				echo "SUCCESS: Matched with beets!"
 			else
 				rm -rf "$1"/* 
