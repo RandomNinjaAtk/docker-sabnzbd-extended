@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.0"
+ScriptVersion="1.01"
 
 set -e
 set -o pipefail
@@ -51,10 +51,8 @@ Main () {
 	}
 
 	clean () {
-		if find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
-			if find "$1" -type f -not -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | read; then
-				find "$1" -type f -not -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
-			fi
+		if [ $(find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | wc -l) -gt 0 ]; then
+			find "$1" -type f -not -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
 			find "$1" -mindepth 2 -type f -exec mv "{}" "$1"/ \;
 			find "$1" -mindepth 1 -type d -delete
 		else
@@ -63,14 +61,14 @@ Main () {
 	}
 
 	detectsinglefilealbums () {
-		if find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -size +${MaxFileSize} | read; then
+		if [ $(find "$1" -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" -size +${MaxFileSize} | wc -l) -gt 0 ]; then
 			echo "ERROR: Non split album detected"
 			exit 1
 		fi
 	}
 
 	verify () {
-		if find "$1" -iname "*.flac" | read; then
+		if [ $(find "$1" -iname "*.flac" | wc -l) -gt 0 ]; then
 			verifytrackcount=$(find  "$1"/ -iname "*.flac" | wc -l)
 			echo "Verifying: $verifytrackcount Tracks"
 			if ! [ -x "$(command -v flac)" ]; then
@@ -89,7 +87,7 @@ Main () {
 				done
 			fi
 		fi
-		if find "$1" -iname "*.mp3" | read; then
+		if [ $(find "$1" -iname "*.mp3" | wc -l) -gt 0 ]; then
 			verifytrackcount=$(find  "$1"/ -iname "*.mp3" | wc -l)
 			echo ""
 			echo "Verifying: $verifytrackcount Tracks"
@@ -138,7 +136,7 @@ Main () {
 		if [ -x "$(command -v ffmpeg)" ]; then
 			if [ "${ConversionFormat}" = FLAC ]; then
 				sleep 0.1
-			elif find "$1"/ -name "*.flac" | read; then
+			elif [ $(find "$1"/ -name "*.flac" | wc -l) -gt 0 ]; then
 				echo "Converting: $converttrackcount Tracks (Target Format: $targetformat (${targetbitrate}))"
 				for fname in "$1"/*.flac; do
 					filename="$(basename "${fname%.flac}")"
@@ -166,7 +164,7 @@ Main () {
 	replaygain () {
 		if ! [ -x "$(command -v flac)" ]; then
 			echo "ERROR: METAFLAC replaygain utility not installed (ubuntu: apt-get install -y flac)"
-		elif find "$1" -iname "*.flac" | read; then
+		elif [ $(find "$1" -iname "*.flac" | wc -l) -gt 0 ]; then
 			replaygaintrackcount=$(find  "$1"/ -iname "*.flac" | wc -l)
 			echo "Replaygain: Calculating $replaygaintrackcount Tracks"
 			find "$1" -iname "*.flac" -exec metaflac --add-replay-gain "{}" + && echo "Replaygain: $replaygaintrackcount Tracks Tagged"
@@ -189,9 +187,9 @@ Main () {
 		touch "/scripts/beets-match"
 		sleep 0.1
 
-		if find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | read; then
+		if [ $(find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" | wc -l) -gt 0 ]; then
 			beet -c /config/scripts/configs/beets-config.yaml -l /scripts/library.blb -d "$1" import -q "$1"
-			if find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | read; then
+			if [ $(find "$1" -type f -regex ".*/.*\.\(flac\|opus\|m4a\|mp3\)" -newer "/scripts/beets-match" | wc -l) -gt 0 ]; then
 				echo "SUCCESS: Matched with beets!"
 			else
 				rm -rf "$1"/* 
