@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.01"
+ScriptVersion="1.02"
 
 set -e
 set -o pipefail
@@ -34,11 +34,27 @@ Main () {
 	if [ "${ConversionFormat}" = FLAC ]; then
 		echo "Bitrate: lossless"
 		echo "Replaygain Tagging: ENABLED"
+		AudioFileExtension="flac"
 	elif [ "${ConversionFormat}" = ALAC ]; then
 		echo "Bitrate: lossless"
+		AudioFileExtension="m4a"
 	else
 		echo "Conversion Bitrate: ${ConversionBitrate}k"
+		if [ "${ConversionFormat}" = MP3 ]; then
+			AudioFileExtension="mp3"
+		elif [ "${ConversionFormat}" = AAC ]; then
+			AudioFileExtension="m4a"
+		elif [ "${ConversionFormat}" = OPUS ]; then
+			AudioFileExtension="opus"
+		fi
 	fi
+	
+	if [ "$RequireAudioQualityMatch" = "true" ]; then
+		echo "Audio Quality Match Verification: ENABLED (.$AudioFileExtension)"
+	else
+		echo "Audio Quality Match Verification: DISABLED"
+	fi
+	
 	if [ "${DetectNonSplitAlubms}" = TRUE ]; then
 		echo "Detect Non Split Alubms: ENABLED"
 		echo "Max File Size: $MaxFileSize" 
@@ -48,6 +64,20 @@ Main () {
 
 	echo "Processing: $1" 
 
+	}
+	
+		
+	AudioQualityMatch  () {
+		if [ "$RequireAudioQualityMatch" == "true" ]; then
+			if [ $(find "$1" -type f -iname "*.$AudioFileExtension" | wc -l) -gt 0 ]; then
+				echo "Verifying Audio Quality Match"
+				echo "Verifying Audio Quality Match: PASSED (.$AudioFileExtension)"
+			else
+				echo "Verifying Audio Quality Match"
+				echo "ERROR: Audio Qualty Check Failed, missing required file extention (.$AudioFileExtension)"
+				exit 1
+			fi
+		fi
 	}
 
 	clean () {
@@ -216,6 +246,8 @@ Main () {
 	fi
 
 	conversion "$1"
+	
+	AudioQualityMatch "$1"
 
 	if [ "${ReplaygainTagging}" = TRUE ]; then
 		replaygain "$1"
