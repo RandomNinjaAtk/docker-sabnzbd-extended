@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.02"
+ScriptVersion="1.03"
 
 set -e
 set -o pipefail
@@ -69,8 +69,8 @@ Main () {
 		
 	AudioQualityMatch  () {
 		if [ "$RequireAudioQualityMatch" == "true" ]; then
+			find "$1" -type f -not -iname "*.$AudioFileExtension" -delete
 			if [ $(find "$1" -type f -iname "*.$AudioFileExtension" | wc -l) -gt 0 ]; then
-				echo "Verifying Audio Quality Match"
 				echo "Verifying Audio Quality Match: PASSED (.$AudioFileExtension)"
 			else
 				echo "Verifying Audio Quality Match"
