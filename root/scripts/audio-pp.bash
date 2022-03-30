@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.03"
+ScriptVersion="1.04"
 
 set -e
 set -o pipefail
@@ -249,12 +249,13 @@ Main () {
 	
 	AudioQualityMatch "$1"
 
-	if [ "${ReplaygainTagging}" = TRUE ]; then
-		replaygain "$1"
-	fi
 	
 	if [ "${BeetsTagging}" = TRUE ]; then
 		beets "$1"
+	fi
+	
+	if [ "${ReplaygainTagging}" = TRUE ]; then
+		replaygain "$1"
 	fi
 
 	echo ""
