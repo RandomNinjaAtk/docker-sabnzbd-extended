@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.05"
+ScriptVersion="1.06"
 
 set -e
 set -o pipefail
@@ -263,7 +263,8 @@ Main () {
 Main "$@" | tee -a /config/scripts/logs/audio-pp.log
 chmod 666 /config/scripts/logs/audio-pp.log
 chown abc:abc /config/scripts/logs/audio-pp.log
-chmod -R 666 "$1"
+chmod 766 "$1"
+chmod 666 "$1"/*
 chown -R abc:abc "$1"
 echo ""
 echo "Post Processing Complete!"
