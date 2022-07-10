@@ -263,7 +263,7 @@ Main () {
 Main "$@" | tee -a /config/scripts/logs/audio-pp.log
 chmod 666 /config/scripts/logs/audio-pp.log
 chown abc:abc /config/scripts/logs/audio-pp.log
-chmod 766 "$1"
+chmod 777 "$1"
 chmod 666 "$1"/*
 chown -R abc:abc "$1"
 echo ""
