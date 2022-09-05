@@ -61,7 +61,7 @@ function Main {
 	fi
 
 	# check for video files
-	if find "$1" -type f -regex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
+	if find "$1" -type f -regex ".*/.*\.\((wmv\|mkv\|mp4\|avi\)" | read; then
 		sleep 0.1
 	else
 		log "ERROR: No video files found for processing"
@@ -378,7 +378,7 @@ function Main {
 			rm "$1/sma-conversion-check"
 		fi
 	else
-		if find "$1" -type f -regex ".*/.*\.\(mkv\|mp4\|avi\)" | read; then
+		if find "$1" -type f -regex ".*/.*\.\((wmv\|mkv\|mp4\|avi\)" | read; then
 			log "Post Processing Complete!"
 		else
 			log "ERROR: Post Processing failed, no video files found..."
