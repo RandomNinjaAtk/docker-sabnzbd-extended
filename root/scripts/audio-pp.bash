@@ -117,21 +117,7 @@ Main () {
 				done
 			fi
 		fi
-		if [ $(find "$1" -iname "*.mp3" | wc -l) -gt 0 ]; then
-			verifytrackcount=$(find  "$1"/ -iname "*.mp3" | wc -l)
-			echo ""
-			echo "Verifying: $verifytrackcount Tracks"
-			if ! [ -x "$(command -v mp3val)" ]; then
-				echo "MP3VAL verification utility not installed (ubuntu: apt-get install -y mp3val)"
-			else
-				for fname in "$1"/*.mp3; do
-					filename="$(basename "$fname")"
-					if mp3val -f -nb "$fname" > /dev/null; then
-						echo "Verified Track: $filename"
-					fi
-				done
-			fi
-		fi
+		
 	}
 
 	conversion () {
@@ -191,14 +177,10 @@ Main () {
 		fi
 	}
 
-	replaygain () {
-		if ! [ -x "$(command -v flac)" ]; then
-			echo "ERROR: METAFLAC replaygain utility not installed (ubuntu: apt-get install -y flac)"
-		elif [ $(find "$1" -iname "*.flac" | wc -l) -gt 0 ]; then
-			replaygaintrackcount=$(find  "$1"/ -iname "*.flac" | wc -l)
-			echo "Replaygain: Calculating $replaygaintrackcount Tracks"
-			find "$1" -iname "*.flac" -exec metaflac --add-replay-gain "{}" + && echo "Replaygain: $replaygaintrackcount Tracks Tagged"
-		fi
+	replaygain () {	
+		replaygaintrackcount=$(find  "$1"/ -type f -regex ".*/.*\.\(flac\|mp3\|m4a\|alac\|ogg\|opus\)" | wc -l)
+		echo "Replaygain: Calculating $replaygaintrackcount Tracks"
+		r128gain -r -a "$1" &>/dev/null
 	}
 	
 	beets () {
