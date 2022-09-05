@@ -1,4 +1,4 @@
-FROM linuxserver/sabnzbd:amd64
+FROM linuxserver/sabnzbd:amd64-latest
 LABEL maintainer="RandomNinjaAtk"
 
 ENV TITLE="SABnzbd Extended"
