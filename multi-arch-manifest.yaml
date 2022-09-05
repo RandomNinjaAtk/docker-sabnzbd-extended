@@ -1,0 +1,6 @@
+image: randomninjaatk/sabnzbd-extended:latest
+manifests:
+  - image: randomninjaatk/sabnzbd-extended:amd64
+    platform:
+      architecture: amd64
+      os: linux
