@@ -24,6 +24,9 @@ RUN \
 		git \
 		mkvtoolnix \
 		ffmpeg && \
+	echo "************ install python packages ************" && \
+	pip install --upgrade --no-cache-dir -U \
+		r128gain && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
 	mkdir -p ${SMA_PATH} && \
