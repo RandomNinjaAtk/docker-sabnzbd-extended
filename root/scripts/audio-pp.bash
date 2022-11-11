@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.06"
+ScriptVersion="1.07"
 
 set -e
 set -o pipefail
@@ -156,6 +156,22 @@ Main () {
 				echo "Converting: $converttrackcount Tracks (Target Format: $targetformat (${targetbitrate}))"
 				for fname in "$1"/*.flac; do
 					filename="$(basename "${fname%.flac}")"
+					if [ "${ConversionFormat}" = OPUS ]; then
+						opusenc --bitrate ${bitrate} --vbr --music "$fname" "${fname%.flac}.temp.$extension";
+						echo "Converted: $filename"
+						if [ -f "${fname%.flac}.temp.$extension" ]; then
+							rm "$fname"
+							sleep 0.1
+							mv "${fname%.flac}.temp.$extension" "${fname%.flac}.$extension"
+						fi
+						continue
+					else
+						echo "Conversion failed: $filename, performing cleanup..."
+						rm -rf "$1"/*
+						sleep 0.1
+						exit 1
+					fi
+
 					if ffmpeg -loglevel warning -hide_banner -nostats -i "$fname" -n -vn $options "${fname%.flac}.temp.$extension"; then
 						echo "Converted: $filename"
 						if [ -f "${fname%.flac}.temp.$extension" ]; then
