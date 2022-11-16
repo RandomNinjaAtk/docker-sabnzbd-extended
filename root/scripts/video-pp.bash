@@ -2,16 +2,18 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
+scriptVersion=1.0.18
 
 set -e
 set -o pipefail
+
 
 function Configuration {
 	log "##### SABnzbd Job: $jobname"
 	log "##### SABnzbd Category: $category"
 	log "##### DOCKER: $TITLE"
 	log "##### SCRIPT: Video Post Processor ($TITLESHORT)"
-	log "##### SCRIPT VERSION: 1.0.17"
+	log "##### SCRIPT VERSION: $scriptVersion"
 	log "##### DOCKER VERSION: $VERSION"
 	log "##### CONFIGURATION VERIFICATION"
 	
@@ -47,6 +49,7 @@ function log {
 
 
 function Main {
+	SECONDS=0
 	error=0
 	folderpath="$1"
 	jobname="$3"
@@ -385,6 +388,8 @@ function Main {
 			exit 1
 		fi
 	fi
+	duration=$SECONDS
+	echo "Post Processing Completed in $(($duration / 60 )) minutes and $(($duration % 60 )) seconds!"
 }
 
 Main "$@" | tee -a /config/scripts/logs/video-pp.log
