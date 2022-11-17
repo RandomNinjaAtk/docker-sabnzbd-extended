@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.19
+scriptVersion=1.0.20
 
 set -e
 set -o pipefail
@@ -21,23 +21,24 @@ function Configuration {
 	log "CONFIGURATION VERIFICATION"
 	log "##########################"
 	
-	log "$TITLESHORT: Required Audio/Subtitle Language: ${VIDEO_LANG}"
-	if [ ${VIDEO_MKVCLEANER} = TRUE ]; then
-		log "$TITLESHORT: MKV Cleaner: ENABLED"
+	log "Preferred Audio/Subtitle Languages: ${VIDEO_LANG}"
+	if [ "${RequireLanguage}" = "true" ]; then
+		log "Require Matching Language :: Enabled"
 	else
-		log "$TITLESHORT: MKV Cleaner: DISABLED"
+		log "Require Matching Language :: Disabled"
 	fi
+	
 	if [ ${VIDEO_SMA} = TRUE ]; then
 		log "$TITLESHORT: Sickbeard MP4 Automator (SMA): ENABLED"
 		if [ ${VIDEO_SMA_TAGGING} = TRUE ]; then
 			tagging="-a"
-			log "$TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
+			log "Sickbeard MP4 Automator (SMA): Tagging: ENABLED"
 		else
 			tagging="-nt"
-			log "$TITLESHORT: Sickbeard MP4 Automator (SMA): Tagging: DISABLED"
+			log "Sickbeard MP4 Automator (SMA): Tagging: DISABLED"
 		fi
 	else
-		log "$TITLESHORT: Sickbeard MP4 Automator (SMA): DISABLED"
+		log "Sickbeard MP4 Automator (SMA): DISABLED"
 	fi
 	
 	if [ -z "VIDEO_SMA_TAGGING" ]; then
@@ -107,8 +108,11 @@ function Main {
 		done
 
 		if [ "$preferredLanguage" == "false" ]; then
-			log "$count of $fileCount :: ERROR :: No matching languages found in $(($videoAudioTracksCount + $videoSubtitleTracksCount)) Audio/Subtitle tracks"
-			rm "$file" && log "INFO: deleted: $fileName"
+			if [ "$RequireLanguage" == "true" ]; then
+				log "$count of $fileCount :: ERROR :: No matching languages found in $(($videoAudioTracksCount + $videoSubtitleTracksCount)) Audio/Subtitle tracks"
+				log "$count of $fileCount :: ERROR :: Disable "
+				rm "$file" && log "INFO: deleted: $fileName"
+			fi
 		fi
 
 		if [ ${VIDEO_SMA} = TRUE ]; then
