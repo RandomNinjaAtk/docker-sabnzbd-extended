@@ -23,6 +23,7 @@ RUN \
 		jq \
 		git \
 		mkvtoolnix \
+		intel-media-driver \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
