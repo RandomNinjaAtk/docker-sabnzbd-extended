@@ -2,10 +2,14 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.07"
+ScriptVersion="1.08"
 
 set -e
 set -o pipefail
+
+touch "/config/scripts/logs/audio-pp.txt"
+chmod 666 "/config/scripts/logs/audio-pp.txt"
+exec &> >(tee -a "/config/scripts/logs/audio-pp.txt")
 
 Main () {
 	# SETTINGS
@@ -258,13 +262,11 @@ Main () {
 
 }
 
-Main "$@" | tee -a /config/scripts/logs/audio-pp.log
-chmod 666 /config/scripts/logs/audio-pp.log
-chown abc:abc /config/scripts/logs/audio-pp.log
+SECONDS=0
+Main "$@"
 chmod 777 "$1"
 chmod 666 "$1"/*
-chown -R abc:abc "$1"
-echo ""
-echo "Post Processing Complete!"
+duration=$SECONDS
+echo "Post Processing Completed in $(($duration / 60 )) minutes and $(($duration % 60 )) seconds!"
 
 exit $?
