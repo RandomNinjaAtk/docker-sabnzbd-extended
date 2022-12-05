@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.20
+scriptVersion=1.0.21
 
 set -e
 set -o pipefail
@@ -88,6 +88,31 @@ function Main {
 		log "$count of $fileCount :: $videoAudioTracksCount Audio Tracks Found!"
 		log "$count of $fileCount :: $videoSubtitleTracksCount Subtitle Tracks Found!"
 
+		if [ ${VIDEO_SMA} = TRUE ]; then
+			if [ -f "$file" ]; then	
+				if [ -f /usr/local/sma/config/sma.log ]; then
+					rm /usr/local/sma/config/sma.log
+				fi
+
+				log "$count of $fileCount :: Processing with SMA..."
+				if [ -f "/config/scripts/configs/$5-sma.ini" ]; then
+					
+					# Manual run of Sickbeard MP4 Automator
+					if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "$file" $tagging; then
+						log "$count of $fileCount :: Complete!"
+					else
+						log "$count of $fileCount :: ERROR :: SMA Processing Error"
+						rm "$file" && log "INFO: deleted: $fileName"
+					fi
+				else
+					log "$count of $fileCount :: ERROR :: SMA Processing Error"
+					log "$count of $fileCount :: ERROR :: \"/config/scripts/configs/$5-sma.ini\" configuration file is missing..."
+					rm "$file" && log "INFO: deleted: $fileName"
+				fi
+			fi
+		fi
+		
+
 		# Language Check
 		log "$count of $fileCount :: Checking for preferred languages \"$VIDEO_LANG\""
 		preferredLanguage=false
@@ -115,29 +140,7 @@ function Main {
 			fi
 		fi
 
-		if [ ${VIDEO_SMA} = TRUE ]; then
-			if [ -f "$file" ]; then	
-				if [ -f /usr/local/sma/config/sma.log ]; then
-					rm /usr/local/sma/config/sma.log
-				fi
-
-				log "$count of $fileCount :: Processing with SMA..."
-				if [ -f "/config/scripts/configs/$5-sma.ini" ]; then
-					
-					# Manual run of Sickbeard MP4 Automator
-					if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "$file" $tagging; then
-						log "$count of $fileCount :: Complete!"
-					else
-						log "$count of $fileCount :: ERROR :: SMA Processing Error"
-						rm "$file" && log "INFO: deleted: $fileName"
-					fi
-				else
-					log "$count of $fileCount :: ERROR :: SMA Processing Error"
-					log "$count of $fileCount :: ERROR :: \"/config/scripts/configs/$5-sma.ini\" configuration file is missing..."
-					rm "$file" && log "INFO: deleted: $fileName"
-				fi
-			fi
-		fi
+		
 		
 		log "$count of $fileCount :: Processing complete for: ${fileName}!"
 
