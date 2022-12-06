@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.22
+scriptVersion=1.0.23
 
 set -e
 set -o pipefail
@@ -16,7 +16,7 @@ function Configuration {
 	log "SABnzbd Job: $jobname"
 	log "SABnzbd Category: $category"
 	log "DOCKER: $TITLE"
-	log "DOCKER VERSION: $VERSION"
+	log "SCRIPT VERSION: $scriptVersion"
 	log "SCRIPT: Video Post Processor ($TITLESHORT)"
 	log "CONFIGURATION VERIFICATION"
 	log "##########################"
@@ -63,7 +63,7 @@ function Main {
 	Configuration
 
 	# check for video files
-	if find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" | read; then
+	if find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | read; then
 		sleep 0.1
 	else
 		log "ERROR: No video files found for processing"
@@ -71,9 +71,9 @@ function Main {
 	fi
 
 	count=0
-	fileCount=$(find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" | wc -l)
+	fileCount=$(find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | wc -l)
 	log "Processing ${fileCount} video files..."
-	find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' file; do
+	find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' file; do
 		count=$(($count+1))
 		baseFileName="${file%.*}"
 		fileName="$(basename "$file")"
@@ -147,7 +147,7 @@ function Main {
 
 	done
 		
-	if find "$1" -type f -regex ".*/.*\.\(wmv\|mkv\|mp4\|avi\)" | read; then
+	if find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | read; then
 		duration=$SECONDS
 		echo "Post Processing Completed in $(($duration / 60 )) minutes and $(($duration % 60 )) seconds!"
 	else
