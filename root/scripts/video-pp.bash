@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.21
+scriptVersion=1.0.22
 
 set -e
 set -o pipefail
@@ -80,9 +80,7 @@ function Main {
 		extension="${fileName##*.}"
 		log "$count of $fileCount :: Processing $fileName"
 		videoData=$(ffprobe -v quiet -print_format json -show_streams "$file")
-		videoAudioLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .tags.language")
 		videoAudioTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .index" | wc -l)
-		videoSubtitleLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .tags.language")
 		videoSubtitleTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .index" | wc -l)
 
 		log "$count of $fileCount :: $videoAudioTracksCount Audio Tracks Found!"
@@ -112,6 +110,9 @@ function Main {
 			fi
 		fi
 		
+		videoData=$(ffprobe -v quiet -print_format json -show_streams "$file")
+		videoAudioLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .tags.language")
+		videoSubtitleLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .tags.language")
 
 		# Language Check
 		log "$count of $fileCount :: Checking for preferred languages \"$VIDEO_LANG\""
