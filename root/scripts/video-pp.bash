@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.23
+scriptVersion=1.0.24
 
 set -e
 set -o pipefail
@@ -70,6 +70,50 @@ function Main {
 		exit 1
 	fi
 
+	if [ ${VIDEO_SMA} = TRUE ]; then
+		count=0
+		fileCount=$(find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | wc -l)
+		log "Processing ${fileCount} video files..."
+		find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' file; do
+			count=$(($count+1))
+			baseFileName="${file%.*}"
+			fileName="$(basename "$file")"
+			extension="${fileName##*.}"
+			log "$count of $fileCount :: Processing $fileName"
+
+				if [ -f "$file" ]; then	
+					if [ -f /usr/local/sma/config/sma.log ]; then
+						rm /usr/local/sma/config/sma.log
+					fi
+
+					log "$count of $fileCount :: Processing with SMA..."
+					if [ -f "/config/scripts/configs/$5-sma.ini" ]; then
+						
+						# Manual run of Sickbeard MP4 Automator
+						if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "$file" $tagging; then
+							log "$count of $fileCount :: Complete!"
+						else
+							log "$count of $fileCount :: ERROR :: SMA Processing Error"
+							rm "$file" && log "INFO: deleted: $fileName"
+						fi
+					else
+						log "$count of $fileCount :: ERROR :: SMA Processing Error"
+						log "$count of $fileCount :: ERROR :: \"/config/scripts/configs/$5-sma.ini\" configuration file is missing..."
+						rm "$file" && log "INFO: deleted: $fileName"
+					fi
+				fi
+
+		done
+	fi
+
+	# check for video files
+	if find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | read; then
+		sleep 0.1
+	else
+		log "ERROR: No video files found for processing"
+		exit 1
+	fi
+
 	count=0
 	fileCount=$(find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | wc -l)
 	log "Processing ${fileCount} video files..."
@@ -82,35 +126,8 @@ function Main {
 		videoData=$(ffprobe -v quiet -print_format json -show_streams "$file")
 		videoAudioTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .index" | wc -l)
 		videoSubtitleTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .index" | wc -l)
-
 		log "$count of $fileCount :: $videoAudioTracksCount Audio Tracks Found!"
 		log "$count of $fileCount :: $videoSubtitleTracksCount Subtitle Tracks Found!"
-
-		if [ ${VIDEO_SMA} = TRUE ]; then
-			if [ -f "$file" ]; then	
-				if [ -f /usr/local/sma/config/sma.log ]; then
-					rm /usr/local/sma/config/sma.log
-				fi
-
-				log "$count of $fileCount :: Processing with SMA..."
-				if [ -f "/config/scripts/configs/$5-sma.ini" ]; then
-					
-					# Manual run of Sickbeard MP4 Automator
-					if python3 /usr/local/sma/manual.py --config "/config/scripts/configs/$5-sma.ini" -i "$file" $tagging; then
-						log "$count of $fileCount :: Complete!"
-					else
-						log "$count of $fileCount :: ERROR :: SMA Processing Error"
-						rm "$file" && log "INFO: deleted: $fileName"
-					fi
-				else
-					log "$count of $fileCount :: ERROR :: SMA Processing Error"
-					log "$count of $fileCount :: ERROR :: \"/config/scripts/configs/$5-sma.ini\" configuration file is missing..."
-					rm "$file" && log "INFO: deleted: $fileName"
-				fi
-			fi
-		fi
-		
-		videoData=$(ffprobe -v quiet -print_format json -show_streams "$file")
 		videoAudioLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .tags.language")
 		videoSubtitleLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .tags.language")
 
