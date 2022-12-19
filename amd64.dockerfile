@@ -27,6 +27,7 @@ RUN \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
+		m4b-merge \
 		r128gain && \
 	echo "************ setup SMA ************" && \
 	echo "************ setup directory ************" && \
