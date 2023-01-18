@@ -70,6 +70,61 @@ function Main {
 		exit 1
 	fi
 
+	count=0
+	fileCount=$(find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | wc -l)
+	log "Processing ${fileCount} video files..."
+	find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" -print0 | while IFS= read -r -d '' file; do
+		count=$(($count+1))
+		baseFileName="${file%.*}"
+		fileName="$(basename "$file")"
+		extension="${fileName##*.}"
+		log "$count of $fileCount :: Processing $fileName"
+		videoData=$(ffprobe -v quiet -print_format json -show_streams "$file")
+		videoAudioTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .index" | wc -l)
+		videoSubtitleTracksCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .index" | wc -l)
+		log "$count of $fileCount :: $videoAudioTracksCount Audio Tracks Found!"
+		log "$count of $fileCount :: $videoSubtitleTracksCount Subtitle Tracks Found!"
+		videoAudioLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | .tags.language")
+		videoSubtitleLanguages=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | .tags.language")
+
+		# Language Check
+		log "$count of $fileCount :: Checking for preferred languages \"$VIDEO_LANG\""
+		preferredLanguage=false
+		IFS=',' read -r -a filters <<< "$VIDEO_LANG"
+		for filter in "${filters[@]}"
+		do
+			videoAudioTracksLanguageCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"audio\") | select(.tags.language==\"${filter}\") | .index" | wc -l)
+			videoSubtitleTracksLanguageCount=$(echo "${videoData}" | jq -r ".streams[] | select(.codec_type==\"subtitle\") | select(.tags.language==\"${filter}\") | .index" | wc -l)
+			log "$count of $fileCount :: $videoAudioTracksLanguageCount \"$filter\" Audio Tracks Found!"
+			log "$count of $fileCount :: $videoSubtitleTracksLanguageCount \"$filter\" Subtitle Tracks Found!"			
+			if [ "$preferredLanguage" == "false" ]; then
+				if echo "$videoAudioLanguages" | grep -i "$filter" | read; then
+					preferredLanguage=true
+				elif echo "$videoSubtitleLanguages" | grep -i "$filter" | read; then
+					preferredLanguage=true
+				fi
+			fi
+		done
+
+		if [ "$preferredLanguage" == "false" ]; then
+			if [ "$RequireLanguage" == "true" ]; then
+				log "$count of $fileCount :: ERROR :: No matching languages found in $(($videoAudioTracksCount + $videoSubtitleTracksCount)) Audio/Subtitle tracks"
+				log "$count of $fileCount :: ERROR :: Disable "
+				rm "$file" && log "INFO: deleted: $fileName"
+			fi
+		fi
+		
+		log "$count of $fileCount :: Processing complete for: ${fileName}!"
+	done
+
+	# check for video files
+	if find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | read; then
+		sleep 0.1
+	else
+		log "ERROR: No video files found for processing"
+		exit 1
+	fi
+
 	if [ ${VIDEO_SMA} = TRUE ]; then
 		count=0
 		fileCount=$(find "$1" -type f -regex ".*/.*\.\(m4v\|wmv\|mkv\|mp4\|avi\)" | wc -l)
