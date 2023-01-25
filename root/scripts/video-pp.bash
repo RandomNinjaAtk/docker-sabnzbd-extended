@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.25
+scriptVersion=1.0.26
 
 set -e
 set -o pipefail
@@ -91,6 +91,11 @@ VideoLanguageCheck () {
 		done
 
 		if [ "$preferredLanguage" == "false" ]; then
+			if [ ${VIDEO_SMA} = TRUE ]; then
+				if [ "$smaProcessComplete" == "false" ]; then
+					return
+				fi
+			fi
 			if [ "$RequireLanguage" == "true" ]; then
 				log "$count of $fileCount :: ERROR :: No matching languages found in $(($videoAudioTracksCount + $videoSubtitleTracksCount)) Audio/Subtitle tracks"
 				log "$count of $fileCount :: ERROR :: Disable "
@@ -146,8 +151,8 @@ VideoSmaProcess (){
 				rm "$file" && log "INFO: deleted: $fileName"
 			fi
 		fi
-
 	done
+	smaProcessComplete="true"
 }
 
 function Main {
@@ -156,12 +161,15 @@ function Main {
 	folderpath="$1"
 	jobname="$3"
 	category="$5"
+	smaProcessComplete="false"
 	
 	Configuration
 	VideoFileCheck "$folderpath"
 	VideoLanguageCheck "$folderpath"
 	VideoFileCheck "$folderpath"
-	VideoSmaProcess "$folderpath" "$category"
+	if [ ${VIDEO_SMA} = TRUE ]; then
+		VideoSmaProcess "$folderpath" "$category"
+	fi
 	VideoFileCheck "$folderpath"
 	VideoLanguageCheck "$folderpath"	
 	VideoFileCheck "$folderpath"
