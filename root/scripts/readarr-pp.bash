@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.00"
+ScriptVersion="1.01"
 SECONDS=0
 
 set -e
@@ -63,7 +63,7 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         
     done
     IFS="$OLDIFS"
-    ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec copy "$1/output.mp4"
+    ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec aac "$1/output.mp4"
     mv "$1/output.mp4" "$1/audiobook.m4b"
     find "$1" -type f -iname "*.mp3" -delete
     rm "$chapterFile"
