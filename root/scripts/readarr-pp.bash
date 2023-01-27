@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.06"
+ScriptVersion="1.07"
 SECONDS=0
 
 set -e
@@ -40,7 +40,7 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
     fileList="$1/list.txt"
     for i in $(echo "$files"); do
         chapterNumber=$(( $chapterNumber + 1))
-	chapterTitle=""
+	    chapterTitle=""
         if [ -z "$ffmpegMetadata" ]; then
             ffmpegMetadata=$(ffmpeg -i "$i" -f ffmetadata -v quiet -)
             echo "$ffmpegMetadata" >> "$chapterFile"
@@ -53,21 +53,21 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         seconds=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/duration=//p' | cut -d "." -f1)
         seconds=$(( $seconds * 1000 ))
         end=$(( $start + $seconds - 1 ))
-        chapterTitle=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/TAG:title=//p' | cut -d "." -f1)
+        chapterTitle=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/TAG:title=//p')
         #echo "seconds :: $seconds"
         #echo "end :: $end"
         echo "END=$end" >> "$chapterFile"
-	if [ ! -z "$chapterTitle" ]; then
+	    if [ ! -z "$chapterTitle" ]; then
         	echo "title=$chapterTitle" >> "$chapterFile"
-	else
-		echo "title=Part \#$chapterNumber" >> "$chapterFile"
-	fi
+	    else
+	    	echo "title=Part \#$chapterNumber" >> "$chapterFile"
+	    fi
         echo "" >> "$chapterFile"
         start=$(( $end + 1 ))
         echo "file '$i'" >> "$fileList"       
     done
     IFS="$OLDIFS"
-    ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec aac "$1/output.mp4"
+    ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec aac -movflags +faststart "$1/output.mp4"
     mv "$1/output.mp4" "$1/audiobook.m4b"
     find "$1" -type f -iname "*.mp3" -delete
     rm "$chapterFile"
