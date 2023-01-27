@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.02"
+ScriptVersion="1.03"
 SECONDS=0
 
 set -e
@@ -49,7 +49,7 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         echo "[CHAPTER]" >> $chapterFile
         echo "TIMEBASE=1/1000" >> $chapterFile
         echo "START=$start" >> $chapterFile
-        seconds=$(sox "$i" -n stat |& head -2 | tail -1 | grep -o '[[:digit:]]*' | head -1)
+        seconds=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/duration=//p' | cut -d "." -f1)
         seconds=$(( $seconds * 1000 ))
         end=$(( $start + $seconds - 1 ))
         #echo "seconds :: $seconds"
@@ -58,9 +58,7 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         echo "title=Part \#$chapterNumber" >> $chapterFile
         echo "" >> $chapterFile
         start=$(( $end + 1 ))
-        echo "file '$i'" >> $fileList
-
-        
+        echo "file '$i'" >> $fileList        
     done
     IFS="$OLDIFS"
     ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec aac "$1/output.mp4"
