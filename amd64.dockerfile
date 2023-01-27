@@ -24,6 +24,7 @@ RUN \
 		git \
 		mkvtoolnix \
 		intel-media-driver \
+		sox \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
