@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.05"
+ScriptVersion="1.06"
 SECONDS=0
 
 set -e
@@ -57,7 +57,7 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         #echo "seconds :: $seconds"
         #echo "end :: $end"
         echo "END=$end" >> "$chapterFile"
-	if [ ! -z "$chatperTitle" ]; then
+	if [ ! -z "$chapterTitle" ]; then
         	echo "title=$chapterTitle" >> "$chapterFile"
 	else
 		echo "title=Part \#$chapterNumber" >> "$chapterFile"
