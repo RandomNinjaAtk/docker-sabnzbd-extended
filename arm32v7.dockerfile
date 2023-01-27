@@ -32,6 +32,7 @@ RUN \
 		jq \
 		git \
 		mkvtoolnix \
+		sox \
 		ffmpeg && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
