@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.10"
+ScriptVersion="1.11"
 SECONDS=0
 
 set -e
@@ -36,7 +36,7 @@ echo "Creating Chapters File and File list for FFMPEG processing..."
 
 
 
-if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
+if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 1 ]; then
     OLDIFS="$IFS"
     IFS=$'\n'
     start=0
