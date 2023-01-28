@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.09"
+ScriptVersion="1.10"
 SECONDS=0
 
 set -e
@@ -15,8 +15,8 @@ exec &> >(tee -a "/config/scripts/logs/readarr-pp.txt")
 echo "Processing: $1" 
 
 Clean () {
-	if [ $(find "$1" -type f -regex ".*/.*\.\(\m4b|flac\|mp3\|m4a\|alac\|ogg\|opus\)" | wc -l) -gt 0 ]; then
-		find "$1" -type f -not -regex ".*/.*\.\(\m4b\flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
+	if [ $(find "$1" -type f -regex ".*/.*\.\(m4b\|flac\|mp3\|m4a\|alac\|ogg\|opus\)" | wc -l) -gt 0 ]; then
+		find "$1" -type f -not -regex ".*/.*\.\(m4b\|flac\|mp3\|m4a\|alac\|ogg\|opus\)" -delete
 		find "$1" -mindepth 2 -type f -exec mv "{}" "$1"/ \;
 		find "$1" -mindepth 1 -type d -delete
 	else
@@ -24,7 +24,13 @@ Clean () {
 	fi
 }
 
+if find "$1" -type f -iname "*.mp4" | grep ".m4b" | read; then
+   find "$1" -type f -iname "*.mp4" -exec mv "{}" "$1/audiobook.m4b" \;
+   find "$1" -type f -not -iname "audiobook.m4b" -delete
+fi
 Clean "$1"
+
+
 
 echo "Creating Chapters File and File list for FFMPEG processing..."
 
