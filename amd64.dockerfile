@@ -26,6 +26,7 @@ RUN \
 		intel-media-driver \
 		sox \
 		ffmpeg && \
+	apk add mp3val --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
 	echo "************ install python packages ************" && \
 	pip install --upgrade --no-cache-dir -U \
 		m4b-merge \
