@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="APP"
-ScriptVersion="1.07"
+ScriptVersion="1.08"
 SECONDS=0
 
 set -e
@@ -28,19 +28,37 @@ Clean "$1"
 
 echo "Creating Chapters File and File list for FFMPEG processing..."
 
+
+
 if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
     OLDIFS="$IFS"
     IFS=$'\n'
-    files="$(ls -1v "$1"/*.mp3)"
     start=0
     chapterNumber=0
     concatFileNames=""
     ffmpegMetadata=""
     chapterFile="$1/chapters.txt"
+    mp3ChapterFile="$1/audiobook.chapters.txt"
     fileList="$1/list.txt"
+    completedAudioBook="$1/audiobook.mp3"
+    
+    if [ -f "$chapterFile" ]; then
+        rm "$chapterFile"
+    fi
+    if [ -f "$fileList" ]; then
+        rm "$fileList"
+    fi
+    if [ -f "$completedAudioBook" ]; then
+        rm "$completedAudioBook"
+    fi
+
+    files="$(ls -1v "$1"/*.mp3)"
+
     for i in $(echo "$files"); do
         chapterNumber=$(( $chapterNumber + 1))
 	    chapterTitle=""
+        mp3val -f "$i"
+        chapterTitle=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/TAG:title=//p')
         if [ -z "$ffmpegMetadata" ]; then
             ffmpegMetadata=$(ffmpeg -i "$i" -f ffmetadata -v quiet -)
             echo "$ffmpegMetadata" >> "$chapterFile"
@@ -50,10 +68,15 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
         echo "[CHAPTER]" >> "$chapterFile"
         echo "TIMEBASE=1/1000" >> "$chapterFile"
         echo "START=$start" >> "$chapterFile"
+        if [ ! -z "$chapterTitle" ]; then
+        	echo "$mp3chapTimeStamp $chapterTitle" >> "$mp3ChapterFile"
+	    else
+	    	echo "$mp3chapTimeStamp Chapter #$chapterNumber" >> "$mp3ChapterFile"
+	    fi
         seconds=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/duration=//p' | cut -d "." -f1)
         seconds=$(( $seconds * 1000 ))
         end=$(( $start + $seconds - 1 ))
-        chapterTitle=$(ffprobe -i "$i" -show_format -v quiet | sed -n 's/TAG:title=//p')
+        
         #echo "seconds :: $seconds"
         #echo "end :: $end"
         echo "END=$end" >> "$chapterFile"
@@ -64,14 +87,14 @@ if [ $(find "$1" -type f -iname "*.mp3" | wc -l) -gt 0 ]; then
 	    fi
         echo "" >> "$chapterFile"
         start=$(( $end + 1 ))
-        echo "file '$i'" >> "$fileList"       
+        echo "file '$i'" >> "$fileList"      
+        
     done
     IFS="$OLDIFS"
-    ffmpeg -f concat -safe 0 -i "$fileList" -i "$chapterFile" -map_metadata 1 -vn -acodec aac -movflags +faststart "$1/output.mp4"
-    mv "$1/output.mp4" "$1/audiobook.m4b"
-    find "$1" -type f -iname "*.mp3" -delete
-    rm "$chapterFile"
-    rm "$fileList"
+    ffmpeg -f concat -safe 0 -i "$fileList" -f ffmetadata -i "$chapterFile" -c copy -map_metadata 1 -map_chapters 1 -id3v2_version 3 -c copy "$completedAudioBook"
+    mp3val -f "$completedAudioBook"
+    find "$1" -type f -not -iname "audiobook.mp3" -delete
+    find "$1" -type f -iname "*.txt" -delete
 fi
 duration=$SECONDS
 echo "Post Processing Completed in $(($duration / 60 )) minutes and $(($duration % 60 )) seconds!"
