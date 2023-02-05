@@ -4,13 +4,27 @@
 [![Docker Stars](https://img.shields.io/docker/stars/randomninjaatk/sabnzbd-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
 [![Docker Hub](https://img.shields.io/badge/Open%20On-DockerHub-blue?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
 
-This continer includes [SABnzbd](https://sabnzbd.org/) along with a set of post-processing scripts to enhance your SABnzbd usage
-
 
 [![sabnzbd](https://raw.githubusercontent.com/RandomNinjaAtk/unraid-templates/master/randomninjaatk/img/sabnzbd-icon.png)](https://sabnzbd.org/)
 
+### What is SABnzbd Extended:
+
+* Linuxserver.io SABnzbd docker container (develop tag)
+* Additional packages and scripts added to the container to provide additional functionality
+
+SABnzbd itself is not modified in any way. This is strictly SABnzbd Develop branch
+
+For more details, visit the [Wiki](https://github.com/RandomNinjaAtk/docker-sabnzbd-extended/wiki)
+
 This containers base image is provided by: [linuxserver/sabnzbd](https://github.com/linuxserver/docker-sabnzbd)
 
+
+### All Arr-Extended Apps:
+* [sabnzbd-extended](https://github.com/RandomNinjaAtk/docker-sabnzbd-extended)
+* [lidarr-extended](https://github.com/RandomNinjaAtk/docker-lidarr-extended)
+* [radarr-extended](https://github.com/RandomNinjaAtk/docker-radarr-extended)
+* [sonarr-extended](https://github.com/RandomNinjaAtk/docker-sonarr-extended)
+* [readarr-extended](https://github.com/RandomNinjaAtk/docker-readarr-extended)
 
 ## Supported Architectures
 
