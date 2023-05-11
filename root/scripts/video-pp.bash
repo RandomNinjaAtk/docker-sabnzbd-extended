@@ -2,7 +2,7 @@
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 TITLESHORT="VPP"
-scriptVersion=1.0.27
+scriptVersion=1.0.28
 
 set -e
 set -o pipefail
@@ -91,6 +91,11 @@ VideoLanguageCheck () {
 		done
 
 		if [ "$preferredLanguage" == "false" ]; then
+			if [ ${VIDEO_SMA} = TRUE ]; then
+				if [ "$smaProcessComplete" == "false" ]; then
+					return
+				fi
+			fi
 			if [ "$RequireLanguage" == "true" ]; then
 				log "$count of $fileCount :: ERROR :: No matching languages found in $(($videoAudioTracksCount + $videoSubtitleTracksCount)) Audio/Subtitle tracks"
 				log "$count of $fileCount :: ERROR :: Disable "
