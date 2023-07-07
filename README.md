@@ -1,8 +1,8 @@
+# Deprecated
+
+This repository is now deprecated, will no longer be updated and is being archived. 
+
 # [RandomNinjaAtk/sabnzbd-extended](https://github.com/RandomNinjaAtk/docker-sabnzbd-extended)
-[![Docker Build](https://img.shields.io/docker/cloud/automated/randomninjaatk/sabnzbd-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
-[![Docker Pulls](https://img.shields.io/docker/pulls/randomninjaatk/sabnzbd-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
-[![Docker Stars](https://img.shields.io/docker/stars/randomninjaatk/sabnzbd-extended?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
-[![Docker Hub](https://img.shields.io/badge/Open%20On-DockerHub-blue?style=flat-square)](https://hub.docker.com/r/randomninjaatk/sabnzbd-extended)
 
 
 [![sabnzbd](https://raw.githubusercontent.com/RandomNinjaAtk/unraid-templates/master/randomninjaatk/img/sabnzbd-icon.png)](https://sabnzbd.org/)
